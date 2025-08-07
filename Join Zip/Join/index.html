@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join - Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="login-container">
+    <img src="img/logo_dark.svg" alt="Join Logo" class="logo" />
+
+    <h1>Log in</h1>
+
+    <form onsubmit="login(event)">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+
+      <div class="login-options">
+        <label>
+          <input type="checkbox" id="rememberMe" />
+          Remember me
+        </label>
+        <a href="#">Forgot my password</a>
+      </div>
+
+      <button type="submit" class="btn-primary">Log in</button>
+    </form>
+
+    <div class="signup-link">
+      <span>Not a Join user?</span>
+      <button onclick="redirectToRegister()" class="btn-secondary">Sign up</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

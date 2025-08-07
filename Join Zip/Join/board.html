@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join - Board</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <img src="img/logo_dark.svg" alt="Join Logo" class="logo" />
+    <h1>Board</h1>
+    <button onclick="logout()" class="btn-secondary">Logout</button>
+  </header>
+
+  <main class="board">
+    <div class="board-column">
+      <h2>To Do</h2>
+      <div id="toDo" class="task-column" ondrop="moveTask('toDo')" ondragover="allowDrop(event)"></div>
+    </div>
+    <div class="board-column">
+      <h2>In Progress</h2>
+      <div id="inProgress" class="task-column" ondrop="moveTask('inProgress')" ondragover="allowDrop(event)"></div>
+    </div>
+    <div class="board-column">
+      <h2>Done</h2>
+      <div id="done" class="task-column" ondrop="moveTask('done')" ondragover="allowDrop(event)"></div>
+    </div>
+  </main>
+
+  <div id="taskOverlay" class="overlay hidden">
+    <div class="overlay-content" id="overlayContent"></div>
+    <button onclick="closeOverlay()" class="btn-close">Close</button>
+  </div>
+
+  <script src="tablet.js"></script>
+  <script src="script.js"></script>
+  <script src="board.js"></script>
+</body>
+</html>

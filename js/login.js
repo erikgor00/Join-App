@@ -1,3 +1,7 @@
+/**
+ * This function is used to get logged in in the Application
+ * 
+ */
 function login() {
     let email = document.getElementById('email');
     let password = document.getElementById('password');

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Join - Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="register-container">
+    <img src="img/logo_dark.svg" alt="Join Logo" class="logo" />
+
+    <h1>Sign up</h1>
+
+    <form onsubmit="register(event)">
+      <input type="email" id="regEmail" placeholder="Email" required />
+      <input type="password" id="regPassword" placeholder="Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+
+      <button type="submit" class="btn-primary">Sign up</button>
+    </form>
+
+    <div class="login-link">
+      <span>Already have an account?</span>
+      <button onclick="redirectToLogin()" class="btn-secondary">Log in</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
