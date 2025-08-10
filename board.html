@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Board</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img src="assets/logo.png" alt="Join Logo" class="logo">
+    <h1>Join Board</h1>
+</header>
+
+<main>
+    <div class="board">
+        <div class="board-column" id="todo-column">
+            <h2>To Do</h2>
+            <div class="task-column" id="todo"></div>
+        </div>
+        <div class="board-column" id="in-progress-column">
+            <h2>In Progress</h2>
+            <div class="task-column" id="in-progress"></div>
+        </div>
+        <div class="board-column" id="await-feedback-column">
+            <h2>Await Feedback</h2>
+            <div class="task-column" id="await-feedback"></div>
+        </div>
+        <div class="board-column" id="done-column">
+            <h2>Done</h2>
+            <div class="task-column" id="done"></div>
+        </div>
+    </div>
+</main>
+
+<div class="overlay hidden" id="task-overlay">
+    <div class="overlay-content" id="overlay-content"></div>
+</div>
+
+<script src="board.js"></script>
+<script src="tablet.js"></script>
+
+</body>
+</html>
