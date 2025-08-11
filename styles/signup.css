@@ -136,10 +136,23 @@ input::placeholder {
     color: #A9A9A9;
 }
 
-input:focus {
+input.input-focus:focus {
   outline: none;
   border: 1.5px solid #29ABE2;
   box-shadow: 0 0 1.5px #29ABE2;
+}
+
+.input-field {
+    position: relative;
+    display: flex;
+}
+
+.input-field img {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
 }
 
 .accept-privacy-policy {
