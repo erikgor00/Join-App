@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join - Sign Up</title>
     <link rel="stylesheet" href="style.css">
+    <script src="./scripts/signup.js"></script>
 </head>
 <body>
 
@@ -28,24 +29,6 @@
             </form>
         </div>
     </main>
-
-    <script>
-        function handleSignUp(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const confirmPassword = document.getElementById('confirmPassword').value.trim();
-
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return;
-            }
-
-            alert("Signed Up successfully!");
-            window.location.href = 'login.html';
-        }
-    </script>
 
 </body>
 </html>
