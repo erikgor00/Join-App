@@ -83,6 +83,8 @@ body {
     background-color: white;
     border-radius: 30px;
     box-shadow: 8px;
+    position: relative;
+
 }
 
 .back-to-login {
