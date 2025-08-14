@@ -1,4 +1,61 @@
 /**
+ * login - This function handles the login process by verifying the user's credentials (email and password) and then processes the login if the credentials are valid.
+ * 
+ * 1. Sends a GET request to the backend to fetch all contacts.
+ * 2. Searches for the contact that matches the entered email and password.
+ * 3. If a match is found, it calls the `processLogin` function to handle the login.
+ * 4. If an error occurs during the process, it shows an alert message.
+ * 
+ * @throws {Error} If there is an issue with the fetch request or any other operation, an error alert is shown.
+ * 
+ * Example:
+ * ```js
+ * login();
+ * ```
+ */
+async function login() {
+  try {
+    let contact = await fetch(BASE_URL + ".json");
+    let contactAsJson = await contact.json();
+    let email = document.getElementById("email").value;
+    let password = document.getElementById("password").value;
+
+    let signedUpContact = Object.values(contactAsJson.contacts || {}).find(
+      (c) => c.email === email && c.password === password
+    );
+    await processLogin(signedUpContact);
+  } catch (error) {
+    alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+  }
+}
+
+/**
+ * Processes the login for a signed-up contact. If the login is successful, displays a success popup, 
+ * updates the user data, and redirects to the summary page. If the login fails, shows an alert.
+ * 
+ * @param {Object} signedUpContact - The contact object containing the details of the signed-up user.
+ * @param {string} signedUpContact.name - The name of the signed-up user.
+ * @returns {void}
+ */
+async function processLogin(signedUpContact) {
+  if (signedUpContact) {
+    let popup = document.getElementById('task-created-popup');
+    popup.classList.add('show');
+    setTimeout(() => {
+      popup.classList.remove('show');
+      putData('currentUser', { name: signedUpContact.name })
+      window.location.href = "summary.html";
+    }, 1500);
+  } else {
+    let popup = document.getElementById('task-created-popup2');
+    popup.classList.add('show');
+    setTimeout(() => {
+      popup.classList.remove('show');
+    }, 1500);
+  }
+}
+
+/**
  * This function is used to get logged in in the Application
  * 
  */
