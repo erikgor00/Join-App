@@ -15,7 +15,6 @@ body {
     height: 150px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 100px;
 }
 
 .header-left img {
@@ -52,7 +51,13 @@ body {
     height: 500px;
     display: flex;
     justify-content: center;
-    align-items: center;
+}
+
+.sign-up-title {
+    font-size: 61px;
+    font-weight: 700;
+    font-style: bold;
+    color: black;
 }
 
 .btn-login {
