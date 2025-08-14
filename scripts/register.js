@@ -34,3 +34,7 @@ async function postData(user) {
 
     return await response.json();
 }
+
+function navigateToLogin() {
+     window.location.href = "login.html";
+}

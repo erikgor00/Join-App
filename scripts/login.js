@@ -275,3 +275,12 @@ function initLoginPage() {
 
 
 document.addEventListener('DOMContentLoaded', initLoginPage);
+
+
+
+
+
+
+function navigateToSignup() {
+     window.location.href = "signup.html";
+}
