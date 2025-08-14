@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - Contacts</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img src="assets/logo.png" alt="Join Logo" class="logo">
+    <h1>Contacts</h1>
+</header>
+
+<main>
+    <div class="contacts-container">
+        <div class="contacts-sidebar">
+            <button class="btn btn-primary" onclick="openAddContact()">Add Contact</button>
+            <div id="contacts-list"></div>
+        </div>
+        <div class="contacts-details" id="contact-details">
+            <p>Select a contact to view details</p>
+        </div>
+    </div>
+</main>
+
+<div class="overlay hidden" id="contact-overlay">
+    <div class="overlay-content" id="contact-overlay-content"></div>
+</div>
+
+<script src="contacts.js"></script>
+
+</body>
+</html>
