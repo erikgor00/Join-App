@@ -448,3 +448,117 @@ main {
     margin: 5px 0;
     color: #333;
 }
+
+.privacy-container, .help-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    line-height: 1.6;
+}
+
+.privacy-container h2,
+.help-container h2 {
+    margin-top: 0;
+    color: #2a3647;
+}
+
+.privacy-container h3,
+.help-container h3 {
+    margin-top: 20px;
+    color: #2a3647;
+}
+
+footer {
+    background: #2a3647;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
+}
+
+
+.main-nav {
+    background-color: #2a3647;
+    padding: 10px 0;
+}
+
+.main-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.main-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.main-nav a:hover {
+    color: #29abe2;
+}
+
+
+
+/* Smartphones (max 600px) */
+@media (max-width: 600px) {
+    .main-nav ul {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .privacy-container, 
+    .help-container,
+    .contacts-container,
+    .add-task-container {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    .task-card, 
+    .contact-card {
+        width: 100%;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+}
+
+/* Tablets (max 1024px) */
+@media (max-width: 1024px) {
+    .main-nav ul {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .privacy-container, 
+    .help-container,
+    .contacts-container,
+    .add-task-container {
+        margin: 30px auto;
+        padding: 25px;
+    }
+
+    .task-card {
+        flex: 1 1 calc(50% - 20px);
+    }
+}
