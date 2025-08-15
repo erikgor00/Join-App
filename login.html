@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join - Login</title>
     <link rel="stylesheet" href="./styles/login.css">
-    <script src="./scripts/login.js"></script>
-    <script src="script.js"></script>
+    <script src="./scripts/loginkopie.js" defer></script> <!-- <--- WICHTIG: defer sorgt dafür, dass das Script erst nach DOM geladen wird -->
+    <script src="./script.js" defer></script>
+</head>
 
 <body>
     <header class="header">
@@ -16,19 +17,20 @@
         </div>
         <div class="header-right">
             <span>Not a Join User?</span>
-            <Button onclick="navigateToSignup()" class="btn-signup">Sign Up</Button>
+            <button onclick="navigateToSignup()" class="btn-signup">Sign Up</button>
         </div>
     </header>
+
     <div class="content">
         <div class="login">
             <h1>Log In</h1>
             <div class="login-separater"></div>
-            <form class="login-input" onsubmit="login(); return false">
-                <input type="email" name="" id="loginEmail" placeholder="E-Mail" required>
-                <input type="password" name="" id="loginPassword" placeholder="Passwort" required>
+            <form class="login-input">
+                <input type="email" id="loginEmail" placeholder="E-Mail" required>
+                <input type="password" id="loginPassword" placeholder="Passwort" required>
                 <div class="login-buttons">
-                    <button class="btn-login">Log in</button>
-                    <button class="btn-guestlogin">Guest Log in</button>
+                    <button type="button" class="btn-login" onclick="login()">Log in</button>
+                    <button type="button" class="btn-guestlogin">Guest Log in</button>
                 </div>
             </form>
         </div>

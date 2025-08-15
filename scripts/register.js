@@ -7,20 +7,20 @@ async function addUser() {
     if (password.value === confirmPassword.value) {
         let newUser = { name: name.value, email: email.value, password: password.value };
         users.push(newUser);
-
         try {
-            await postData(newUser); // Nur den neuen User senden
+            await postData("users", newUser); // Nur den neuen User senden
             window.location.href = 'login.html?msg=Du hast dich erfolgreich registriert!';
         } catch (err) {
             console.error("Fehler beim Posten:", err);
+            alert("Registrierung fehlgeschlagen.");
         }
     } else {
         alert("Die eingegebenen Passwörter stimmen nicht überein!");
     }
 }
 
-async function postData(user) {
-    let response = await fetch(BASE_URL + ".json", {
+async function postData(path = "", user = {}) {
+    let response = await fetch(`${BASE_URL}/${path}.json`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

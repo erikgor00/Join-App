@@ -15,19 +15,46 @@
  */
 async function login() {
   try {
-    let contact = await fetch(BASE_URL + ".json");
-    let contactAsJson = await contact.json();
-    let email = document.getElementById("email").value;
-    let password = document.getElementById("password").value;
+    console.log("Login gestartet...");
 
-    let signedUpContact = Object.values(contactAsJson.contacts || {}).find(
-      (c) => c.email === email && c.password === password
+    // Nutzerdaten vom API-Endpoint abrufen
+    let response = await fetch(`${BASE_URL}/users.json`);
+    if (!response.ok) throw new Error(`HTTP-Error! Status: ${response.status}`);
+
+    let users = await response.json();
+    console.log("Daten geladen:", users);
+
+    let email = document.getElementById("loginEmail").value.trim();
+    let password = document.getElementById("loginPassword").value;
+    console.log("E-Mail:", email, "Passwort:", password);
+
+    // Überprüfen, ob Nutzer vorhanden ist
+    let signedUpUser = Object.values(users || {}).find(
+      (u) => u.email === email && u.password === password
     );
-    await processLogin(signedUpContact);
+
+    handleLoginResult(signedUpUser);
   } catch (error) {
+    console.error("Fehler im Login:", error);
     alert("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
   }
 }
+
+function handleLoginResult(signedUpUser) {
+  console.log("Login-Check:", signedUpUser);
+  if (signedUpUser) {
+    window.location.href = "summary.html";
+  } else {
+    alert("E-Mail oder Passwort ist falsch!");
+  }
+}
+
+function guestLogin() {
+  // Beispiel für Gastlogin (optional)
+  window.location.href = "summary.html";
+}
+
+
 
 /**
  * Processes the login for a signed-up contact. If the login is successful, displays a success popup, 
