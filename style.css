@@ -10,7 +10,7 @@ header {
   display: flex;
   align-items: center;
   padding: 20px;
-  background-color: #2b2f3a;
+  /* background-color: #2b2f3a; */
   color: white;
 }
 
@@ -23,7 +23,6 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .login-container {

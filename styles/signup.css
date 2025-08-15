@@ -5,17 +5,21 @@
   font-family: 'Arial', sans-serif;
 }
 
-body {
-  background-color: #f4f4f4;
-  color: #333;
+html, body {
+    background-color: #f4f4f4;
+    color: #333;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 }
+
 
 .header {
     width: 100%;
     height: 150px;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 100px;
 }
 
 .header-left img {
@@ -39,6 +43,14 @@ body {
     margin-right: 30px;
 }
 
+main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn-signup {
     color: white;
     background-color: #2A3647;
@@ -52,7 +64,13 @@ body {
     height: 500px;
     display: flex;
     justify-content: center;
-    align-items: center;
+}
+
+.sign-up-title {
+    font-size: 61px;
+    font-weight: 700;
+    font-style: bold;
+    color: black;
 }
 
 .btn-login {
@@ -91,8 +109,8 @@ body {
     width: 32px;
     height: 32px;
     position: absolute;
-    top: 250px;
-    left: 440px;
+    top: 10%;
+    left: 10%;
     justify-self: flex-start;
     align-self: flex-start;
     cursor: pointer;
@@ -111,6 +129,7 @@ body {
     background-color: #29ABE2;
     width: 150px;
     height: 2px;
+    margin-top: 20px;
     margin-bottom: 30px;
     border-radius: 3px;
 }
@@ -163,6 +182,11 @@ input.input-focus:focus {
     margin-top: 30px;
 }
 
+.accept-privacy-policy a {
+    color: #29ABE2;
+    text-decoration: none;
+}
+
 .accept-privacy-policy input {
     width: 50px;
     height: 20px;
@@ -177,4 +201,20 @@ input.input-focus:focus {
     height: 48px;
     gap: 35px;
     margin-top: 30px;
+}
+
+.sign-up-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 32px;
+    width: 100%;
+    height: 50px;
+    padding: 32px 0 32px 0;
+    margin-top: 64px;
+}
+
+.sign-up-footer a {
+    text-decoration: none;
+    color: grey;
 }

@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join - Sign Up</title>
     <link rel="stylesheet" href="style.css">
-    <script src="./scripts/signup.js"></script>
+    <link rel="stylesheet" href="./styles/signup.css">
+    <script src="script.js"></script>
+    <script src="./scripts/register.js"></script>
 </head>
+
 <body>
 
+<<<<<<< HEAD
     <nav class="main-nav">
     <ul>
         <li><a href="board.html">Board</a></li>
@@ -25,22 +30,71 @@
         <span>Already have an account?</span>
         <button class="btn btn-primary" onclick="window.location.href='login.html'">Log In</button>
     </div>
+=======
+    <header class="header">
+        <div class="header-left">
+            <img src="./assets/img/Join Logo.svg" alt="Join Logo">
+        </div>
+    </header>
+>>>>>>> 993b6861d87b5d04cd0827ea6ee7db8d29047020
 
     <main>
-        <div class="login-container">
-            <h2>Sign Up</h2>
-            <form onsubmit="handleSignUp(event)">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="email" id="email" placeholder="E-Mail" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-                <div style="display:flex; gap:10px; justify-content:center; margin-top: 10px;">
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                    <button type="button" class="btn btn-secondary" onclick="window.location.href='login.html'">Cancel</button>
+        <div class="content">
+            <div class="login">
+                <div class="signup-header">
+                    <img src="./assets/img/arrow-left-line.svg" alt="Back to login" class="back-to-login" onclick="navigateToLogin()">
+                    <h1 class="sign-up-title">Sign Up</h1>
                 </div>
-            </form>
+                <div class="login-separater"></div>
+
+                <form class="login-input" onsubmit="addUser(); return false">
+                    <div class="input-field">
+                        <input class="input-focus" type="text" id="registerName" placeholder="Name" required>
+                        <img src="./assets/icons/person.svg">
+                    </div>
+
+                    <div class="input-field">
+                        <input class="input-focus" type="email" name="" id="registerEmail" placeholder="E-Mail" required>
+                        <img src="./assets/icons/mail.svg">
+                    </div>
+
+                    <div class="input-field">
+                        <input class="input-focus" type="password" name="" id="registerPassword" placeholder="Password"
+                            required>
+                        <img src="./assets/icons/lock.svg">
+                    </div>
+
+                    <div class="input-field">
+                        <input class="input-focus" type="password" name="" id="registerPasswordConfirm"
+                            placeholder="Confirm Password" required>
+                        <img src="./assets/icons/lock.svg">
+                    </div>
+
+                    <div class="accept-privacy-policy">
+                        <input type="checkbox" required>
+                        <div>I accept the <a href="###">Privacy Policy</a></div>
+                    </div>
+
+
+                    <div class="login-buttons">
+                        <button type="submit" class="btn btn-primary btn-login">Sign Up</button>
+                    </div>
+                </form>
+
+            </div>
         </div>
+        <div id="msgBox"></div>
     </main>
 
+<footer class="sign-up-footer">
+    <span>
+        <a href="">Privacy Policy</a>
+    </span>
+    <span>
+        <a href="">Legal notice</a>
+    </span>
+</footer>
+
 </body>
+
 </html>
