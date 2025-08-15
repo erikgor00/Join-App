@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="sidebar">
+        <a href="./index.html"><img src="./assets/img/Join Logo.svg" alt="Join Logo"></a>
+
+        <ul>
+            <li><img src="./assets/icons/vector_summ.svg" alt="Vector"><a href="summary.html"
+                    aria-current="page">Summary</a></li>
+            <li><img src="./assets/icons/edit_square.svg" alt=""><a href="add-task.html">Add Task</a></li>
+            <li><img src="./assets/icons/vector_board.svg" alt=""><a href="board.html">Board</a></li>
+            <li><img src="./assets/icons/perm_contact_calendar.svg" alt=""><a href="contacts.html">Contacts</a></li>
+        </ul>
+
+
+        <footer class="sidebar-footer">
+            <a href="./privacy-policy.html">Privacy Policy</a>
+            <a href="./legal-notice.html">Legal notice</a>
+        </footer>
+    </nav>
+    <main>
+        <header>
+            <p class="app-tagline">Kanban Project Management Tool</p>
+            <div class="user-actions">
+                <img src="./assets/icons/help.svg" alt="help">
+                <div class="user-profile" id="user-profile"></div>
+            </div>
+            <div class="header-title">
+                <h1>Join 360</h1>
+                <div class="header-separating-line-v"></div>
+                <span class="subline">Key Metrics at a Glance</span>
+            </div>
+        </header>
+
+        <section class="dashboard">
+            <div class="kpi-container">
+                <div class="kpi-card">
+                    <img src="./assets/icons/edit.svg" alt="">
+                    <div>
+                        <h2 class="card-value" id="total-to-do">0</h2>
+                        <p class="card-title">To-do</p>
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+
+                    <img src="./assets/icons/checkmark.svg" alt="">
+                    <div>
+                        <h2 class="card-value" id="total-done">0</h2>
+                        <p class="card-title">Done</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="deadline-card">
+                <img src="./assets/icons/prio_alta.svg" alt="Prio Alta">
+                <div>
+                    <h2 class="card-value" id="total-urgent">0</h2>
+                    <p class="card-title">Urgent</p>
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+    <aside>
+        <div class="welcome-msg" id="welcome-msg"></div>
+    </aside>
+
+
+</body>
+
+</html>
