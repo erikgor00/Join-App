@@ -1,40 +1,206 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+
 /* ——— Sidebar ——— */
-.sidebar {}
-.sidebar-footer {}
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    background-color: darkgrey;
+}
+
+.sidebar ul {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: 1 1 auto;
+    gap: 24px;
+}
+
+header {
+    display: flex;
+    flex-wrap: wrap;
+    /* zweite Zeile für Titel */
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 16px;
+}
+
 
 
 /* ——— Header ——— */
-.app-tagline {}
-.user-actions {}
-.user-profile {}
-.header-title {}
-.header-separating-line-v {}
-.subline {}
+.app-tagline {
+    order: 1;
+    align-self: center;
+}
+
+.user-actions {
+    order: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-title {
+    order: 2;
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 16px;
+    row-gap: 8px;
+
+}
+
+.header-separating-line-v {
+    align-self: stretch;
+}
+
+.subline {
+    display: inline-flex;
+    align-items: center;
+
+}
 
 
 /* ——— Dashboard-Section ——— */
-.dashboard {}
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+}
 
-/* KPI oben (To-do / Done) */
-.kpi-container {}
-.kpi-card {}
-.card-text {}
-.card-value {}
-.card-subtitle {}
+/* KPI (To-do / Done) */
+.kpi-container {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
 
-/* Deadline-Karte */
-.deadline-card {}
-.deadline-card-left {}
-.deadline-card-separating-line-v {}
-.deadline-card-right {}
-.due-date {}
+.kpi-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
 
-/* Untere drei Kacheln (Task Summary) */
-.task-summary {}
-.task-summary-card {}
+.card-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 
+}
+
+.card-value {
+    text-align: center;
+
+}
+
+.card-subtitle {
+    text-align: center;
+}
+
+/* Deadline-Card */
+.deadline-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.deadline-card-left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.deadline-card-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4px;
+}
+
+.deadline-card-separating-line-v {
+    align-self: stretch;
+}
+
+.due-date {
+    text-align: left;
+}
+
+/* Task Summary */
+.task-summary {
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.task-summary-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+aside {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 /* ——— Greeting/Aside ——— */
-.welcome-msg-box {}
-.welcome-msg {}
-.username-field {}
+.welcome-msg-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 4px;
+    text-align: right;
+}
+
+.welcome-msg {
+    text-align: right;
+}
+
+.username-field {
+    text-align: right;
+}
