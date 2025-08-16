@@ -1,0 +1,40 @@
+/* ——— Sidebar ——— */
+.sidebar {}
+.sidebar-footer {}
+
+
+/* ——— Header ——— */
+.app-tagline {}
+.user-actions {}
+.user-profile {}
+.header-title {}
+.header-separating-line-v {}
+.subline {}
+
+
+/* ——— Dashboard-Section ——— */
+.dashboard {}
+
+/* KPI oben (To-do / Done) */
+.kpi-container {}
+.kpi-card {}
+.card-text {}
+.card-value {}
+.card-subtitle {}
+
+/* Deadline-Karte */
+.deadline-card {}
+.deadline-card-left {}
+.deadline-card-separating-line-v {}
+.deadline-card-right {}
+.due-date {}
+
+/* Untere drei Kacheln (Task Summary) */
+.task-summary {}
+.task-summary-card {}
+
+
+/* ——— Greeting/Aside ——— */
+.welcome-msg-box {}
+.welcome-msg {}
+.username-field {}
