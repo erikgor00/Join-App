@@ -1,4 +1,4 @@
-@media (max-width: 1024px) {
+﻿@media (max-width: 1024px) {
     #add-task-content {
         padding-bottom: 92px;
     }
@@ -83,6 +83,22 @@
         flex-direction: column;
         min-height: 0;
         overflow: hidden;
+    }
+
+    header .content-limit {
+        flex-direction: row;
+        flex: none;
+        height: 100%;
+        overflow: visible;
+    }
+
+    header .header-logo {
+        display: block;
+        width: 36px;
+    }
+
+    header .app-tagline {
+        display: none;
     }
 
     .task-form {

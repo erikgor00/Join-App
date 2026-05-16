@@ -35,6 +35,7 @@ async function showAddTaskDialog() {
   renderSelectedAvatars();
   if (typeof initAddDropdownClose === "function") initAddDropdownClose();
   if (typeof initAddTaskBlurValidation === "function") initAddTaskBlurValidation();
+  if (typeof updateCreateButtonState === "function") updateCreateButtonState();
   if (typeof initAddSubtaskEnter === "function") initAddSubtaskEnter();
 }
 
