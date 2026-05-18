@@ -16,25 +16,47 @@
   font-size: 20px;
 }
 
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   background: var(--main-bg);
 }
 
 .app {
   display: flex;
-  min-height: 100vh;
+  height: 100%;
 }
 
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .main header {
   position: sticky;
   top: 0;
   z-index: 10;
+}
+
+main > div.content-limit {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+#add-task-content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .content {
@@ -149,6 +171,7 @@ textarea {
   z-index: auto;
   background: var(--main-bg);
   padding-top: 12px;
+  flex-shrink: 0;
 }
 
 .input-error {
@@ -223,10 +246,6 @@ textarea {
 
 #subtask-error:not(:empty) {
   visibility: visible;
-}
-
-#add-task-content #subtask-error:not(:empty) + .subtask-list {
-  height: 100px;
 }
 
 input:focus,
@@ -592,9 +611,10 @@ select:focus,
   background-color: #f0f0f0 !important;
 }
 #add-task-content .form-scroll {
-  max-height: calc(100vh - 210px);
+  flex: 1;
+  min-height: 572px;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 6px;
-  padding-bottom: 180px;
+  padding-bottom: 16px;
 }
