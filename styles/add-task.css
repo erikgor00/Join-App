@@ -92,6 +92,7 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  max-width: 440px;
 }
 
 .form-right {
@@ -266,7 +267,7 @@ select:focus,
 
 .priority-options {
   display: flex;
-  gap: 8px;
+  justify-content: space-between;
 }
 
 .priority-options input {
@@ -278,8 +279,6 @@ select:focus,
   align-items: center;
   justify-content: center;
   gap: 6px;
-  min-width: 110px;
-  padding: 4px 4px;
   border: 1px solid #d1d1d1;
   border-radius: 8px;
   cursor: pointer;
@@ -287,6 +286,8 @@ select:focus,
   color: #000;
   font-weight: 500;
   transition: all 120ms;
+  height: 48px;
+  max-width: 130px;
 }
 
 .priority-options label svg {
