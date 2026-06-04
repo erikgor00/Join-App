@@ -8,13 +8,15 @@
         gap: 12px;
     }
 
-    #add-task-content {
-        padding-bottom: 1700px;
-    }
-
     .clear,
     .create {
         padding: 8px 14px;
+    }
+}
+
+@media (min-width: 751px) and (max-width: 1024px) {
+    #add-task-content .form-scroll {
+        min-height: 0;
     }
 }
 
