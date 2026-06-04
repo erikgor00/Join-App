@@ -92,7 +92,6 @@ h1 {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-width: 440px;
 }
 
 .form-right {
@@ -165,7 +164,8 @@ textarea {
 .form-footer {
   display: flex;
   align-items: center;
-  gap: 16px;
+  /* 40px (task-form gap) + 1px (separator) = 41px → Buttons bündig mit form-right */
+  gap: 41px;
   margin-top: 0;
   position: relative;
   bottom: auto;
@@ -174,6 +174,10 @@ textarea {
   padding-top: 12px;
   padding-bottom: 24px;
   flex-shrink: 0;
+}
+
+.note-outside {
+  flex: 1;
 }
 
 .input-error {
@@ -268,7 +272,7 @@ select:focus,
 
 .priority-options {
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
 }
 
 .priority-options input {
@@ -287,8 +291,9 @@ select:focus,
   color: #000;
   font-weight: 500;
   transition: all 120ms;
-  height: 48px;
-  max-width: 130px;
+  height: 34px;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .priority-options label svg {
@@ -559,7 +564,8 @@ select:focus,
   justify-content: flex-end;
   gap: 12px;
   margin-top: 0;
-  margin-left: auto;
+  margin-left: 0;
+  flex: 1;
   position: static;
   background: transparent;
   padding: 0;
