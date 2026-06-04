@@ -172,6 +172,7 @@ textarea {
   z-index: auto;
   background: var(--main-bg);
   padding-top: 12px;
+  padding-bottom: 24px;
   flex-shrink: 0;
 }
 
@@ -613,7 +614,7 @@ select:focus,
 }
 #add-task-content .form-scroll {
   flex: 1;
-  min-height: 572px;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 6px;
