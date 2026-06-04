@@ -1,7 +1,31 @@
-﻿@media (max-width: 1024px) {
+/* ═══════════════════════════════════════════════════
+   ADD TASK – RESPONSIVE STYLES
+   Breakpoints: 1200 → 1024 → 900 → 855 → 800 → 750
+               → 600 → 550 → 500 → 480 → 400 → 360 → 320
+   ═══════════════════════════════════════════════════ */
+
+/* ── 1200px: form-columns dürfen schrumpfen ── */
+@media (max-width: 1200px) {
+    .form-left,
+    .form-right {
+        min-width: 0;
+    }
+
+    .priority-options {
+        flex-wrap: nowrap;
+    }
+
+}
+
+/* ── 1024px: etwas kompaktere Abstände ── */
+@media (max-width: 1024px) {
     h1 {
         font-size: 36px;
         margin-bottom: 12px;
+    }
+
+    .content {
+        padding: 24px 28px;
     }
 
     .form-right {
@@ -12,47 +36,13 @@
     .create {
         padding: 8px 14px;
     }
-}
 
-@media (min-width: 751px) and (max-width: 1024px) {
-    #add-task-content .form-scroll {
-        min-height: 0;
+    .form-footer {
+        padding-bottom: 96px;
     }
 }
 
-@media (max-width: 1200px) {
-
-    .form-left,
-    .form-right {
-        min-width: 0;
-    }
-
-    .priority-options {
-        flex-wrap: nowrap;
-    }
-
-    .priority-options label {
-        min-width: 0;
-        flex: 1 1 0;
-    }
-}
-
-@media (max-width: 855px) {
-    .priority-options {
-        gap: 6px;
-    }
-
-    .priority-options label {
-        gap: 4px;
-        font-size: 16px;
-    }
-
-    .priority-options label svg {
-        width: 16px;
-        height: 12px;
-    }
-}
-
+/* ── 900px: Sidebar wird schmal ── */
 @media (max-width: 900px) {
     .sidebar {
         width: 70px;
@@ -65,16 +55,29 @@
     }
 }
 
-@media (max-width: 800px) {
+/* ── 855px: Priority-Buttons kompakter ── */
+@media (max-width: 855px) {
+    .priority-options label {
+        gap: 5px;
+        font-size: 17px;
+    }
 
+    .priority-options label svg {
+        width: 17px;
+        height: 13px;
+    }
+}
+
+/* ── 800px: Form-Spalten nehmen volle Breite ── */
+@media (max-width: 800px) {
     .form-left,
     .form-right {
         width: 100%;
     }
 }
 
+/* ── 750px: Einspaltiges Layout ── */
 @media (max-width: 750px) {
-
     header .header-logo {
         display: block;
         width: 36px;
@@ -98,15 +101,33 @@
     }
 
     .content {
+        padding: 20px 24px;
         min-height: 0;
+    }
+
+    h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
     }
 
     .form-footer {
         margin-top: 0;
         position: relative;
+        /* Einspaltig: Footer-Gap zurücksetzen, Buttons bleiben rechts */
+        gap: 16px;
+    }
+
+    .note-outside {
+        flex: none;
+    }
+
+    .actions {
+        flex: none;
+        margin-left: auto;
     }
 }
 
+/* ── 600px: Sidebar wandert nach unten ── */
 @media (max-width: 600px) {
     .app {
         flex-direction: column;
@@ -130,16 +151,12 @@
     }
 
     .content {
-        padding: 16px;
+        padding: 16px 16px 80px;
     }
 
     h1 {
-        font-size: 22px;
-    }
-
-    .content {
-        padding: 16px;
-        padding-bottom: 120px;
+        font-size: 26px;
+        margin-bottom: 8px;
     }
 
     .custom-select {
@@ -161,11 +178,10 @@
         position: relative;
         bottom: auto;
     }
-
 }
 
+/* ── 550px: Buttons kompakter ── */
 @media (max-width: 550px) {
-
     .clear,
     .create {
         padding: 8px 14px;
@@ -173,15 +189,20 @@
     }
 }
 
+/* ── 500px: Hinweis-Text wechselt die Position ── */
 @media (max-width: 500px) {
     .note-inline {
         display: block;
-        margin-bottom: 24px;
+        margin-bottom: 12px;
         font-size: 16px;
     }
 
     .note-outside {
         display: none;
+    }
+
+    h1 {
+        font-size: 22px;
     }
 
     .form-footer {
@@ -190,9 +211,10 @@
     }
 }
 
+/* ── 480px: Font-Größen anpassen ── */
 @media (max-width: 480px) {
     h1 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     input,
@@ -202,71 +224,117 @@
     }
 
     .priority-options label {
-        min-width: 90px;
-        padding: 4px 4px;
-        font-size: 16px;
+        font-size: 15px;
+        gap: 4px;
+    }
+
+    .priority-options label svg {
+        width: 15px;
+        height: 12px;
+        flex-shrink: 0;
     }
 
     .custom-select {
         font-size: 16px;
     }
 
-    .priority-options label svg {
-        width: 18px;
-        height: 14px;
-        flex-shrink: 0;
+    .content {
+        padding: 12px 14px 80px;
     }
 }
 
-@media (max-width: 370px) {
+/* ── 400px: Alles enger ── */
+@media (max-width: 400px) {
+    h1 {
+        font-size: 20px;
+    }
+
+    .content {
+        padding: 10px 12px 80px;
+    }
+
     .priority-options {
         gap: 4px;
     }
 
     .priority-options label {
-        min-width: 80px;
-        font-size: 16px;
+        font-size: 14px;
+        gap: 3px;
     }
 
     .priority-options label svg {
         width: 14px;
+        height: 11px;
+    }
+
+    .clear,
+    .create {
+        padding: 7px 12px;
+        font-size: 15px;
+    }
+}
+
+/* ── 360px: Mini-Anpassungen ── */
+@media (max-width: 360px) {
+    h1 {
+        font-size: 18px;
+    }
+
+    .content {
+        padding: 8px 10px 80px;
+    }
+
+    .priority-options {
+        gap: 3px;
+    }
+
+    .priority-options label {
+        font-size: 13px;
+        gap: 2px;
+    }
+
+    .priority-options label svg {
+        width: 13px;
         height: 10px;
     }
 }
 
-@media (max-width: 360px) {
+/* ── 320px: Absolutes Minimum ── */
+@media (max-width: 320px) {
     h1 {
-        font-size: 22px;
+        font-size: 18px;
+    }
+
+    .content {
+        padding: 8px 8px 80px;
     }
 
     .priority-options {
-        gap: 6px;
+        gap: 3px;
     }
 
     .priority-options label {
-        min-width: 80px;
-        padding: 4px 4px;
-        font-size: 16px;
+        font-size: 12px;
+        gap: 2px;
     }
-}
 
-@media (max-width: 320px) {
-    h1 {
-        font-size: 20px;
+    .priority-options label svg {
+        width: 12px;
+        height: 10px;
     }
 
     .custom-select {
-        font-size: 16px;
+        font-size: 14px;
     }
 
-    .priority-options label {
-        min-width: 74px;
-        padding: 4px 4px;
-        font-size: 16px;
+    .clear,
+    .create {
+        padding: 6px 10px;
+        font-size: 14px;
     }
 
-    .subtask {
-        width: 280px;
+    .form-footer {
+        gap: 8px;
     }
 
     .subtask-list {
