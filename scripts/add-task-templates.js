@@ -223,8 +223,10 @@ function generateAssignedContacts(contacts) {
       : '';
     return /*html*/ `
       <label class="dropdown-item">
-        <div class="dropdown-avatar ${colorClass}">${initials}</div>
-        <span class="dropdown-name">${contact.name}</span>
+        <div class="contact-info">
+          <div class="dropdown-avatar ${colorClass}">${initials}</div>
+          <span class="dropdown-name">${contact.name}</span>
+        </div>
         <input
           type="checkbox"
           id="${checkboxId}"

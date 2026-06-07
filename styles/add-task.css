@@ -377,14 +377,14 @@ select:focus,
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 150px;
+  max-height: 280px;
   overflow-y: auto;
   border: 1px solid #ccc;
   background: #fff;
   z-index: 10;
-  border-radius: 6px;
+  border-radius: 12px;
   box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.12);
-  padding: 6px;
+  padding: 4px;
 }
 
 .dropdown-content,
@@ -398,10 +398,14 @@ select:focus,
 
 .dropdown-item {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: flex-start;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
+  width: 100%;
+  padding: 0 16px;
+  min-height: 56px;
   border-radius: 12px;
   background: transparent;
   border: none;
@@ -419,17 +423,18 @@ select:focus,
 }
 
 .dropdown-item input {
-  justify-self: flex-end;
-  margin-left: auto;
-  width: 16px;
-  height: 16px;
+  margin-left: 12px;
+  width: 24px;
+  height: 24px;
   appearance: none;
   -webkit-appearance: none;
   border: 2px solid #2a3647;
-  border-radius: 5px;
+  border-radius: 4px;
   background: transparent;
   position: relative;
   cursor: pointer;
+  align-self: center;
+  flex-shrink: 0;
 }
 
 .dropdown-item input,
@@ -451,8 +456,7 @@ select:focus,
 }
 
 .dropdown-name {
-  flex: 1 1 auto;
-  display: block;
+  flex: 1;
   min-width: 0;
   text-align: left;
   cursor: pointer;
@@ -466,27 +470,16 @@ select:focus,
   border-color: #fff;
 }
 
-.dropdown-item input:checked::before {
-  content: "";
-  position: absolute;
-  top: -4px;
-  right: -2px;
-  width: 10px;
-  height: 10px;
-  background: #2a3647;
-  clip-path: polygon(0 0, 100% 0, 100% 100%);
-}
-
 .dropdown-item input:checked::after {
   content: "";
   position: absolute;
-  width: 4px;
-  height: 12px;
+  width: 6px;
+  height: 11px;
   border: solid #fff;
   border-width: 0 2px 2px 0;
-  transform: translate(-50%, -50%) rotate(40deg);
-  left: 70%;
-  top: 24%;
+  transform: translate(-50%, -60%) rotate(45deg);
+  left: 50%;
+  top: 50%;
 }
 
 .dropdown-item:has(input:checked) {
@@ -527,7 +520,6 @@ select:focus,
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #03e3f8;
   border: 2px solid #fff;
   color: white;
   display: flex;
@@ -625,4 +617,12 @@ select:focus,
   overflow-x: hidden;
   padding-right: 6px;
   padding-bottom: 16px;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
