@@ -52,13 +52,15 @@ main {
     align-items: center;
     justify-content: flex-start;
     gap: 8px;
+    margin-left: 32px;
 }
 
 .headline {
     font-size: 61px;
     display: flex;
     align-items: center;
-    justify-content: flex-start; /* war: center */
+    justify-content: flex-start;
+    /* war: center */
     gap: 32px;
     margin-bottom: 30px;
     margin-top: 30px;
@@ -87,12 +89,13 @@ h1 {
     align-items: stretch;
     gap: 16px;
     width: 700px;
-    margin-left: 34px;
+    margin-left: 0;
 }
 
 .kpi-container {
     display: flex;
-    justify-content: flex-start; /* war: center */
+    justify-content: flex-start;
+    /* war: center */
     gap: 30px;
     flex-wrap: wrap;
 }
@@ -162,7 +165,8 @@ h1 {
 
 .deadline-container {
     display: flex;
-    justify-content: flex-start; /* war: center */
+    justify-content: flex-start;
+    /* war: center */
 }
 
 .deadline-card {
@@ -217,7 +221,8 @@ h1 {
 .task-summary {
     display: flex;
     align-items: stretch;
-    justify-content: flex-start; /* war: center */
+    justify-content: flex-start;
+    /* war: center */
     gap: 30px;
     flex-wrap: wrap;
 }
