@@ -63,6 +63,64 @@
     display: block;
 }
 
+/* ── Mobile Move Popup ───────────────────────────────────── */
+
+.task-move-mobile-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 148px;
+    background: #2A3647;
+    border-radius: 16px 0 16px 16px;
+    padding: 12px 16px 0px;
+    z-index: 10;
+    pointer-events: auto;
+}
+
+.task-move-menu-open .task-move-mobile-menu {
+    display: block;
+}
+
+.task-move-mobile-menu-title {
+    color: #FFFFFF;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+.task-move-mobile-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 5px 0;
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+    font-family: inherit;
+    margin-bottom: 8px;
+}
+
+.task-move-mobile-option:hover {
+    opacity: 0.75;
+}
+
+.task-move-mobile-option svg {
+    flex-shrink: 0;
+}
+
+.task-move-mobile-option span {
+    color: #FFFFFF;
+    margin-bottom: 0;
+    display: inline;
+}
+
 .task-card:hover {
     transform: scale(1.02);
 }

@@ -9,7 +9,7 @@ function createTaskCard(task) {
       draggable="true"
       ondragstart="startDrag(${task.id})"
       onclick="openModal(${task.id})">
-      <button class="task-move-mobile-btn" type="button" aria-label="Move task" onclick="event.stopPropagation()">
+      <button class="task-move-mobile-btn" type="button" aria-label="Move task" onclick="toggleTaskMoveMenu(event)">
         <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
           <rect x="0.75" y="25.25" width="24.5" height="22.5" rx="5.25" transform="rotate(-90 0.75 25.25)" stroke="#2A3647" stroke-width="1.5"/>
           <mask id="mask-task-move-${task.id}" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="2" y="3" width="20" height="20">
@@ -20,6 +20,10 @@ function createTaskCard(task) {
           </g>
         </svg>
       </button>
+      <div class="task-move-mobile-menu" onclick="event.stopPropagation()">
+        <div class="task-move-mobile-menu-title">Move to</div>
+        ${buildMoveMenuOptionsHTML(task)}
+      </div>
       <h2 class="task-category" style="background-color: ${task.category === "User Story" ? "#0038FF" : "#1FD7C1"}">${task.category}</h2>
       <h3>${highlightText(task.title)}</h3>
       <span>${highlightText(task.description)}</span>
