@@ -199,6 +199,10 @@
         margin-bottom: 0;
     }
 
+    .task-wrapper .task-card .task-move-mobile-btn {
+        display: inline-flex;
+    }
+
     .task-wrapper .no-tasks {
         min-width: 100%;
         flex-shrink: 0;

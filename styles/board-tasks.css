@@ -41,6 +41,26 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: transform 120ms;
+    position: relative;
+}
+
+.task-move-mobile-btn {
+    display: none;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 24px;
+    height: 26px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+}
+
+.task-move-mobile-btn svg {
+    display: block;
 }
 
 .task-card:hover {
