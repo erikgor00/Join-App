@@ -1,10 +1,31 @@
 /**
  * Executes start drag logic.
+ * @param {DragEvent} event - Drag event.
  * @param {string} id - Identifier.
+ * @param {HTMLElement} cardElement - Dragged card element.
  * @returns {void} Result.
  */
-function startDrag(id) {
+function startDrag(event, id, cardElement) {
   draggedTaskId = id;
+  clearDropHighlight();
+  if (cardElement) {
+    cardElement.classList.add("is-dragging");
+  }
+  if (event.dataTransfer) {
+    event.dataTransfer.effectAllowed = "move";
+  }
+}
+
+/**
+ * Handles drag end state reset.
+ * @param {HTMLElement} cardElement - Dragged card element.
+ * @returns {void} Result.
+ */
+function endDrag(cardElement) {
+  if (cardElement) {
+    cardElement.classList.remove("is-dragging");
+  }
+  clearDropHighlight();
 }
 
 /**
@@ -14,6 +35,9 @@ function startDrag(id) {
  */
 function allowDrop(event) {
   event.preventDefault();
+  if (isDesktopDragDevice()) {
+    setDropHighlight(event.currentTarget);
+  }
 }
 
 /**
@@ -24,11 +48,41 @@ function allowDrop(event) {
  */
 function dropTask(event, newStatus) {
   event.preventDefault();
+  clearDropHighlight();
   const task = tasks.find(t => t.id === draggedTaskId);
   if (!task) return;
   task.status = newStatus;
   updateTask(task);
   renderBoard();
+}
+
+/**
+ * Highlights current drop column on desktop while dragging.
+ * @param {HTMLElement|null} columnElement - Current column element.
+ * @returns {void} Result.
+ */
+function setDropHighlight(columnElement) {
+  const columns = document.querySelectorAll(".board-column");
+  columns.forEach((column) => {
+    column.classList.toggle("drop-target-highlight", column === columnElement);
+  });
+}
+
+/**
+ * Clears drop highlight from all columns.
+ * @returns {void} Result.
+ */
+function clearDropHighlight() {
+  const highlighted = document.querySelectorAll(".board-column.drop-target-highlight");
+  highlighted.forEach((column) => column.classList.remove("drop-target-highlight"));
+}
+
+/**
+ * Detects whether a desktop-like pointer setup is available.
+ * @returns {boolean} True for desktop pointer/hover setups.
+ */
+function isDesktopDragDevice() {
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 }
 
 /* ── Mobile Move Menu ─────────────────────────────────────── */

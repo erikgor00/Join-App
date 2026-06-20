@@ -7,7 +7,8 @@ function createTaskCard(task) {
   return /*html*/ `
     <div class="task-card"
       draggable="true"
-      ondragstart="startDrag(${task.id})"
+      ondragstart="startDrag(event, ${task.id}, this)"
+      ondragend="endDrag(this)"
       onclick="openModal(${task.id})">
       <button class="task-move-mobile-btn" type="button" aria-label="Move task" onclick="toggleTaskMoveMenu(event)">
         <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">

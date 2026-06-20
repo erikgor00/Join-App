@@ -44,6 +44,10 @@
     position: relative;
 }
 
+.task-card.is-dragging {
+    opacity: 0.55;
+}
+
 .task-move-mobile-btn {
     display: none;
     position: absolute;
