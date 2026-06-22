@@ -137,6 +137,20 @@ header {
     display: none;
 }
 
+.responsive-back-btn {
+    display: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border-radius: 50%;
+    flex: 0 0 auto;
+}
+
+.responsive-back-btn:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
 @media (max-width: 1024px) {
     header {
         left: 0;
@@ -147,6 +161,17 @@ header {
     }
 
     .header-logo {
+        display: block;
+    }
+
+    .responsive-page-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .responsive-back-btn {
         display: block;
     }
 }
