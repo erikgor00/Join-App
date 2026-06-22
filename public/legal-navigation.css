@@ -78,4 +78,17 @@
     padding-right: 4px;
     padding-left: 4px;
   }
+
+  .sidebar-footer {
+    width: min(280px, calc(100% - 88px - 8px));
+    gap: 0px;
+  }
+
+  .sidebar-footer a {
+    display: inline-block;
+    width: 72px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.1;
+  }
 }
