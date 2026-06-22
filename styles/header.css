@@ -171,6 +171,10 @@ header {
         gap: 16px;
     }
 
+    .responsive-page-header h1 {
+        white-space: nowrap;
+    }
+
     .responsive-back-btn {
         display: block;
     }
@@ -196,6 +200,10 @@ header {
 }
 
 @media (max-width: 620px) {
+    .responsive-page-header h1 {
+        font-size: clamp(28px, 9vw, 42px);
+    }
+
     header {
         justify-content: space-between;
         padding: 16px;
