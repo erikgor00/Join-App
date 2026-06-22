@@ -145,6 +145,10 @@ header {
     .center {
         justify-content: flex-start;
     }
+
+    .header-logo {
+        display: block;
+    }
 }
 
 @media (max-width: 900px) {
