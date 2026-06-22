@@ -53,6 +53,12 @@
     white-space: nowrap;
   }
 
+  .sidebar-footer-link-hover-effect:hover {
+    color: #cdcdcd;
+    transform: none;
+    font-weight: 400;
+  }
+
   .sidebar .highlighted {
     border-radius: 16px;
   }
