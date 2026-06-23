@@ -459,40 +459,11 @@ header {
 
 main {
     padding-top: 0;
-    min-width: 0;
+    min-height: 0;
 }
 
 .wrapper {
     margin-left: 0;
-    min-width: 0;
-}
-
-/* Ensure long text nodes (like emails/names) wrap instead of expanding their containers */
-.contact-item,
-.contact-item * {
-    min-width: 0;
-}
-
-.contact-email,
-.contact-data-mail,
-.contact-name-large,
-.contact-name,
-.title-contacts,
-.subtitle {
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    hyphens: auto;
-    min-width: 0;
-}
-
-/* Make sure flex children can shrink below intrinsic text width */
-.contact-section-right,
-.contact-div-right,
-.contact-maintitle-container,
-.contact-header-large,
-.contact-info-email,
-.contact-info-phone,
-.contact-details-container {
-    min-width: 0;
-    max-width: 100%;
+    height: auto;
+    min-height: 0;
 }
