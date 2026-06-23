@@ -553,10 +553,31 @@ body.add-task-dialog-open {
     min-height: 0 !important;
 }
 
-.add-task-dialog .subtask-edit {
-    width: auto;
+.add-task-dialog .subtask {
+    min-height: 40px;
+    height: auto;
+    align-items: flex-start;
+}
+
+.add-task-dialog .subtask > span {
+    flex: 1 1 auto;
     min-width: 0;
-    margin-left: 10px;
+    overflow-wrap: anywhere;
+    padding-top: 2px;
+}
+
+.add-task-dialog .subtask-actions {
+    flex-shrink: 0;
+}
+
+.add-task-dialog .subtask-edit {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0;
+}
+
+.add-task-dialog .subtask-edit-input {
+    padding-right: 72px;
 }
 
 .add-task-dialog .subtask-edit .subtask-input-actions {
