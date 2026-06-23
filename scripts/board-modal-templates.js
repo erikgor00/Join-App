@@ -139,7 +139,7 @@ function generateEditTaskTemplate(task) {
         <div class="edit-assigned">
           <span>Assigned to</span>
           <div id="select-contacts" tabindex="0" class="custom-select">
-            <span onclick="toggleDropdown(event)">Select contacts
+            <span onclick="toggleDropdown(event)">Select contacts to assign
               <img src="./assets/icons/arrow-drop-down.svg" alt="" class="dropdown-arrow">
             </span>
             <div id="dropdown-contacts" class="dropdown-content" onclick="event.stopPropagation()"></div>

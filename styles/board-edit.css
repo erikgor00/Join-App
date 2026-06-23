@@ -115,16 +115,22 @@
     font-size: 16px;
 }
 
+.edit-assigned .dropdown-content {
+    max-height: clamp(140px, 30vh, 240px);
+    border-radius: 12px;
+    padding: 4px;
+}
+
 .edit-assigned:has(.dropdown-content.show) {
-    padding-bottom: 160px;
+    padding-bottom: 0;
 }
 
 .edit-label:has(.dropdown-content.show) {
-    padding-bottom: 100px;
+    padding-bottom: 0;
 }
 
-.edit-assigned .custom-select span,
-.edit-label .custom-select span,
+.edit-assigned .custom-select > span,
+.edit-label .custom-select > span,
 .edit-assigned .dropdown-content,
 .edit-assigned .dropdown-name,
 .edit-label .dropdown-content,
@@ -132,8 +138,8 @@
     font-size: 16px;
 }
 
-.edit-assigned .custom-select span,
-.edit-label .custom-select span {
+.edit-assigned .custom-select > span,
+.edit-label .custom-select > span {
     display: flex;
     align-items: center;
     justify-content: space-between;

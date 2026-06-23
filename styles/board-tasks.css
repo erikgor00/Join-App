@@ -291,6 +291,63 @@ body.add-task-dialog-open {
     font-size: 16px;
 }
 
+.add-task-dialog .dropdown-content {
+    max-height: clamp(140px, 30vh, 240px);
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.add-task-dialog .dropdown-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0 16px;
+    min-height: 56px;
+}
+
+.add-task-dialog .dropdown-item + .dropdown-item {
+    margin-top: 4px;
+}
+
+.add-task-dialog .contact-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.add-task-dialog .dropdown-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.add-task-dialog .dropdown-name {
+    flex: 1 1 auto;
+    display: block;
+    min-width: 0;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.add-task-dialog .dropdown-item .contact-checkbox {
+    margin-left: auto;
+}
+
 .add-task-dialog .contact-checkbox {
     width: 16px;
     height: 16px;
@@ -339,7 +396,7 @@ body.add-task-dialog-open {
     border-color: #fff;
 }
 
-.add-task-dialog .custom-select span {
+.add-task-dialog .custom-select > span {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -581,8 +638,9 @@ body.add-task-dialog-open {
 .add-task-dialog .form-scroll {
     max-height: calc(100% - 119px);
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: visible;
     padding-right: 6px;
+    scrollbar-gutter: stable;
 }
 
 .add-task-dialog .actions {

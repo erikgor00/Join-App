@@ -82,7 +82,8 @@ function initEditSubtaskEnter() {
  * @returns {void} Result.
  */
 function renderEditAssignedContacts() {
-  const dropdown = document.getElementById("dropdown-contacts");
+  const modal = document.getElementById("task-modal");
+  const dropdown = modal ? modal.querySelector("#dropdown-contacts") : null;
   if (!dropdown) return;
   dropdown.innerHTML = generateAssignedContacts(contacts);
   renderSelectedAvatars();
@@ -95,11 +96,13 @@ function renderEditAssignedContacts() {
  */
 function toggleEditCategoryDropdown(event) {
   event.stopPropagation();
+  const modal = document.getElementById("task-modal");
+  if (!modal) return;
   // Close other dropdowns first
-  const contactsDropdown = document.getElementById("dropdown-contacts");
+  const contactsDropdown = modal.querySelector("#dropdown-contacts");
   if (contactsDropdown) contactsDropdown.classList.remove("show");
   
-  const dropdown = document.getElementById("edit-category-dropdown");
+  const dropdown = modal.querySelector("#edit-category-dropdown");
   if (!dropdown) return;
   dropdown.classList.toggle("show");
 }
@@ -110,8 +113,10 @@ function toggleEditCategoryDropdown(event) {
  * @returns {void} Result.
  */
 function setEditCategory(value) {
-  const input = document.getElementById("edit-category");
-  const select = document.getElementById("edit-category-select");
+  const modal = document.getElementById("task-modal");
+  if (!modal) return;
+  const input = modal.querySelector("#edit-category");
+  const select = modal.querySelector("#edit-category-select");
   if (!input || !select) return;
   input.value = value;
   input.classList.remove('input-error');
@@ -121,7 +126,7 @@ function setEditCategory(value) {
   if (label) {
     label.childNodes[0].textContent = value + " ";
   }
-  const dropdown = document.getElementById("edit-category-dropdown");
+  const dropdown = modal.querySelector("#edit-category-dropdown");
   if (dropdown) dropdown.classList.remove("show");
 }
 
@@ -298,10 +303,12 @@ function initEditDropdownClose() {
   document.addEventListener(
     "click",
     (event) => {
-      const selectContacts = document.getElementById("select-contacts");
-      const contactsDropdown = document.getElementById("dropdown-contacts");
-      const categorySelect = document.getElementById("edit-category-select");
-      const categoryDropdown = document.getElementById("edit-category-dropdown");
+      const modal = document.getElementById("task-modal");
+      if (!modal) return;
+      const selectContacts = modal.querySelector("#select-contacts");
+      const contactsDropdown = modal.querySelector("#dropdown-contacts");
+      const categorySelect = modal.querySelector("#edit-category-select");
+      const categoryDropdown = modal.querySelector("#edit-category-dropdown");
 
       const target = event.target;
       const clickedInside =
