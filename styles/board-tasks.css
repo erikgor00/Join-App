@@ -67,8 +67,6 @@
     display: block;
 }
 
-/* ── Mobile Move Popup ───────────────────────────────────── */
-
 .task-move-mobile-menu {
     display: none;
     position: absolute;

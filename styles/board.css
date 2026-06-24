@@ -159,8 +159,6 @@ h1 {
   border: 2px solid transparent;
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
 
-  /* allow flex items to shrink below their content width to prevent
-     unexpected horizontal overflow/scrollbars on narrow viewports */
   min-width: 0;
 }
 
