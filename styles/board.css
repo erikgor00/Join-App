@@ -146,6 +146,7 @@ h1 {
   padding: 20px;
   flex: 1;
   overflow-y: auto;
+  min-width: 0;
   min-height: 0;
 }
 
@@ -157,6 +158,10 @@ h1 {
   min-height: 400px;
   border: 2px solid transparent;
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+
+  /* allow flex items to shrink below their content width to prevent
+     unexpected horizontal overflow/scrollbars on narrow viewports */
+  min-width: 0;
 }
 
 .board-column.drop-target-highlight {
