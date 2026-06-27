@@ -1,0 +1,152 @@
+@media (max-width: 780px) {
+    .contact-maintitle-container {
+        margin-top: 40px;
+    }
+
+    .contact-back-btn {
+        top: 32px;
+        right: 0px;
+    }
+
+    .contact-div-right {
+        margin: 0px 24px 0px 24px;
+    }
+
+    .contact-section {
+        padding: 0 12px;
+        margin-top: 0px;
+    }
+
+    .contact-section-left {
+        box-shadow: none;
+    }
+
+    .add-contact-btn {
+        width: 52px;
+        height: 52px;
+        right: 32px;
+        bottom: 116px;
+        margin-left: 8px;
+    }
+
+    .add-contact-btn img {
+        width: 26px;
+        height: 26px;
+    }
+
+    .title-contacts {
+        font-size: 40px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+    }
+
+    .contact-header-large {
+        gap: 16px;
+        margin-bottom: 16px;
+        padding-bottom: 0px;
+    }
+
+    .contact-avatar-large {
+        margin-bottom: 0px;
+    }
+
+    .contact-initials-large {
+        width: 80px;
+        height: 80px;
+        font-size: 32px;
+        font-weight: 500;
+        margin-right: 0px;
+    }
+
+    .contact-name-large {
+        font-size: 24px;
+    }
+
+    .contact-actions {
+        display: none;
+    }
+
+    .contact-action-btn {
+        font-size: 16px;
+        padding: 0 6px;
+    }
+
+    .contact-action-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contact-information-h3 {
+        margin-bottom: 24px;
+    }
+
+    .contact-info-email {
+        gap: 8px;
+    }
+
+    .contact-info-details {
+        gap: 0px;
+    }
+
+    .contact-info-phone {
+        gap: 10px;
+    }
+
+    .btn {
+        font-size: 16px;
+        padding: 0 16px;
+    }
+
+    .btn-primary {
+        min-width: 0px;
+    }
+
+    .btn {
+        height: 40px;
+    }
+
+    .responsive-close-btn {
+        display: none;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 621px) {
+    main {
+        padding-top: 77px;
+    }
+
+    .contact-section-left {
+        height: calc(100vh - 157px);
+    }
+}
+
+@media (max-width: 600px) {
+    main {
+        padding-top: 70px;
+    }
+
+    .contact-section-left {
+        height: calc(100vh - 150px);
+    }
+}
+
+/* Keep the Contacts header in the layout so the content starts flush below it. */
+header {
+    position: sticky;
+    left: auto;
+    right: auto;
+    flex: 0 0 auto;
+}
+
+main {
+    padding-top: 0;
+    min-height: 0;
+}
+
+.wrapper {
+    margin-left: 0;
+    height: auto;
+    min-height: 0;
+}

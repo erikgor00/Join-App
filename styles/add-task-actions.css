@@ -1,0 +1,83 @@
+.action-separator {
+  height: 25px;
+  width: 2px;
+  background-color: #b5b5b5;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 0;
+  margin-left: 0;
+  flex: 1;
+  position: static;
+  background: transparent;
+  padding: 0;
+  z-index: auto;
+}
+
+.close-btn {
+  display: none;
+}
+
+.clear,
+.create {
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+}
+
+.clear {
+  background: var(--panel-bg);
+}
+
+.clear:hover {
+  border-color: #29ABE2;
+  color: #29ABE2;
+}
+
+.create {
+  background: var(--sidebar-bg);
+  color: #fff;
+}
+
+.create:hover {
+  background-color: #29ABE2;
+}
+
+.create img {
+  width: 16px;
+  height: 16px;
+}
+
+.clear:disabled,
+.create:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.category-options:hover {
+  background-color: #f0f0f0 !important;
+}
+#add-task-content .form-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 6px;
+  padding-bottom: 16px;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
