@@ -20,6 +20,11 @@ const SIGNUP_ERROR_ID_MAP = {
  * @param {Event} event - Browser event.
  * @returns {void} Result.
  */
+/**
+ * Handle Signup Submit.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
+ */
 function handleSignupSubmit(event) {
     event.preventDefault();
     if (!validateSignupForm()) {
@@ -31,6 +36,10 @@ function handleSignupSubmit(event) {
 /**
  * Validates signup form.
  * @returns {void} Result.
+ */
+/**
+ * Validate Signup Form.
+ * @returns {boolean} Result value.
  */
 function validateSignupForm() {
     const fields = getSignupFields();
@@ -48,6 +57,10 @@ function validateSignupForm() {
  * Returns signup fields.
  * @returns {*} Result.
  */
+/**
+ * Get Signup Fields.
+ * @returns {any} Result value.
+ */
 function getSignupFields() {
     return {
         nameInput: document.getElementById('register-name'),
@@ -63,6 +76,11 @@ function getSignupFields() {
  * @param {*} fields - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Reset Signup Errors.
+ * @param {HTMLElement} fields - fields.
+ * @returns {void} Nothing.
+ */
 function resetSignupErrors(fields) {
     signupFieldErrors = {};
     [fields.nameInput, fields.emailInput, fields.passwordInput, fields.confirmPasswordInput].forEach(input => {
@@ -75,6 +93,10 @@ function resetSignupErrors(fields) {
 /**
  * Clears signup error texts.
  * @returns {void} Result.
+ */
+/**
+ * Clear Signup Error Texts.
+ * @returns {void} Nothing.
  */
 function clearSignupErrorTexts() {
     setSignupErrorText('register-name-error', '');
@@ -90,6 +112,12 @@ function clearSignupErrorTexts() {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Set Signup Error Text.
+ * @param {string} id - id.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function setSignupErrorText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
@@ -98,6 +126,10 @@ function setSignupErrorText(id, value) {
 /**
  * Clears policy error.
  * @returns {void} Result.
+ */
+/**
+ * Clear Policy Error.
+ * @returns {void} Nothing.
  */
 function clearPolicyError() {
     const policyContainer = document.querySelector('.accept-privacy-policy');
@@ -111,6 +143,12 @@ function clearPolicyError() {
  * @param {*} fields - Parameter.
  * @param {*} state - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Validate Name Field.
+ * @param {HTMLElement} fields - fields.
+ * @param {Object} state - state.
+ * @returns {boolean} Result value.
  */
 function validateNameField(fields, state) {
     const nameValue = fields.nameInput.value;
@@ -131,6 +169,12 @@ function validateNameField(fields, state) {
  * @param {*} state - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Validate Email Field.
+ * @param {HTMLElement} fields - fields.
+ * @param {Object} state - state.
+ * @returns {boolean} Result value.
+ */
 function validateEmailField(fields, state) {
     const emailValue = fields.emailInput.value;
     const emailCheck = validateEmailLikeSignup(emailValue);
@@ -149,6 +193,11 @@ function validateEmailField(fields, state) {
  * Maps strict email validation results to the signup form's error messages.
  * @param {{ isValid: boolean, normalizedEmail: string, error: string, reason?: string }} emailCheck - Validation result.
  * @returns {string} Message.
+ */
+/**
+ * Get Signup Email Error Message.
+ * @param {string} emailCheck - email check.
+ * @returns {any} Result value.
  */
 function getSignupEmailErrorMessage(emailCheck) {
     switch (emailCheck?.reason) {
@@ -170,6 +219,12 @@ function getSignupEmailErrorMessage(emailCheck) {
  * @param {*} state - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Validate Password Field.
+ * @param {HTMLElement} fields - fields.
+ * @param {Object} state - state.
+ * @returns {boolean} Result value.
+ */
 function validatePasswordField(fields, state) {
     const passwordValue = fields.passwordInput.value;
     if (!passwordValue) {
@@ -182,6 +237,12 @@ function validatePasswordField(fields, state) {
  * @param {*} fields - Parameter.
  * @param {*} state - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Validate Confirm Password Field.
+ * @param {HTMLElement} fields - fields.
+ * @param {Object} state - state.
+ * @returns {boolean} Result value.
  */
 function validateConfirmPasswordField(fields, state) {
     const passwordValue = fields.passwordInput.value;
@@ -200,6 +261,12 @@ function validateConfirmPasswordField(fields, state) {
  * @param {*} fields - Parameter.
  * @param {*} state - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Validate Policy Field.
+ * @param {HTMLElement} fields - fields.
+ * @param {Object} state - state.
+ * @returns {boolean} Result value.
  */
 function validatePolicyField(fields, state) {
     if (fields.policyCheckbox.checked) return;
@@ -222,6 +289,14 @@ function validatePolicyField(fields, state) {
  * @param {*} state - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Set Signup Field Error.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {string} message - message.
+ * @param {HTMLElement} input - input.
+ * @param {Object} state - state.
+ * @returns {void} Nothing.
+ */
 function setSignupFieldError(fieldId, message, input, state) {
     signupFieldErrors[fieldId] = message;
     input.classList.add('input-error');
@@ -237,6 +312,11 @@ function setSignupFieldError(fieldId, message, input, state) {
  * @param {*} fieldId - Parameter.
  * @returns {*} Result.
  */
+/**
+ * Get Signup Error Id.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {any} Result value.
+ */
 function getSignupErrorId(fieldId) {
     return SIGNUP_ERROR_ID_MAP[fieldId];
 }
@@ -245,6 +325,11 @@ function getSignupErrorId(fieldId) {
  * Shows field error message.
  * @param {*} fieldId - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Show Field Error Message.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {void} Nothing.
  */
 function showFieldErrorMessage(fieldId) {
     clearAllSignupErrorMessages();
@@ -260,6 +345,10 @@ function showFieldErrorMessage(fieldId) {
 /**
  * Clears all signup error messages.
  * @returns {void} Result.
+ */
+/**
+ * Clear All Signup Error Messages.
+ * @returns {void} Nothing.
  */
 function clearAllSignupErrorMessages() {
     const ids = Object.values({
@@ -280,6 +369,10 @@ function clearAllSignupErrorMessages() {
 /**
  * Executes attach signup error focus handlers logic.
  * @returns {void} Result.
+ */
+/**
+ * Attach Signup Error Focus Handlers.
+ * @returns {void} Nothing.
  */
 function attachSignupErrorFocusHandlers() {
     const pairs = [
@@ -302,6 +395,10 @@ function attachSignupErrorFocusHandlers() {
  * Updates signup button state.
  * @returns {void} Result.
  */
+/**
+ * Update Signup Button State.
+ * @returns {void} Nothing.
+ */
 function updateSignupButtonState() {
     const signupButton = document.querySelector('.btn-signup');
     const isComplete = isSignupFormComplete(getSignupButtonStateValues());
@@ -311,6 +408,10 @@ function updateSignupButtonState() {
 /**
  * Returns signup button state values.
  * @returns {Object} Result.
+ */
+/**
+ * Get Signup Button State Values.
+ * @returns {any} Result value.
  */
 function getSignupButtonStateValues() {
     return {
@@ -327,6 +428,11 @@ function getSignupButtonStateValues() {
  * @param {Object} values - Signup values.
  * @returns {boolean} Result.
  */
+/**
+ * Is Signup Form Complete.
+ * @param {string} values - values.
+ * @returns {boolean} Result value.
+ */
 function isSignupFormComplete(values) {
     return Boolean(
         validateContactNameInput(values.nameRaw).isValid &&
@@ -342,6 +448,10 @@ function isSignupFormComplete(values) {
 /**
  * Executes attach signup form state handlers logic.
  * @returns {void} Result.
+ */
+/**
+ * Attach Signup Form State Handlers.
+ * @returns {void} Nothing.
  */
 function attachSignupFormStateHandlers() {
     const inputs = getSignupInputElements();
@@ -364,6 +474,10 @@ function attachSignupFormStateHandlers() {
  * Returns signup input elements.
  * @returns {*} Result.
  */
+/**
+ * Get Signup Input Elements.
+ * @returns {any} Result value.
+ */
 function getSignupInputElements() {
     return [
         document.getElementById('register-name'),
@@ -377,6 +491,11 @@ function getSignupInputElements() {
  * Executes bind signup input handlers logic.
  * @param {HTMLElement} input - Input element.
  * @returns {void} Result.
+ */
+/**
+ * Bind Signup Input Handlers.
+ * @param {HTMLElement} input - input.
+ * @returns {void} Nothing.
  */
 function bindSignupInputHandlers(input) {
     input.addEventListener('input', () => {
@@ -395,6 +514,11 @@ function bindSignupInputHandlers(input) {
  * @param {string} fieldId - Field identifier.
  * @returns {void} Result.
  */
+/**
+ * Clear Signup Field Error If Resolved.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {void} Nothing.
+ */
 function clearSignupFieldErrorIfResolved(fieldId) {
     const fields = getSignupFields();
     const handlers = getSignupFieldResolutionHandlers(fields);
@@ -405,6 +529,11 @@ function clearSignupFieldErrorIfResolved(fieldId) {
  * Returns signup field resolution handlers.
  * @param {Object} fields - Signup fields.
  * @returns {Object} Result.
+ */
+/**
+ * Get Signup Field Resolution Handlers.
+ * @param {HTMLElement} fields - fields.
+ * @returns {any} Result value.
  */
 function getSignupFieldResolutionHandlers(fields) {
     return {
@@ -420,6 +549,11 @@ function getSignupFieldResolutionHandlers(fields) {
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
  */
+/**
+ * Clear Signup Name Error If Resolved.
+ * @param {HTMLElement} fields - fields.
+ * @returns {void} Nothing.
+ */
 function clearSignupNameErrorIfResolved(fields) {
     if (validateContactNameInput(fields.nameInput?.value ?? '').isValid) {
         applySignupInputBlurValidation('register-name', fields.nameInput, '');
@@ -430,6 +564,11 @@ function clearSignupNameErrorIfResolved(fields) {
  * Clears signup email error if resolved.
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
+ */
+/**
+ * Clear Signup Email Error If Resolved.
+ * @param {HTMLElement} fields - fields.
+ * @returns {void} Nothing.
  */
 function clearSignupEmailErrorIfResolved(fields) {
     if (validateEmailLikeSignup(fields.emailInput?.value ?? '').isValid) {
@@ -442,6 +581,11 @@ function clearSignupEmailErrorIfResolved(fields) {
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
  */
+/**
+ * Clear Signup Password Error If Resolved.
+ * @param {HTMLElement} fields - fields.
+ * @returns {void} Nothing.
+ */
 function clearSignupPasswordErrorIfResolved(fields) {
     if (fields.passwordInput?.value) applySignupInputBlurValidation('register-password', fields.passwordInput, '');
 }
@@ -450,6 +594,11 @@ function clearSignupPasswordErrorIfResolved(fields) {
  * Clears signup confirm password error if resolved.
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
+ */
+/**
+ * Clear Signup Confirm Error If Resolved.
+ * @param {HTMLElement} fields - fields.
+ * @returns {void} Nothing.
  */
 function clearSignupConfirmErrorIfResolved(fields) {
     const passwordValue = fields.passwordInput?.value ?? '';
@@ -464,6 +613,11 @@ function clearSignupConfirmErrorIfResolved(fields) {
  * @param {string} fieldId - Field identifier.
  * @returns {void} Result.
  */
+/**
+ * Validate Signup Field On Blur.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {boolean} Result value.
+ */
 function validateSignupFieldOnBlur(fieldId) {
     const fields = getSignupFields();
     const handlers = getSignupBlurValidationHandlers(fields);
@@ -474,6 +628,11 @@ function validateSignupFieldOnBlur(fieldId) {
  * Returns signup blur validation handlers.
  * @param {Object} fields - Signup fields.
  * @returns {Object} Result.
+ */
+/**
+ * Get Signup Blur Validation Handlers.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
  */
 function getSignupBlurValidationHandlers(fields) {
     return {
@@ -490,6 +649,11 @@ function getSignupBlurValidationHandlers(fields) {
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
  */
+/**
+ * Validate Signup Name On Blur.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
+ */
 function validateSignupNameOnBlur(fields) {
     const nameCheck = validateContactNameInput(fields.nameInput?.value ?? '');
     const message = nameCheck.isValid ? '' : (nameCheck.error || 'Please enter your name.');
@@ -501,6 +665,11 @@ function validateSignupNameOnBlur(fields) {
  * Validates signup email on blur.
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
+ */
+/**
+ * Validate Signup Email On Blur.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
  */
 function validateSignupEmailOnBlur(fields) {
     const emailCheck = validateEmailLikeSignup(fields.emailInput?.value ?? '');
@@ -514,6 +683,11 @@ function validateSignupEmailOnBlur(fields) {
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
  */
+/**
+ * Validate Signup Password On Blur.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
+ */
 function validateSignupPasswordOnBlur(fields) {
     const message = fields.passwordInput?.value ? '' : 'Please enter a password.';
     applySignupInputBlurValidation('register-password', fields.passwordInput, message);
@@ -524,6 +698,11 @@ function validateSignupPasswordOnBlur(fields) {
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
  */
+/**
+ * Validate Signup Confirm On Blur.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
+ */
 function validateSignupConfirmOnBlur(fields) {
     const message = getSignupConfirmPasswordBlurMessage(fields);
     applySignupInputBlurValidation('register-password-confirm', fields.confirmPasswordInput, message);
@@ -533,6 +712,11 @@ function validateSignupConfirmOnBlur(fields) {
  * Returns signup confirm password blur message.
  * @param {Object} fields - Signup fields.
  * @returns {string} Result.
+ */
+/**
+ * Get Signup Confirm Password Blur Message.
+ * @param {HTMLElement} fields - fields.
+ * @returns {any} Result value.
  */
 function getSignupConfirmPasswordBlurMessage(fields) {
     const confirmValue = fields.confirmPasswordInput?.value ?? '';
@@ -547,6 +731,11 @@ function getSignupConfirmPasswordBlurMessage(fields) {
  * @param {Object} fields - Signup fields.
  * @returns {void} Result.
  */
+/**
+ * Validate Signup Policy On Blur.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
+ */
 function validateSignupPolicyOnBlur(fields) {
     const message = fields.policyCheckbox?.checked ? '' : 'Please accept the privacy policy.';
     applySignupPolicyBlurValidation(message);
@@ -558,6 +747,13 @@ function validateSignupPolicyOnBlur(fields) {
  * @param {HTMLElement} input - Input element.
  * @param {string} message - Validation message.
  * @returns {void} Result.
+ */
+/**
+ * Apply Signup Input Blur Validation.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {HTMLElement} input - input.
+ * @param {string} message - message.
+ * @returns {boolean} Result value.
  */
 function applySignupInputBlurValidation(fieldId, input, message) {
     const errorId = getSignupErrorId(fieldId);
@@ -576,6 +772,11 @@ function applySignupInputBlurValidation(fieldId, input, message) {
  * Applies blur validation state to the signup privacy field.
  * @param {string} message - Validation message.
  * @returns {void} Result.
+ */
+/**
+ * Apply Signup Policy Blur Validation.
+ * @param {string} message - message.
+ * @returns {boolean} Result value.
  */
 function applySignupPolicyBlurValidation(message) {
     const policyContainer = document.querySelector('.accept-privacy-policy');

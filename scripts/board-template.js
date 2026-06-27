@@ -3,6 +3,11 @@
  * @param {Object} task - Task object.
  * @returns {string} Result.
  */
+/**
+ * Create Task Card.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
+ */
 function createTaskCard(task) {
   return /*html*/ `
     <div class="task-card"
@@ -43,6 +48,11 @@ function createTaskCard(task) {
  * @param {*} priority - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Get Priority Icon.
+ * @param {any} priority - priority.
+ * @returns {any} Result value.
+ */
 function getPriorityIcon(priority) {
   if (priority === "urgent") return '<img src="./assets/img/category-urgent.svg">';
   if (priority === "medium") return '<img src="./assets/icons/medium-orange.svg">';
@@ -52,6 +62,11 @@ function getPriorityIcon(priority) {
  * Renders subtask progress.
  * @param {Object} task - Task object.
  * @returns {string} Result.
+ */
+/**
+ * Render Subtask Progress.
+ * @param {Object} task - task.
+ * @returns {void} Nothing.
  */
 function renderSubtaskProgress(task) {
   if (!task.subtasks || task.subtasks.length === 0) {
@@ -72,6 +87,13 @@ function renderSubtaskProgress(task) {
  * @param {*} initials - Parameter.
  * @param {*} color - Parameter.
  * @returns {string} Result.
+ */
+/**
+ * Get Avatar Markup.
+ * @param {string} initials - initials.
+ * @param {string} color - color.
+ * @param {boolean} isMore - is more.
+ * @returns {any} Result value.
  */
 function getAvatarMarkup(initials, color, isMore = false) {
   const extraClass = isMore ? ' avatar-more' : '';

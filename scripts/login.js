@@ -18,6 +18,10 @@ window.addEventListener('resize', () => {
  * Initializes intro alignment.
  * @returns {void} Result.
  */
+/**
+ * Init Intro Alignment.
+ * @returns {void} Nothing.
+ */
 function initIntroAlignment() {
     requestAnimationFrame(() => alignIntroLogo());
 }
@@ -25,6 +29,10 @@ function initIntroAlignment() {
 /**
  * Executes align intro logo logic.
  * @returns {void} Result.
+ */
+/**
+ * Align Intro Logo.
+ * @returns {void} Nothing.
  */
 function alignIntroLogo() {
     const introLogo = document.getElementById('intro-logo');
@@ -50,6 +58,12 @@ function alignIntroLogo() {
  * @param {*} headerRect - Parameter.
  * @returns {*} Result.
  */
+/**
+ * Get Center Delta X.
+ * @param {any} introRect - intro rect.
+ * @param {any} headerRect - header rect.
+ * @returns {any} Result value.
+ */
 function getCenterDeltaX(introRect, headerRect) {
     const introCenterX = introRect.left + introRect.width / 2;
     const headerCenterX = headerRect.left + headerRect.width / 2;
@@ -62,6 +76,12 @@ function getCenterDeltaX(introRect, headerRect) {
  * @param {*} headerRect - Parameter.
  * @returns {*} Result.
  */
+/**
+ * Get Center Delta Y.
+ * @param {any} introRect - intro rect.
+ * @param {any} headerRect - header rect.
+ * @returns {any} Result value.
+ */
 function getCenterDeltaY(introRect, headerRect) {
     const introCenterY = introRect.top + introRect.height / 2;
     const headerCenterY = headerRect.top + headerRect.height / 2;
@@ -72,6 +92,10 @@ function getCenterDeltaY(introRect, headerRect) {
  * Executes schedule intro overlay removal logic.
  * @returns {void} Result.
  */
+/**
+ * Schedule Intro Overlay Removal.
+ * @returns {void} Nothing.
+ */
 function scheduleIntroOverlayRemoval() {
     setTimeout(() => removeIntroOverlay(), 2000);
 }
@@ -79,6 +103,10 @@ function scheduleIntroOverlayRemoval() {
 /**
  * Executes remove intro overlay logic.
  * @returns {void} Result.
+ */
+/**
+ * Remove Intro Overlay.
+ * @returns {void} Nothing.
  */
 function removeIntroOverlay() {
     const introOverlay = document.getElementById('intro-overlay');
@@ -91,6 +119,10 @@ function removeIntroOverlay() {
  * Initializes login password toggle.
  * @returns {void} Result.
  */
+/**
+ * Init Login Password Toggle.
+ * @returns {void} Nothing.
+ */
 function initLoginPasswordToggle() {
     const elements = getLoginPasswordElements();
     if (!elements) return;
@@ -101,6 +133,10 @@ function initLoginPasswordToggle() {
 /**
  * Initializes login blur validation handlers.
  * @returns {void} Result.
+ */
+/**
+ * Init Login Blur Validation.
+ * @returns {boolean} Result value.
  */
 function initLoginBlurValidation() {
     const emailInput = document.getElementById('login-email');
@@ -115,6 +151,11 @@ function initLoginBlurValidation() {
  * Validates a single login field on blur.
  * @param {string} fieldName - Field name.
  * @returns {boolean} Result.
+ */
+/**
+ * Validate Login Field On Blur.
+ * @param {HTMLElement} fieldName - field name.
+ * @returns {boolean} Result value.
  */
 function validateLoginFieldOnBlur(fieldName) {
   const emailInput = document.getElementById('login-email');
@@ -136,6 +177,13 @@ function validateLoginFieldOnBlur(fieldName) {
  * @param {string} email - Email value.
  * @returns {boolean} Result.
  */
+/**
+ * Validate Login Email Blur Field.
+ * @param {HTMLElement} fieldName - field name.
+ * @param {HTMLElement} emailInput - email input.
+ * @param {string} email - email.
+ * @returns {boolean} Result value.
+ */
 function validateLoginEmailBlurField(fieldName, emailInput, email) {
   if (fieldName !== 'email') return true;
   emailInput.classList.remove('input-error');
@@ -151,6 +199,13 @@ function validateLoginEmailBlurField(fieldName, emailInput, email) {
  * @param {string} password - Password value.
  * @returns {boolean} Result.
  */
+/**
+ * Validate Login Password Blur Field.
+ * @param {HTMLElement} fieldName - field name.
+ * @param {HTMLElement} passwordInput - password input.
+ * @param {any} password - password.
+ * @returns {boolean} Result value.
+ */
 function validateLoginPasswordBlurField(fieldName, passwordInput, password) {
   if (fieldName !== 'password') return true;
   passwordInput.classList.remove('input-error');
@@ -163,6 +218,12 @@ function validateLoginPasswordBlurField(fieldName, passwordInput, password) {
  * @param {string} message - Error message.
  * @param {HTMLElement} input - Input element.
  * @returns {boolean} Result.
+ */
+/**
+ * Show Login Blur Validation Error.
+ * @param {string} message - message.
+ * @param {HTMLElement} input - input.
+ * @returns {boolean} Result value.
  */
 function showLoginBlurValidationError(message, input) {
   showLoginBlurError(message, input);
@@ -177,6 +238,14 @@ function showLoginBlurValidationError(message, input) {
  * @param {string} password - Password value.
  * @returns {void} Result.
  */
+/**
+ * Clear Login Errors When Form Is Valid.
+ * @param {HTMLElement} emailInput - email input.
+ * @param {HTMLElement} passwordInput - password input.
+ * @param {string} email - email.
+ * @param {any} password - password.
+ * @returns {boolean} Result value.
+ */
 function clearLoginErrorsWhenFormIsValid(emailInput, passwordInput, email, password) {
   if (!email || !password || !isValidEmail(email)) return;
   removeLoginError();
@@ -190,6 +259,12 @@ function clearLoginErrorsWhenFormIsValid(emailInput, passwordInput, email, passw
  * @param {HTMLElement} input - Input element.
  * @returns {void} Result.
  */
+/**
+ * Show Login Blur Error.
+ * @param {string} message - message.
+ * @param {HTMLElement} input - input.
+ * @returns {void} Nothing.
+ */
 function showLoginBlurError(message, input) {
     removeLoginError();
     appendLoginError(message);
@@ -199,6 +274,10 @@ function showLoginBlurError(message, input) {
 /**
  * Returns login password elements.
  * @returns {*} Result.
+ */
+/**
+ * Get Login Password Elements.
+ * @returns {any} Result value.
  */
 function getLoginPasswordElements() {
     const passwordInput = document.getElementById('login-password');
@@ -214,6 +293,11 @@ function getLoginPasswordElements() {
  * @param {*} elements - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Init Login Password Handlers.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
+ */
 function initLoginPasswordHandlers(elements) {
     elements.passwordInput.addEventListener('input', () => syncLoginPasswordIcons(elements));
     elements.visibilityOffIcon.addEventListener('click', () => showLoginPassword(elements));
@@ -225,6 +309,11 @@ function initLoginPasswordHandlers(elements) {
  * @param {*} elements - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Show Login Password.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
+ */
 function showLoginPassword(elements) {
     if (elements.passwordInput.value.length === 0) return;
     setLoginPasswordVisibility(elements, true);
@@ -234,6 +323,11 @@ function showLoginPassword(elements) {
  * Hides login password.
  * @param {*} elements - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Hide Login Password.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
  */
 function hideLoginPassword(elements) {
     if (elements.passwordInput.value.length === 0) return;
@@ -246,6 +340,12 @@ function hideLoginPassword(elements) {
  * @param {*} isVisible - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Set Login Password Visibility.
+ * @param {HTMLElement} elements - elements.
+ * @param {boolean} isVisible - is visible.
+ * @returns {void} Nothing.
+ */
 function setLoginPasswordVisibility(elements, isVisible) {
     elements.passwordInput.type = isVisible ? 'text' : 'password';
     elements.visibilityIcon.classList.toggle('is-hidden', !isVisible);
@@ -256,6 +356,11 @@ function setLoginPasswordVisibility(elements, isVisible) {
  * Executes sync login password icons logic.
  * @param {*} elements - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Sync Login Password Icons.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
  */
 function syncLoginPasswordIcons(elements) {
     const hasValue = elements.passwordInput.value.length > 0;
@@ -273,6 +378,10 @@ function syncLoginPasswordIcons(elements) {
 /**
  * Executes login logic.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Login.
+ * @returns {Promise<void>} Result value.
  */
 async function login() {
     try {
@@ -292,6 +401,12 @@ async function login() {
  * @param {*} password } - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Validate Login Credentials.
+ * @param {string} { email - { email.
+ * @param {any} password } - password }.
+ * @returns {boolean} Result value.
+ */
 function validateLoginCredentials({ email, password }) {
     if (!email || !password) {
         showLoginError("Please fill in all fields.");
@@ -310,6 +425,12 @@ function validateLoginCredentials({ email, password }) {
  * @param {*} signedUpUser - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Handle Login Result.
+ * @param {Object} credentials - credentials.
+ * @param {Object} signedUpUser - signed up user.
+ * @returns {void} Nothing.
+ */
 function handleLoginResult(credentials, signedUpUser) {
     if (signedUpUser) {
         storeUserSession(credentials.email, signedUpUser);
@@ -323,6 +444,10 @@ function handleLoginResult(credentials, signedUpUser) {
  * Clears login errors.
  * @returns {void} Result.
  */
+/**
+ * Clear Login Errors.
+ * @returns {void} Nothing.
+ */
 function clearLoginErrors() {
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
@@ -333,6 +458,10 @@ function clearLoginErrors() {
 /**
  * Returns login credentials.
  * @returns {*} Result.
+ */
+/**
+ * Get Login Credentials.
+ * @returns {any} Result value.
  */
 function getLoginCredentials() {
     const emailInput = document.getElementById('login-email');
@@ -349,6 +478,12 @@ function getLoginCredentials() {
  * @param {*} password - Parameter.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Find Signed Up User.
+ * @param {string} email - email.
+ * @param {any} password - password.
+ * @returns {Promise<void>} Result value.
+ */
 async function findSignedUpUser(email, password) {
     const response = await fetch(`${BASE_URL}/users.json`);
     if (!response.ok) throw new Error(`HTTP-Error! Status: ${response.status}`);
@@ -361,6 +496,12 @@ async function findSignedUpUser(email, password) {
  * @param {string} email - Email address.
  * @param {*} signedUpUser - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Store User Session.
+ * @param {string} email - email.
+ * @param {Object} signedUpUser - signed up user.
+ * @returns {void} Nothing.
  */
 function storeUserSession(email, signedUpUser) {
     localStorage.setItem("user", JSON.stringify({
@@ -375,6 +516,11 @@ function storeUserSession(email, signedUpUser) {
  * @param {string} message - Message text.
  * @returns {void} Result.
  */
+/**
+ * Show Login Error.
+ * @param {string} message - message.
+ * @returns {void} Nothing.
+ */
 function showLoginError(message) {
     removeLoginError();
     appendLoginError(message);
@@ -385,6 +531,10 @@ function showLoginError(message) {
  * Executes remove login error logic.
  * @returns {void} Result.
  */
+/**
+ * Remove Login Error.
+ * @returns {void} Nothing.
+ */
 function removeLoginError() {
     const oldError = document.querySelector('.login-error');
     if (oldError) oldError.remove();
@@ -394,6 +544,11 @@ function removeLoginError() {
  * Executes append login error logic.
  * @param {string} message - Message text.
  * @returns {void} Result.
+ */
+/**
+ * Append Login Error.
+ * @param {string} message - message.
+ * @returns {void} Nothing.
  */
 function appendLoginError(message) {
     const errorDiv = document.createElement('div');
@@ -407,6 +562,10 @@ function appendLoginError(message) {
  * Executes mark login inputs error logic.
  * @returns {void} Result.
  */
+/**
+ * Mark Login Inputs Error.
+ * @returns {void} Nothing.
+ */
 function markLoginInputsError() {
     const emailInput = document.getElementById('login-email');
     const passwordInput = document.getElementById('login-password');
@@ -419,6 +578,11 @@ function markLoginInputsError() {
  * @param {string} email - Email address.
  * @returns {boolean} Result.
  */
+/**
+ * Is Valid Email.
+ * @param {string} email - email.
+ * @returns {boolean} Result value.
+ */
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -428,6 +592,10 @@ function isValidEmail(email) {
  * Executes navigate to signup logic.
  * @returns {void} Result.
  */
+/**
+ * Navigate To Signup.
+ * @returns {void} Nothing.
+ */
 function navigateToSignup() {
      window.location.href = "signup.html";
 }
@@ -435,6 +603,10 @@ function navigateToSignup() {
 /**
  * Executes guest login logic.
  * @returns {void} Result.
+ */
+/**
+ * Guest Login.
+ * @returns {void} Nothing.
  */
 function guestLogin() {
   // Guest-Session speichern (wichtig für Summary)

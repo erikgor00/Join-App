@@ -2,6 +2,10 @@
  * Shows add task dialog.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Show Add Task Dialog.
+ * @returns {Promise<void>} Result value.
+ */
 async function showAddTaskDialog() {
   const elements = getAddTaskDialogElements();
   if (!elements) return;
@@ -18,6 +22,10 @@ async function showAddTaskDialog() {
  * Returns add-task dialog elements.
  * @returns {{modalContent: HTMLElement, dialogOverlay: HTMLElement}|null} Result.
  */
+/**
+ * Get Add Task Dialog Elements.
+ * @returns {any} Result value.
+ */
 function getAddTaskDialogElements() {
   const modalContent = document.getElementById("add-task-dialog-message");
   const dialogOverlay = document.getElementById("add-task-dialog");
@@ -31,6 +39,12 @@ function getAddTaskDialogElements() {
  * @param {HTMLElement} modalContent - Modal content.
  * @returns {void} Result.
  */
+/**
+ * Open Add Task Dialog Overlay.
+ * @param {HTMLElement} dialogOverlay - dialog overlay.
+ * @param {HTMLElement} modalContent - modal content.
+ * @returns {void} Nothing.
+ */
 function openAddTaskDialogOverlay(dialogOverlay, modalContent) {
   dialogOverlay.dataset.closing = "false";
   dialogOverlay.classList.remove("d-none");
@@ -43,6 +57,11 @@ function openAddTaskDialogOverlay(dialogOverlay, modalContent) {
  * @param {HTMLElement} dialogOverlay - Dialog overlay.
  * @returns {void} Result.
  */
+/**
+ * Register Add Task Dialog Backdrop Handler.
+ * @param {HTMLElement} dialogOverlay - dialog overlay.
+ * @returns {void} Nothing.
+ */
 function registerAddTaskDialogBackdropHandler(dialogOverlay) {
   if (window.addTaskDialogBackdropHandlerAdded) return;
   window.addTaskDialogBackdropHandlerAdded = true;
@@ -53,6 +72,11 @@ function registerAddTaskDialogBackdropHandler(dialogOverlay) {
  * Handles add-task dialog backdrop clicks.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Handle Add Task Dialog Backdrop Click.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function handleAddTaskDialogBackdropClick(event) {
   if (event.target !== event.currentTarget) return;
@@ -65,6 +89,11 @@ function handleAddTaskDialogBackdropClick(event) {
  * @param {HTMLElement} modalContent - Modal content.
  * @returns {void} Result.
  */
+/**
+ * Start Add Task Dialog Animation.
+ * @param {HTMLElement} modalContent - modal content.
+ * @returns {void} Nothing.
+ */
 function startAddTaskDialogAnimation(modalContent) {
   if (typeof applyTodayMinDate === "function") applyTodayMinDate();
   void modalContent.offsetWidth;
@@ -74,6 +103,10 @@ function startAddTaskDialogAnimation(modalContent) {
 /**
  * Initializes add-task dialog form state.
  * @returns {void} Result.
+ */
+/**
+ * Initialize Add Task Dialog Form.
+ * @returns {void} Nothing.
  */
 function initializeAddTaskDialogForm() {
   selectedContacts = [];
@@ -90,6 +123,11 @@ function initializeAddTaskDialogForm() {
  * @param {string} functionName - Function name.
  * @returns {void} Result.
  */
+/**
+ * Call Optional Global Function.
+ * @param {string} functionName - function name.
+ * @returns {void} Nothing.
+ */
 function callOptionalGlobalFunction(functionName) {
   if (typeof window[functionName] === "function") window[functionName]();
 }
@@ -97,6 +135,10 @@ function callOptionalGlobalFunction(functionName) {
 /**
  * Closes add task dialog.
  * @returns {void} Result.
+ */
+/**
+ * Close Add Task Dialog.
+ * @returns {void} Nothing.
  */
 function closeAddTaskDialog() {
   const dialogOverlay = document.getElementById("add-task-dialog");
@@ -116,6 +158,11 @@ function closeAddTaskDialog() {
  * @param {HTMLElement} dialogOverlay - Dialog overlay.
  * @returns {boolean} Result.
  */
+/**
+ * Mark Add Task Dialog As Closing.
+ * @param {HTMLElement} dialogOverlay - dialog overlay.
+ * @returns {void} Nothing.
+ */
 function markAddTaskDialogAsClosing(dialogOverlay) {
   if (dialogOverlay.dataset.closing === "true") return false;
   dialogOverlay.dataset.closing = "true";
@@ -126,6 +173,11 @@ function markAddTaskDialogAsClosing(dialogOverlay) {
  * Cleans up add-task dialog state.
  * @param {HTMLElement} dialogOverlay - Dialog overlay.
  * @returns {void} Result.
+ */
+/**
+ * Cleanup Add Task Dialog.
+ * @param {HTMLElement} dialogOverlay - dialog overlay.
+ * @returns {void} Nothing.
  */
 function cleanupAddTaskDialog(dialogOverlay) {
   dialogOverlay.classList.add("d-none");
@@ -138,6 +190,12 @@ function cleanupAddTaskDialog(dialogOverlay) {
  * @param {HTMLElement} modalContent - Modal content.
  * @param {Function} cleanup - Cleanup callback.
  * @returns {void} Result.
+ */
+/**
+ * Close Add Task Dialog With Transition.
+ * @param {HTMLElement} modalContent - modal content.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
  */
 function closeAddTaskDialogWithTransition(modalContent, cleanup) {
   const onTransitionEnd = (event) => {
@@ -156,6 +214,14 @@ function closeAddTaskDialogWithTransition(modalContent, cleanup) {
  * @param {Function} cleanup - Cleanup callback.
  * @returns {void} Result.
  */
+/**
+ * Handle Add Task Dialog Transition End.
+ * @param {Event} event - event.
+ * @param {HTMLElement} modalContent - modal content.
+ * @param {any} onTransitionEnd - on transition end.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
+ */
 function handleAddTaskDialogTransitionEnd(event, modalContent, onTransitionEnd, cleanup) {
   if (event && event.target !== modalContent) return;
   modalContent.removeEventListener("transitionend", onTransitionEnd);
@@ -168,6 +234,13 @@ function handleAddTaskDialogTransitionEnd(event, modalContent, onTransitionEnd, 
  * @param {Function} onTransitionEnd - Transition handler.
  * @param {Function} cleanup - Cleanup callback.
  * @returns {void} Result.
+ */
+/**
+ * Schedule Add Task Dialog Fallback Cleanup.
+ * @param {HTMLElement} modalContent - modal content.
+ * @param {any} onTransitionEnd - on transition end.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
  */
 function scheduleAddTaskDialogFallbackCleanup(modalContent, onTransitionEnd, cleanup) {
   setTimeout(() => {

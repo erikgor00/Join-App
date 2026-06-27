@@ -3,6 +3,11 @@
  * @param {Event} event - Browser event.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Add Contact.
+ * @param {Event} event - event.
+ * @returns {Promise<void>} Result value.
+ */
 async function addContact(event) {
   event.preventDefault();
   const contact = generateObjFromContact();
@@ -23,6 +28,11 @@ async function addContact(event) {
  * @param {Object} contact - Contact object.
  * @returns {boolean} Result.
  */
+/**
+ * Validate And Normalize Add Contact.
+ * @param {Object} contact - contact.
+ * @returns {boolean} Result value.
+ */
 function validateAndNormalizeAddContact(contact) {
   return validateAndAssignContactName(contact, ['ac-name', 'ac-email', 'ac-phone'], 'ac-name')
     && validateAndAssignContactEmail(contact, ['ac-name', 'ac-email', 'ac-phone'], 'ac-email')
@@ -35,6 +45,13 @@ function validateAndNormalizeAddContact(contact) {
  * @param {string[]} fieldIds - Field ids.
  * @param {string} errorFieldId - Error field id.
  * @returns {boolean} Result.
+ */
+/**
+ * Validate And Assign Contact Name.
+ * @param {Object} contact - contact.
+ * @param {HTMLElement} fieldIds - field ids.
+ * @param {HTMLElement} errorFieldId - error field id.
+ * @returns {boolean} Result value.
  */
 function validateAndAssignContactName(contact, fieldIds, errorFieldId) {
   const check = validateContactNameInput(contact.name);
@@ -50,6 +67,13 @@ function validateAndAssignContactName(contact, fieldIds, errorFieldId) {
  * @param {string} errorFieldId - Error field id.
  * @returns {boolean} Result.
  */
+/**
+ * Validate And Assign Contact Email.
+ * @param {Object} contact - contact.
+ * @param {HTMLElement} fieldIds - field ids.
+ * @param {HTMLElement} errorFieldId - error field id.
+ * @returns {boolean} Result value.
+ */
 function validateAndAssignContactEmail(contact, fieldIds, errorFieldId) {
   const check = validateEmailLikeSignup(contact.email);
   if (!check.isValid) return showContactSubmitValidationError(errorFieldId, check.error, fieldIds);
@@ -63,6 +87,13 @@ function validateAndAssignContactEmail(contact, fieldIds, errorFieldId) {
  * @param {string[]} fieldIds - Field ids.
  * @param {string} errorFieldId - Error field id.
  * @returns {boolean} Result.
+ */
+/**
+ * Validate And Assign Contact Phone.
+ * @param {Object} contact - contact.
+ * @param {HTMLElement} fieldIds - field ids.
+ * @param {HTMLElement} errorFieldId - error field id.
+ * @returns {boolean} Result value.
  */
 function validateAndAssignContactPhone(contact, fieldIds, errorFieldId) {
   const check = validateContactPhoneNumber(contact.phone);
@@ -78,6 +109,13 @@ function validateAndAssignContactPhone(contact, fieldIds, errorFieldId) {
  * @param {string[]} fieldIds - Field ids.
  * @returns {boolean} Result.
  */
+/**
+ * Show Contact Submit Validation Error.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {string} error - error.
+ * @param {HTMLElement} fieldIds - field ids.
+ * @returns {boolean} Result value.
+ */
 function showContactSubmitValidationError(fieldId, error, fieldIds) {
   if (typeof showContactSubmitError === 'function') {
     showContactSubmitError(fieldId, error, fieldIds);
@@ -88,6 +126,10 @@ function showContactSubmitValidationError(fieldId, error, fieldIds) {
 /**
  * Handles successful add contact save.
  * @returns {Promise<void>} Result.
+ */
+/**
+ * Handle Add Contact Saved.
+ * @returns {Promise<void>} Result value.
  */
 async function handleAddContactSaved() {
   await renderContactGroup();
@@ -100,6 +142,10 @@ async function handleAddContactSaved() {
  * Closes add contact dialog after save.
  * @returns {void} Result.
  */
+/**
+ * Close Add Contact Dialog After Save.
+ * @returns {void} Nothing.
+ */
 function closeAddContactDialogAfterSave() {
   const dialog = document.getElementById("add-contact-dialog");
   if (dialog) dialog.close();
@@ -108,6 +154,10 @@ function closeAddContactDialogAfterSave() {
 /**
  * Resets add contact form.
  * @returns {void} Result.
+ */
+/**
+ * Reset Add Contact Form.
+ * @returns {void} Nothing.
  */
 function resetAddContactForm() {
   const form = document.getElementById('add-contact-form');
@@ -119,6 +169,11 @@ function resetAddContactForm() {
  * @param {Object} contact - Contact object.
  * @returns {boolean} Result.
  */
+/**
+ * Is Contact Complete.
+ * @param {Object} contact - contact.
+ * @returns {boolean} Result value.
+ */
 function isContactComplete(contact) {
   return contact.name && contact.email && contact.phone;
 }
@@ -127,6 +182,11 @@ function isContactComplete(contact) {
  * Saves contact.
  * @param {Object} contact - Contact object.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Save Contact.
+ * @param {Object} contact - contact.
+ * @returns {Promise<void>} Result value.
  */
 async function saveContact(contact) {
   try {
@@ -147,6 +207,10 @@ async function saveContact(contact) {
  * Generates obj from contact.
  * @returns {*} Result.
  */
+/**
+ * Generate Obj From Contact.
+ * @returns {any} Result value.
+ */
 function generateObjFromContact() {
   const name = document.getElementById('ac-name').value;
   const email = document.getElementById('ac-email').value;
@@ -158,6 +222,11 @@ function generateObjFromContact() {
  * Fetches contact details.
  * @param {string} contactId - Contact identifier.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Fetch Contact Details.
+ * @param {string} contactId - contact id.
+ * @returns {Promise<void>} Result value.
  */
 async function fetchContactDetails(contactId) {
   try {
@@ -177,6 +246,11 @@ async function fetchContactDetails(contactId) {
  * Deletes contact.
  * @param {string} contactId - Contact identifier.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Delete Contact.
+ * @param {string} contactId - contact id.
+ * @returns {Promise<void>} Result value.
  */
 async function deleteContact(contactId) {
   try {
@@ -200,6 +274,12 @@ async function deleteContact(contactId) {
  * @param {string} contactId - Contact identifier.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Update Contact.
+ * @param {Event} event - event.
+ * @param {string} contactId - contact id.
+ * @returns {Promise<void>} Result value.
+ */
 async function updateContact(event, contactId) {
   event.preventDefault();
   const updatedContact = generateObjFromEditContact();
@@ -220,6 +300,10 @@ async function updateContact(event, contactId) {
  * Generates object from edit contact form.
  * @returns {Object} Result.
  */
+/**
+ * Generate Obj From Edit Contact.
+ * @returns {any} Result value.
+ */
 function generateObjFromEditContact() {
   return {
     name: document.getElementById('edit-name').value,
@@ -233,6 +317,11 @@ function generateObjFromEditContact() {
  * @param {Object} contact - Contact object.
  * @returns {boolean} Result.
  */
+/**
+ * Validate And Normalize Edit Contact.
+ * @param {Object} contact - contact.
+ * @returns {boolean} Result value.
+ */
 function validateAndNormalizeEditContact(contact) {
   return validateAndAssignContactName(contact, ['edit-name', 'edit-email', 'edit-phone'], 'edit-name')
     && validateAndAssignContactEmail(contact, ['edit-name', 'edit-email', 'edit-phone'], 'edit-email')
@@ -245,6 +334,12 @@ function validateAndNormalizeEditContact(contact) {
  * @param {Object} updatedContact - Updated contact.
  * @returns {Promise<Response>} Result.
  */
+/**
+ * Send Contact Update.
+ * @param {string} contactId - contact id.
+ * @param {string} updatedContact - updated contact.
+ * @returns {void} Nothing.
+ */
 function sendContactUpdate(contactId, updatedContact) {
   return fetch(`${BASE_URL}/contacts/${contactId}.json`, {
     method: "PUT",
@@ -256,6 +351,10 @@ function sendContactUpdate(contactId, updatedContact) {
 /**
  * Handles successful contact update.
  * @returns {Promise<void>} Result.
+ */
+/**
+ * Handle Contact Update Success.
+ * @returns {Promise<void>} Result value.
  */
 async function handleContactUpdateSuccess() {
   await renderContactGroup();

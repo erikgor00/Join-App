@@ -6,6 +6,14 @@
  * @param {*} visibilityIconId } - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Init Password Visibility Toggle.
+ * @param {HTMLElement} { inputId - { input id.
+ * @param {string} lockIconId - lock icon id.
+ * @param {string} visibilityOffIconId - visibility off icon id.
+ * @param {string} visibilityIconId } - visibility icon id }.
+ * @returns {void} Nothing.
+ */
 function initPasswordVisibilityToggle({ inputId, lockIconId, visibilityOffIconId, visibilityIconId }) {
     const elements = getPasswordVisibilityElements(inputId, lockIconId, visibilityOffIconId, visibilityIconId);
     if (!elements) return;
@@ -21,6 +29,14 @@ function initPasswordVisibilityToggle({ inputId, lockIconId, visibilityOffIconId
  * @param {*} visibilityIconId - Parameter.
  * @returns {*} Result.
  */
+/**
+ * Get Password Visibility Elements.
+ * @param {HTMLElement} inputId - input id.
+ * @param {string} lockIconId - lock icon id.
+ * @param {string} visibilityOffIconId - visibility off icon id.
+ * @param {string} visibilityIconId - visibility icon id.
+ * @returns {any} Result value.
+ */
 function getPasswordVisibilityElements(inputId, lockIconId, visibilityOffIconId, visibilityIconId) {
     const passwordInput = document.getElementById(inputId);
     const lockIcon = document.getElementById(lockIconId);
@@ -35,6 +51,11 @@ function getPasswordVisibilityElements(inputId, lockIconId, visibilityOffIconId,
  * @param {*} elements - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Bind Password Visibility Handlers.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
+ */
 function bindPasswordVisibilityHandlers(elements) {
     elements.passwordInput.addEventListener('input', () => syncPasswordVisibilityIcons(elements));
     elements.visibilityOffIcon.addEventListener('click', () => showPassword(elements));
@@ -46,6 +67,11 @@ function bindPasswordVisibilityHandlers(elements) {
  * @param {*} elements - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Show Password.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
+ */
 function showPassword(elements) {
     if (elements.passwordInput.value.length === 0) return;
     setPasswordVisibility(elements, true);
@@ -55,6 +81,11 @@ function showPassword(elements) {
  * Hides password.
  * @param {*} elements - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Hide Password.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
  */
 function hidePassword(elements) {
     if (elements.passwordInput.value.length === 0) return;
@@ -67,6 +98,12 @@ function hidePassword(elements) {
  * @param {*} isVisible - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Set Password Visibility.
+ * @param {HTMLElement} elements - elements.
+ * @param {boolean} isVisible - is visible.
+ * @returns {void} Nothing.
+ */
 function setPasswordVisibility(elements, isVisible) {
     elements.passwordInput.type = isVisible ? 'text' : 'password';
     elements.visibilityIcon.classList.toggle('is-hidden', !isVisible);
@@ -77,6 +114,11 @@ function setPasswordVisibility(elements, isVisible) {
  * Executes sync password visibility icons logic.
  * @param {*} elements - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Sync Password Visibility Icons.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
  */
 function syncPasswordVisibilityIcons(elements) {
     const hasValue = elements.passwordInput.value.length > 0;
@@ -96,6 +138,10 @@ function syncPasswordVisibilityIcons(elements) {
 /**
  * Initializes signup password visibility toggles.
  * @returns {void} Result.
+ */
+/**
+ * Init Signup Password Visibility Toggles.
+ * @returns {void} Nothing.
  */
 function initSignupPasswordVisibilityToggles() {
     initPasswordVisibilityToggle({

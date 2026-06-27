@@ -5,6 +5,13 @@
  * @param {HTMLElement} cardElement - Dragged card element.
  * @returns {void} Result.
  */
+/**
+ * Start Drag.
+ * @param {Event} event - event.
+ * @param {string} id - id.
+ * @param {HTMLElement} cardElement - card element.
+ * @returns {void} Nothing.
+ */
 function startDrag(event, id, cardElement) {
   draggedTaskId = id;
   clearDropHighlight();
@@ -21,6 +28,11 @@ function startDrag(event, id, cardElement) {
  * @param {HTMLElement} cardElement - Dragged card element.
  * @returns {void} Result.
  */
+/**
+ * End Drag.
+ * @param {HTMLElement} cardElement - card element.
+ * @returns {void} Nothing.
+ */
 function endDrag(cardElement) {
   if (cardElement) {
     cardElement.classList.remove("is-dragging");
@@ -32,6 +44,11 @@ function endDrag(cardElement) {
  * Executes allow drop logic.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Allow Drop.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function allowDrop(event) {
   event.preventDefault();
@@ -45,6 +62,12 @@ function allowDrop(event) {
  * @param {Event} event - Browser event.
  * @param {*} newStatus - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Drop Task.
+ * @param {Event} event - event.
+ * @param {string} newStatus - new status.
+ * @returns {void} Nothing.
  */
 function dropTask(event, newStatus) {
   event.preventDefault();
@@ -61,6 +84,11 @@ function dropTask(event, newStatus) {
  * @param {HTMLElement|null} columnElement - Current column element.
  * @returns {void} Result.
  */
+/**
+ * Set Drop Highlight.
+ * @param {HTMLElement} columnElement - column element.
+ * @returns {void} Nothing.
+ */
 function setDropHighlight(columnElement) {
   const columns = document.querySelectorAll(".board-column");
   columns.forEach((column) => {
@@ -72,6 +100,10 @@ function setDropHighlight(columnElement) {
  * Clears drop highlight from all columns.
  * @returns {void} Result.
  */
+/**
+ * Clear Drop Highlight.
+ * @returns {void} Nothing.
+ */
 function clearDropHighlight() {
   const highlighted = document.querySelectorAll(".board-column.drop-target-highlight");
   highlighted.forEach((column) => column.classList.remove("drop-target-highlight"));
@@ -80,6 +112,10 @@ function clearDropHighlight() {
 /**
  * Detects whether a desktop-like pointer setup is available.
  * @returns {boolean} True for desktop pointer/hover setups.
+ */
+/**
+ * Is Desktop Drag Device.
+ * @returns {boolean} Result value.
  */
 function isDesktopDragDevice() {
   return window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -101,6 +137,11 @@ let activeMoveMenuCard = null;
  * Returns adjacent status targets for the mobile move menu.
  * @param {Object} task - Task object.
  * @returns {string} HTML string of option buttons.
+ */
+/**
+ * Build Move Menu Options H T M L.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
  */
 function buildMoveMenuOptionsHTML(task) {
   const idx = MOVE_STATUS_ORDER.indexOf(task.status);
@@ -124,6 +165,10 @@ function buildMoveMenuOptionsHTML(task) {
  * Closes the currently open mobile move menu.
  * @returns {void} Result.
  */
+/**
+ * Close Move Menu.
+ * @returns {void} Nothing.
+ */
 function closeMoveMenu() {
   if (activeMoveMenuCard) {
     activeMoveMenuCard.classList.remove("task-move-menu-open");
@@ -135,6 +180,11 @@ function closeMoveMenu() {
  * Toggles the mobile move menu on the clicked task card.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Toggle Task Move Menu.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function toggleTaskMoveMenu(event) {
   event.stopPropagation();
@@ -155,6 +205,13 @@ function toggleTaskMoveMenu(event) {
  * @param {number|string} taskId - Task id.
  * @param {string} newStatus - Target status.
  * @returns {Promise<void>} Result.
+ */
+/**
+ * Move Task Mobile.
+ * @param {Event} event - event.
+ * @param {string} taskId - task id.
+ * @param {string} newStatus - new status.
+ * @returns {Promise<void>} Result value.
  */
 async function moveTaskMobile(event, taskId, newStatus) {
   event.stopPropagation();

@@ -3,6 +3,11 @@
  * @param {string} id - Identifier.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Open Edit Task Modal.
+ * @param {string} id - id.
+ * @returns {Promise<void>} Result value.
+ */
 async function openEditTaskModal(id) {
   const task = tasks.find(t => t.id === id);
   if (!task) return;
@@ -19,6 +24,11 @@ async function openEditTaskModal(id) {
  * @param {Object} task - Task object.
  * @returns {void} Result.
  */
+/**
+ * Initialize Edit Task State.
+ * @param {Object} task - task.
+ * @returns {void} Nothing.
+ */
 function initializeEditTaskState(task) {
   activeTask = task;
   editSubtasks = Array.isArray(task.subtasks) ? task.subtasks.map(st => ({ ...st })) : [];
@@ -30,6 +40,10 @@ function initializeEditTaskState(task) {
  * Returns task modal content.
  * @returns {HTMLElement|null} Result.
  */
+/**
+ * Get Task Modal Content.
+ * @returns {any} Result value.
+ */
 function getTaskModalContent() {
   const modal = document.getElementById("task-modal");
   return modal ? modal.querySelector(".modal-content") : null;
@@ -38,6 +52,10 @@ function getTaskModalContent() {
 /**
  * Initializes edit task form.
  * @returns {void} Result.
+ */
+/**
+ * Initialize Edit Task Form.
+ * @returns {void} Nothing.
  */
 function initializeEditTaskForm() {
   applyTodayMinDateForEdit();
@@ -52,6 +70,10 @@ function initializeEditTaskForm() {
  * Initializes blur validation handlers for the edit form.
  * @returns {void} Result.
  */
+/**
+ * Init Edit Form Blur Validation.
+ * @returns {boolean} Result value.
+ */
 function initEditFormBlurValidation() {
   const form = document.getElementById('edit-task-form');
   if (!form || form.dataset.blurValidationInit === '1') return;
@@ -65,6 +87,10 @@ function initEditFormBlurValidation() {
  * Registers edit title validation handler.
  * @returns {void} Result.
  */
+/**
+ * Register Edit Title Validation Handler.
+ * @returns {boolean} Result value.
+ */
 function registerEditTitleValidationHandler() {
   const titleInput = document.getElementById('edit-title');
   titleInput?.addEventListener('blur', () => {
@@ -75,6 +101,10 @@ function registerEditTitleValidationHandler() {
 /**
  * Registers edit date validation handlers.
  * @returns {void} Result.
+ */
+/**
+ * Register Edit Date Validation Handlers.
+ * @returns {boolean} Result value.
  */
 function registerEditDateValidationHandlers() {
   const dateInput = document.getElementById('edit-date');
@@ -89,6 +119,10 @@ function registerEditDateValidationHandlers() {
  * Registers edit category validation handler.
  * @returns {void} Result.
  */
+/**
+ * Register Edit Category Validation Handler.
+ * @returns {boolean} Result value.
+ */
 function registerEditCategoryValidationHandler() {
   const categorySelect = document.getElementById('edit-category-select');
   categorySelect?.addEventListener('blur', () => {
@@ -101,6 +135,10 @@ function registerEditCategoryValidationHandler() {
  * Enables creating an edit-subtask via Enter key.
  * Prevents submitting the edit form.
  * @returns {void} Result.
+ */
+/**
+ * Init Edit Subtask Enter.
+ * @returns {void} Nothing.
  */
 function initEditSubtaskEnter() {
   const input = document.getElementById('edit-subtask-input');
@@ -116,6 +154,11 @@ function initEditSubtaskEnter() {
  * @param {HTMLInputElement} input - Input element.
  * @returns {boolean} Result.
  */
+/**
+ * Is Edit Subtask Enter Handler Registered.
+ * @param {HTMLElement} input - input.
+ * @returns {boolean} Result value.
+ */
 function isEditSubtaskEnterHandlerRegistered(input) {
   return input.dataset && input.dataset.enterHandlerAdded === 'true';
 }
@@ -125,6 +168,11 @@ function isEditSubtaskEnterHandlerRegistered(input) {
  * @param {HTMLInputElement} input - Input element.
  * @returns {void} Result.
  */
+/**
+ * Mark Edit Subtask Enter Handler Registered.
+ * @param {HTMLElement} input - input.
+ * @returns {void} Nothing.
+ */
 function markEditSubtaskEnterHandlerRegistered(input) {
   if (input.dataset) input.dataset.enterHandlerAdded = 'true';
 }
@@ -132,6 +180,10 @@ function markEditSubtaskEnterHandlerRegistered(input) {
 /**
  * Clears edit subtask error on input.
  * @returns {void} Result.
+ */
+/**
+ * Clear Edit Subtask Error On Input.
+ * @returns {void} Nothing.
  */
 function clearEditSubtaskErrorOnInput() {
   setEditSubtaskError('');
@@ -141,6 +193,11 @@ function clearEditSubtaskErrorOnInput() {
  * Handles edit-subtask enter key.
  * @param {KeyboardEvent} event - Keyboard event.
  * @returns {void} Result.
+ */
+/**
+ * Handle Edit Subtask Enter Key.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function handleEditSubtaskEnterKey(event) {
   if (event.isComposing || event.key !== 'Enter' || event.shiftKey) return;
@@ -152,6 +209,10 @@ function handleEditSubtaskEnterKey(event) {
 /**
  * Renders edit assigned contacts.
  * @returns {void} Result.
+ */
+/**
+ * Render Edit Assigned Contacts.
+ * @returns {void} Nothing.
  */
 function renderEditAssignedContacts() {
   const modal = document.getElementById("task-modal");
@@ -165,6 +226,11 @@ function renderEditAssignedContacts() {
  * Toggles edit category dropdown.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Toggle Edit Category Dropdown.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function toggleEditCategoryDropdown(event) {
   event.stopPropagation();
@@ -184,6 +250,11 @@ function toggleEditCategoryDropdown(event) {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Set Edit Category.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function setEditCategory(value) {
   const modal = document.getElementById("task-modal");
   if (!modal) return;
@@ -201,6 +272,13 @@ function setEditCategory(value) {
  * @param {string} value - Category value.
  * @returns {void} Result.
  */
+/**
+ * Update Edit Category Input.
+ * @param {HTMLElement} input - input.
+ * @param {HTMLElement} select - select.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function updateEditCategoryInput(input, select, value) {
   input.value = value;
   input.classList.remove('input-error');
@@ -215,6 +293,12 @@ function updateEditCategoryInput(input, select, value) {
  * @param {string} value - Category value.
  * @returns {void} Result.
  */
+/**
+ * Update Edit Category Label.
+ * @param {HTMLElement} select - select.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function updateEditCategoryLabel(select, value) {
   const label = select.querySelector("span");
   if (label) label.childNodes[0].textContent = value + " ";
@@ -224,6 +308,11 @@ function updateEditCategoryLabel(select, value) {
  * Closes edit category dropdown.
  * @param {HTMLElement} modal - Modal element.
  * @returns {void} Result.
+ */
+/**
+ * Close Edit Category Dropdown.
+ * @param {HTMLElement} modal - modal.
+ * @returns {void} Nothing.
  */
 function closeEditCategoryDropdown(modal) {
   const dropdown = modal.querySelector("#edit-category-dropdown");
@@ -236,6 +325,12 @@ function closeEditCategoryDropdown(modal) {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Set Edit Error Text.
+ * @param {string} id - id.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function setEditErrorText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
@@ -244,6 +339,10 @@ function setEditErrorText(id, value) {
 /**
  * Clears edit validation errors.
  * @returns {void} Result.
+ */
+/**
+ * Clear Edit Validation Errors.
+ * @returns {boolean} Result value.
  */
 function clearEditValidationErrors() {
   setEditErrorText('edit-title-error', '');
@@ -257,6 +356,13 @@ function clearEditValidationErrors() {
  * @param {string} errorId - Error element id.
  * @param {HTMLElement} highlightElement - Element to highlight (defaults to input).
  * @returns {boolean} Result.
+ */
+/**
+ * Validate Edit Required Input.
+ * @param {HTMLElement} input - input.
+ * @param {string} errorId - error id.
+ * @param {HTMLElement} highlightElement - highlight element.
+ * @returns {boolean} Result value.
  */
 function validateEditRequiredInput(input, errorId, highlightElement = input) {
   const value = input ? String(input.value ?? '').trim() : '';
@@ -279,6 +385,10 @@ function validateEditRequiredInput(input, errorId, highlightElement = input) {
  * Applies today's date as minimum selectable due date for edit form.
  * @returns {void} Result.
  */
+/**
+ * Apply Today Min Date For Edit.
+ * @returns {void} Nothing.
+ */
 function applyTodayMinDateForEdit() {
   const dateInput = document.getElementById('edit-date');
   if (!dateInput) return;
@@ -288,6 +398,10 @@ function applyTodayMinDateForEdit() {
 /**
  * Returns today's local date in yyyy-mm-dd for edit form.
  * @returns {string} Result.
+ */
+/**
+ * Get Today Date String For Edit.
+ * @returns {any} Result value.
  */
 function getTodayDateStringForEdit() {
   const now = new Date();
@@ -300,6 +414,10 @@ function getTodayDateStringForEdit() {
 /**
  * Validates edit due date field.
  * @returns {boolean} Result.
+ */
+/**
+ * Validate Edit Date Field.
+ * @returns {boolean} Result value.
  */
 function validateEditDateField() {
   const input = document.getElementById('edit-date');
@@ -324,6 +442,10 @@ function validateEditDateField() {
  * Clears edit date error while typing as soon as input is valid and not in the past.
  * @returns {void} Result.
  */
+/**
+ * Clear Edit Date Error On Valid Input.
+ * @returns {boolean} Result value.
+ */
 function clearEditDateErrorOnValidInput() {
   const input = document.getElementById('edit-date');
   if (!input) return;
@@ -338,6 +460,11 @@ function clearEditDateErrorOnValidInput() {
  * Scrolls edit form to the given element (inside overflow container).
  * @param {HTMLElement|null} target - Target element.
  * @returns {void} Result.
+ */
+/**
+ * Scroll Edit Form To.
+ * @param {HTMLElement} target - target.
+ * @returns {void} Nothing.
  */
 function scrollEditFormTo(target) {
   if (!target) return;
@@ -357,6 +484,10 @@ function scrollEditFormTo(target) {
  * Validates edit form.
  * @returns {boolean} Result.
  */
+/**
+ * Validate Edit Form.
+ * @returns {boolean} Result value.
+ */
 function validateEditForm() {
   clearEditValidationErrors();
   const fields = getEditValidationFields();
@@ -369,6 +500,10 @@ function validateEditForm() {
 /**
  * Returns edit validation fields.
  * @returns {Object} Result.
+ */
+/**
+ * Get Edit Validation Fields.
+ * @returns {boolean} Result value.
  */
 function getEditValidationFields() {
   return {
@@ -383,6 +518,11 @@ function getEditValidationFields() {
  * Returns edit validation failures.
  * @param {Object} fields - Validation fields.
  * @returns {Array<Object>} Result.
+ */
+/**
+ * Get Edit Validation Failures.
+ * @param {HTMLElement} fields - fields.
+ * @returns {boolean} Result value.
  */
 function getEditValidationFailures(fields) {
   const invalid = [];
@@ -400,6 +540,12 @@ function getEditValidationFailures(fields) {
  * @param {HTMLElement} dateInput - Date input.
  * @returns {void} Result.
  */
+/**
+ * Add Edit Date Failure.
+ * @param {string} invalid - invalid.
+ * @param {HTMLElement} dateInput - date input.
+ * @returns {void} Nothing.
+ */
 function addEditDateFailure(invalid, dateInput) {
   if (!validateEditDateField()) invalid.push({ errorId: 'edit-date-error', focusEl: dateInput });
 }
@@ -411,6 +557,13 @@ function addEditDateFailure(invalid, dateInput) {
  * @param {HTMLElement} categorySelect - Category select.
  * @returns {void} Result.
  */
+/**
+ * Add Edit Category Failure.
+ * @param {string} invalid - invalid.
+ * @param {HTMLElement} categoryInput - category input.
+ * @param {HTMLElement} categorySelect - category select.
+ * @returns {void} Nothing.
+ */
 function addEditCategoryFailure(invalid, categoryInput, categorySelect) {
   if (!validateEditRequiredInput(categoryInput, 'edit-category-error', categorySelect)) {
     invalid.push({ errorId: 'edit-category-error', focusEl: categorySelect });
@@ -421,6 +574,11 @@ function addEditCategoryFailure(invalid, categoryInput, categorySelect) {
  * Handles invalid edit form.
  * @param {Object} first - First invalid field.
  * @returns {boolean} Result.
+ */
+/**
+ * Handle Invalid Edit Form.
+ * @param {any} first - first.
+ * @returns {boolean} Result value.
  */
 function handleInvalidEditForm(first) {
   const errorEl = document.getElementById(first.errorId);
@@ -434,6 +592,11 @@ function handleInvalidEditForm(first) {
  * @param {HTMLElement} focusEl - Element to focus.
  * @returns {void} Result.
  */
+/**
+ * Focus Edit Invalid Field.
+ * @param {any} focusEl - focus el.
+ * @returns {boolean} Result value.
+ */
 function focusEditInvalidField(focusEl) {
   try {
     focusEl?.focus?.();
@@ -446,6 +609,10 @@ function focusEditInvalidField(focusEl) {
  * Initializes edit dropdown close.
  * @returns {void} Result.
  */
+/**
+ * Init Edit Dropdown Close.
+ * @returns {void} Nothing.
+ */
 function initEditDropdownClose() {
   if (window.editDropdownHandlerAdded) return;
   window.editDropdownHandlerAdded = true;
@@ -456,6 +623,11 @@ function initEditDropdownClose() {
  * Handles document clicks for edit dropdowns.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Handle Edit Dropdown Document Click.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function handleEditDropdownDocumentClick(event) {
   const modal = document.getElementById("task-modal");
@@ -469,6 +641,11 @@ function handleEditDropdownDocumentClick(event) {
  * Returns edit dropdown elements.
  * @param {HTMLElement} modal - Modal element.
  * @returns {Object} Result.
+ */
+/**
+ * Get Edit Dropdown Elements.
+ * @param {HTMLElement} modal - modal.
+ * @returns {any} Result value.
  */
 function getEditDropdownElements(modal) {
   return {
@@ -485,6 +662,12 @@ function getEditDropdownElements(modal) {
  * @param {Object} elements - Dropdown elements.
  * @returns {boolean} Result.
  */
+/**
+ * Is Click Inside Edit Dropdown.
+ * @param {HTMLElement} target - target.
+ * @param {HTMLElement} elements - elements.
+ * @returns {boolean} Result value.
+ */
 function isClickInsideEditDropdown(target, elements) {
   return [
     elements.selectContacts,
@@ -499,6 +682,11 @@ function isClickInsideEditDropdown(target, elements) {
  * @param {Object} elements - Dropdown elements.
  * @returns {void} Result.
  */
+/**
+ * Close Edit Dropdown Elements.
+ * @param {HTMLElement} elements - elements.
+ * @returns {void} Nothing.
+ */
 function closeEditDropdownElements(elements) {
   if (elements.contactsDropdown) elements.contactsDropdown.classList.remove("show");
   if (elements.categoryDropdown) elements.categoryDropdown.classList.remove("show");
@@ -507,6 +695,10 @@ function closeEditDropdownElements(elements) {
 /**
  * Renders edit subtasks.
  * @returns {void} Result.
+ */
+/**
+ * Render Edit Subtasks.
+ * @returns {void} Nothing.
  */
 function renderEditSubtasks() {
   const area = document.getElementById("edit-subtask-area");
@@ -522,6 +714,13 @@ function renderEditSubtasks() {
  * @param {number} index - Index.
  * @returns {void} Result.
  */
+/**
+ * Append Edit Subtask.
+ * @param {HTMLElement} area - area.
+ * @param {Object} subtask - subtask.
+ * @param {number} index - index.
+ * @returns {void} Nothing.
+ */
 function appendEditSubtask(area, subtask, index) {
   const isEditing = window.editingEditSubtaskIndex === index;
   const markup = isEditing
@@ -533,6 +732,10 @@ function appendEditSubtask(area, subtask, index) {
 /**
  * Adds edit subtask.
  * @returns {void} Result.
+ */
+/**
+ * Add Edit Subtask.
+ * @returns {void} Nothing.
  */
 function addEditSubtask() {
   const input = document.getElementById("edit-subtask-input");
@@ -553,6 +756,11 @@ function addEditSubtask() {
  * @param {number} i - Index.
  * @returns {void} Result.
  */
+/**
+ * Delete Edit Subtask.
+ * @param {number} i - i.
+ * @returns {void} Nothing.
+ */
 function deleteEditSubtask(i) {
   editSubtasks.splice(i, 1);
   if (window.editingEditSubtaskIndex === i) {
@@ -567,6 +775,10 @@ function deleteEditSubtask(i) {
  * Clears edit subtask input.
  * @returns {void} Result.
  */
+/**
+ * Clear Edit Subtask Input.
+ * @returns {void} Nothing.
+ */
 function clearEditSubtaskInput() {
   const input = document.getElementById("edit-subtask-input");
   if (!input) return;
@@ -579,6 +791,11 @@ function clearEditSubtaskInput() {
  * Executes edit edit subtask logic.
  * @param {number} i - Index.
  * @returns {void} Result.
+ */
+/**
+ * Edit Edit Subtask.
+ * @param {number} i - i.
+ * @returns {void} Nothing.
  */
 function editEditSubtask(i) {
   window.editingEditSubtaskIndex = i;
@@ -594,6 +811,11 @@ function editEditSubtask(i) {
  * Saves edited edit subtask.
  * @param {number} i - Index.
  * @returns {void} Result.
+ */
+/**
+ * Save Edited Edit Subtask.
+ * @param {number} i - i.
+ * @returns {void} Nothing.
  */
 function saveEditedEditSubtask(i) {
   const input = document.getElementById(`edit-subtask-edit-${i}`);
@@ -614,6 +836,12 @@ function saveEditedEditSubtask(i) {
  * @param {string} message - Message text.
  * @param {HTMLElement} [inputEl] - Optional input to highlight.
  * @returns {void} Result.
+ */
+/**
+ * Set Edit Subtask Error.
+ * @param {string} message - message.
+ * @param {HTMLElement} inputEl - input el.
+ * @returns {void} Nothing.
  */
 function setEditSubtaskError(message, inputEl) {
   const errorEl = document.getElementById('edit-subtask-error');
@@ -636,6 +864,12 @@ function setEditSubtaskError(message, inputEl) {
  * @param {string} id - Identifier.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Save Edited Task.
+ * @param {Event} event - event.
+ * @param {string} id - id.
+ * @returns {Promise<void>} Result value.
+ */
 async function saveEditedTask(event, id) {
   event.preventDefault();
   if (!validateEditForm()) return;
@@ -651,6 +885,11 @@ async function saveEditedTask(event, id) {
  * Updates task from edit form.
  * @param {Object} task - Task object.
  * @returns {void} Result.
+ */
+/**
+ * Update Task From Edit Form.
+ * @param {Object} task - task.
+ * @returns {void} Nothing.
  */
 function updateTaskFromEditForm(task) {
   const titleEl = document.getElementById("edit-title");

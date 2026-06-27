@@ -2,6 +2,10 @@
  * Renders add task.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Render Add Task.
+ * @returns {Promise<void>} Result value.
+ */
 async function renderAddTask() {
   const content = document.getElementById('add-task-content');
   if (!content) return;
@@ -22,6 +26,10 @@ async function renderAddTask() {
  * Initializes add task blur validation handlers.
  * @returns {void} Result.
  */
+/**
+ * Init Add Task Blur Validation.
+ * @returns {boolean} Result value.
+ */
 function initAddTaskBlurValidation() {
   const form = document.getElementById('add-task-form');
   if (!form || form.dataset.blurValidationInit === '1') return;
@@ -36,6 +44,10 @@ function initAddTaskBlurValidation() {
  * Registers title validation handlers.
  * @returns {void} Result.
  */
+/**
+ * Register Title Validation Handlers.
+ * @returns {boolean} Result value.
+ */
 function registerTitleValidationHandlers() {
   const titleInput = document.getElementById('title');
   titleInput?.addEventListener('blur', validateTitleField);
@@ -46,6 +58,10 @@ function registerTitleValidationHandlers() {
 /**
  * Registers date validation handlers.
  * @returns {void} Result.
+ */
+/**
+ * Register Date Validation Handlers.
+ * @returns {boolean} Result value.
  */
 function registerDateValidationHandlers() {
   const dateInput = document.getElementById('date');
@@ -60,6 +76,10 @@ function registerDateValidationHandlers() {
  * Registers category validation handlers.
  * @returns {void} Result.
  */
+/**
+ * Register Category Validation Handlers.
+ * @returns {boolean} Result value.
+ */
 function registerCategoryValidationHandlers() {
   const categorySelect = document.getElementById('category-select');
   categorySelect?.addEventListener('blur', validateCategoryField);
@@ -69,6 +89,10 @@ function registerCategoryValidationHandlers() {
 /**
  * Updates create button disabled state.
  * @returns {void} Result.
+ */
+/**
+ * Update Create Button State.
+ * @returns {void} Nothing.
  */
 function updateCreateButtonState() {
   const btn = document.getElementById('create-task-btn');
@@ -90,6 +114,10 @@ function updateCreateButtonState() {
  * Executes reset selected contacts logic.
  * @returns {void} Result.
  */
+/**
+ * Reset Selected Contacts.
+ * @returns {void} Nothing.
+ */
 function resetSelectedContacts() {
   selectedContacts = [];
 }
@@ -97,6 +125,10 @@ function resetSelectedContacts() {
 /**
  * Validates form.
  * @returns {void} Result.
+ */
+/**
+ * Validate Form.
+ * @returns {boolean} Result value.
  */
 function validateForm() {
   clearValidationErrors();
@@ -111,6 +143,10 @@ function validateForm() {
  * Clears validation errors.
  * @returns {void} Result.
  */
+/**
+ * Clear Validation Errors.
+ * @returns {boolean} Result value.
+ */
 function clearValidationErrors() {
   setErrorText('title-error', '');
   setErrorText('date-error', '');
@@ -123,6 +159,12 @@ function clearValidationErrors() {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Set Error Text.
+ * @param {string} id - id.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function setErrorText(id, value) {
   const el = document.getElementById(id);
   if (el) el.textContent = value;
@@ -132,6 +174,10 @@ function setErrorText(id, value) {
  * Validates title field.
  * @returns {void} Result.
  */
+/**
+ * Validate Title Field.
+ * @returns {boolean} Result value.
+ */
 function validateTitleField() {
   const input = document.getElementById('title');
   return validateRequiredInput(input, 'title-error');
@@ -140,6 +186,10 @@ function validateTitleField() {
 /**
  * Clears title error while typing as soon as input is valid.
  * @returns {void} Result.
+ */
+/**
+ * Clear Title Error On Valid Input.
+ * @returns {boolean} Result value.
  */
 function clearTitleErrorOnValidInput() {
   const input = document.getElementById('title');
@@ -152,6 +202,10 @@ function clearTitleErrorOnValidInput() {
 /**
  * Validates date field.
  * @returns {void} Result.
+ */
+/**
+ * Validate Date Field.
+ * @returns {boolean} Result value.
  */
 function validateDateField() {
   const input = document.getElementById('date');
@@ -176,6 +230,10 @@ function validateDateField() {
  * Clears date error while typing as soon as input is valid and not in the past.
  * @returns {void} Result.
  */
+/**
+ * Clear Date Error On Valid Input.
+ * @returns {boolean} Result value.
+ */
 function clearDateErrorOnValidInput() {
   const input = document.getElementById('date');
   if (!input) return;
@@ -190,6 +248,10 @@ function clearDateErrorOnValidInput() {
  * Applies today's date as minimum selectable due date.
  * @returns {void} Result.
  */
+/**
+ * Apply Today Min Date.
+ * @returns {void} Nothing.
+ */
 function applyTodayMinDate() {
   const dateInput = document.getElementById('date');
   if (!dateInput) return;
@@ -199,6 +261,10 @@ function applyTodayMinDate() {
 /**
  * Returns today's local date in yyyy-mm-dd.
  * @returns {string} Result.
+ */
+/**
+ * Get Today Date String.
+ * @returns {any} Result value.
  */
 function getTodayDateString() {
   const now = new Date();
@@ -212,6 +278,10 @@ function getTodayDateString() {
  * Validates category field.
  * @returns {void} Result.
  */
+/**
+ * Validate Category Field.
+ * @returns {boolean} Result value.
+ */
 function validateCategoryField() {
   const input = document.getElementById('category');
   const highlightEl = document.getElementById('category-select');
@@ -223,6 +293,13 @@ function validateCategoryField() {
  * @param {HTMLElement} input - Input element.
  * @param {*} errorId - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Validate Required Input.
+ * @param {HTMLElement} input - input.
+ * @param {string} errorId - error id.
+ * @param {HTMLElement} highlightElement - highlight element.
+ * @returns {boolean} Result value.
  */
 function validateRequiredInput(input, errorId, highlightElement = input) {
   if (!input || !input.value.trim()) {
@@ -245,6 +322,11 @@ function validateRequiredInput(input, errorId, highlightElement = input) {
  * @param {Event} event - Browser event.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Save To Array.
+ * @param {Event} event - event.
+ * @returns {Promise<void>} Result value.
+ */
 async function saveToArray(event) {
   event.preventDefault();
   if (!validateForm()) return;
@@ -260,6 +342,10 @@ async function saveToArray(event) {
 /**
  * Executes handle save success logic.
  * @returns {void} Result.
+ */
+/**
+ * Handle Save Success.
+ * @returns {void} Nothing.
  */
 function handleSaveSuccess() {
   setAddTaskActionButtonsDisabled(true);
@@ -278,6 +364,10 @@ function handleSaveSuccess() {
  * Executes handle save failure logic.
  * @returns {void} Result.
  */
+/**
+ * Handle Save Failure.
+ * @returns {void} Nothing.
+ */
 function handleSaveFailure() {
   showMessage("Task could not be saved", "error");
 }
@@ -286,6 +376,11 @@ function handleSaveFailure() {
  * Enables or disables add-task action buttons.
  * @param {boolean} disabled - Whether buttons should be disabled.
  * @returns {void} Result.
+ */
+/**
+ * Set Add Task Action Buttons Disabled.
+ * @param {boolean} disabled - disabled.
+ * @returns {void} Nothing.
  */
 function setAddTaskActionButtonsDisabled(disabled) {
   const buttons = document.querySelectorAll('#add-task-form ~ .form-footer .clear, #add-task-form ~ .form-footer .create, .actions .clear[form="add-task-form"], .actions .create[form="add-task-form"]');
@@ -299,6 +394,11 @@ function setAddTaskActionButtonsDisabled(disabled) {
  * Saves task.
  * @param {Object} task - Task object.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Save Task.
+ * @param {Object} task - task.
+ * @returns {Promise<void>} Result value.
  */
 async function saveTask(task) {
   try {
@@ -319,6 +419,10 @@ async function saveTask(task) {
  * Executes select contacts logic.
  * @returns {void} Result.
  */
+/**
+ * Select Contacts.
+ * @returns {any} Result value.
+ */
 function selectContacts() {
   let select = document.getElementById('dropdown-contacts');
   select.innerHTML = generateAssignedContacts(contacts);
@@ -328,6 +432,11 @@ function selectContacts() {
  * Toggles dropdown.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Toggle Dropdown.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function toggleDropdown(event) {
   stopDropdownEventPropagation(event);
@@ -345,6 +454,11 @@ function toggleDropdown(event) {
  * @param {Event} event - Browser event.
  * @returns {void} Result.
  */
+/**
+ * Stop Dropdown Event Propagation.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
+ */
 function stopDropdownEventPropagation(event) {
   if (event) event.stopPropagation();
 }
@@ -353,6 +467,11 @@ function stopDropdownEventPropagation(event) {
  * Returns dropdown triggered by event.
  * @param {Event} event - Browser event.
  * @returns {HTMLElement|undefined} Result.
+ */
+/**
+ * Get Triggered Dropdown.
+ * @param {Event} event - event.
+ * @returns {any} Result value.
  */
 function getTriggeredDropdown(event) {
   const trigger = event?.currentTarget || event?.target;
@@ -365,6 +484,11 @@ function getTriggeredDropdown(event) {
  * @param {HTMLElement} dropdown - Active dropdown.
  * @returns {void} Result.
  */
+/**
+ * Close Other Dropdowns.
+ * @param {any} dropdown - dropdown.
+ * @returns {void} Nothing.
+ */
 function closeOtherDropdowns(dropdown) {
   const allDropdowns = document.querySelectorAll(".dropdown-content.show");
   allDropdowns.forEach((d) => closeDropdownIfDifferent(d, dropdown));
@@ -376,6 +500,12 @@ function closeOtherDropdowns(dropdown) {
  * @param {HTMLElement} activeDropdown - Active dropdown.
  * @returns {void} Result.
  */
+/**
+ * Close Dropdown If Different.
+ * @param {any} dropdown - dropdown.
+ * @param {boolean} activeDropdown - active dropdown.
+ * @returns {void} Nothing.
+ */
 function closeDropdownIfDifferent(dropdown, activeDropdown) {
   if (dropdown !== activeDropdown) dropdown.classList.remove("show");
 }
@@ -383,6 +513,10 @@ function closeDropdownIfDifferent(dropdown, activeDropdown) {
 /**
  * Toggles fallback contacts dropdown.
  * @returns {void} Result.
+ */
+/**
+ * Toggle Fallback Contacts Dropdown.
+ * @returns {void} Nothing.
  */
 function toggleFallbackContactsDropdown() {
   const fallback = document.getElementById("dropdown-contacts");
@@ -393,6 +527,11 @@ function toggleFallbackContactsDropdown() {
  * Toggles add category dropdown.
  * @param {Event} event - Browser event.
  * @returns {void} Result.
+ */
+/**
+ * Toggle Add Category Dropdown.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
  */
 function toggleAddCategoryDropdown(event) {
   event.stopPropagation();
@@ -409,6 +548,11 @@ function toggleAddCategoryDropdown(event) {
  * Sets add category.
  * @param {string} value - Value.
  * @returns {void} Result.
+ */
+/**
+ * Set Add Category.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
  */
 function setAddCategory(value) {
   const input = document.getElementById("category");
@@ -429,6 +573,12 @@ function setAddCategory(value) {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Update Add Category Label.
+ * @param {HTMLElement} select - select.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function updateAddCategoryLabel(select, value) {
   const label = select.querySelector("span");
   if (label) {
@@ -440,6 +590,10 @@ function updateAddCategoryLabel(select, value) {
  * Closes add category dropdown.
  * @returns {void} Result.
  */
+/**
+ * Close Add Category Dropdown.
+ * @returns {void} Nothing.
+ */
 function closeAddCategoryDropdown() {
   const dropdown = document.getElementById("category-dropdown");
   if (dropdown) dropdown.classList.remove("show");
@@ -448,6 +602,10 @@ function closeAddCategoryDropdown() {
 /**
  * Initializes add dropdown close.
  * @returns {void} Result.
+ */
+/**
+ * Init Add Dropdown Close.
+ * @returns {void} Nothing.
  */
 function initAddDropdownClose() {
   if (window.addDropdownHandlerAdded) return;
@@ -460,6 +618,11 @@ function initAddDropdownClose() {
  * @param {Event} event - Browser event.
  * @returns {void} Result.
  */
+/**
+ * Handle Add Dropdown Document Click.
+ * @param {Event} event - event.
+ * @returns {void} Nothing.
+ */
 function handleAddDropdownDocumentClick(event) {
   if (isClickInsideAddDropdown(event.target)) return;
   closeAddDropdowns();
@@ -470,6 +633,11 @@ function handleAddDropdownDocumentClick(event) {
  * @param {HTMLElement} target - Click target.
  * @returns {boolean} Result.
  */
+/**
+ * Is Click Inside Add Dropdown.
+ * @param {HTMLElement} target - target.
+ * @returns {boolean} Result value.
+ */
 function isClickInsideAddDropdown(target) {
   return getAddDropdownContainers().some((container) => {
     return container && container.contains(target);
@@ -479,6 +647,10 @@ function isClickInsideAddDropdown(target) {
 /**
  * Returns add dropdown containers.
  * @returns {Array<HTMLElement>} Result.
+ */
+/**
+ * Get Add Dropdown Containers.
+ * @returns {any} Result value.
  */
 function getAddDropdownContainers() {
   return [
@@ -493,6 +665,10 @@ function getAddDropdownContainers() {
  * Closes add dropdowns.
  * @returns {void} Result.
  */
+/**
+ * Close Add Dropdowns.
+ * @returns {void} Nothing.
+ */
 function closeAddDropdowns() {
   const contactsDropdown = document.getElementById("dropdown-contacts");
   if (contactsDropdown) contactsDropdown.classList.remove("show");
@@ -506,6 +682,12 @@ function closeAddDropdowns() {
  * @param {HTMLInputElement} checkbox - Checkbox element.
  * @returns {void} Result.
  */
+/**
+ * Toggle Contact Selection.
+ * @param {string} name - name.
+ * @param {HTMLElement} checkbox - checkbox.
+ * @returns {void} Nothing.
+ */
 function toggleContactSelection(name, checkbox) {
   if (checkbox.checked) {
     selectedContacts.push(name);
@@ -518,6 +700,10 @@ function toggleContactSelection(name, checkbox) {
 /**
  * Renders selected avatars.
  * @returns {void} Result.
+ */
+/**
+ * Render Selected Avatars.
+ * @returns {void} Nothing.
  */
 function renderSelectedAvatars() {
   const container = document.getElementById("selected-avatars");
@@ -541,6 +727,12 @@ function renderSelectedAvatars() {
  * @param {string} name - Name.
  * @returns {void} Result.
  */
+/**
+ * Append Selected Avatar.
+ * @param {HTMLElement} container - container.
+ * @param {string} name - name.
+ * @returns {void} Nothing.
+ */
 function appendSelectedAvatar(container, name) {
   const initials = getContactInitialsFromName(name);
   const colorClass = getContactColorClass(name);
@@ -551,6 +743,11 @@ function appendSelectedAvatar(container, name) {
  * Returns contact color class based on name.
  * @param {string} name - Contact name.
  * @returns {string} Result.
+ */
+/**
+ * Get Contact Color Class.
+ * @param {string} name - name.
+ * @returns {any} Result value.
  */
 function getContactColorClass(name) {
   const key = String(name || '').trim().toLowerCase();
@@ -574,6 +771,11 @@ const CONTACT_COLOR_CLASSES = [
  * @param {string} key - Contact name key.
  * @returns {number} Result.
  */
+/**
+ * Get Contact Color Index.
+ * @param {string} key - key.
+ * @returns {any} Result value.
+ */
 function getContactColorIndex(key) {
   if (!key) return 0;
   return Math.abs(getContactNameHash(key)) % CONTACT_COLOR_CLASSES.length;
@@ -583,6 +785,11 @@ function getContactColorIndex(key) {
  * Returns contact name hash.
  * @param {string} key - Contact name key.
  * @returns {number} Result.
+ */
+/**
+ * Get Contact Name Hash.
+ * @param {string} key - key.
+ * @returns {any} Result value.
  */
 function getContactNameHash(key) {
   let hash = 0;
@@ -595,6 +802,10 @@ function getContactNameHash(key) {
 /**
  * Clears form.
  * @returns {void} Result.
+ */
+/**
+ * Clear Form.
+ * @returns {void} Nothing.
  */
 function clearForm() {
   const form = document.getElementById('add-task-form');
@@ -614,6 +825,10 @@ function clearForm() {
  * Clears subtask error if helper exists.
  * @returns {void} Result.
  */
+/**
+ * Clear Subtask Error If Available.
+ * @returns {void} Nothing.
+ */
 function clearSubtaskErrorIfAvailable() {
   if (typeof setSubtaskError === 'function') setSubtaskError('');
 }
@@ -622,6 +837,10 @@ function clearSubtaskErrorIfAvailable() {
  * Clears add-task input error states.
  * @returns {void} Result.
  */
+/**
+ * Clear Add Task Input Errors.
+ * @returns {void} Nothing.
+ */
 function clearAddTaskInputErrors() {
   getAddTaskErrorElements().forEach((el) => el?.classList.remove('input-error'));
 }
@@ -629,6 +848,10 @@ function clearAddTaskInputErrors() {
 /**
  * Returns add-task error elements.
  * @returns {Array<HTMLElement>} Result.
+ */
+/**
+ * Get Add Task Error Elements.
+ * @returns {any} Result value.
  */
 function getAddTaskErrorElements() {
   return [
@@ -643,6 +866,10 @@ function getAddTaskErrorElements() {
  * Resets add-task category selection.
  * @returns {void} Result.
  */
+/**
+ * Reset Add Task Category Selection.
+ * @returns {void} Nothing.
+ */
 function resetAddTaskCategorySelection() {
   const categoryInput = document.getElementById('category');
   const categorySelect = document.getElementById('category-select');
@@ -655,6 +882,11 @@ function resetAddTaskCategorySelection() {
  * @param {HTMLElement} categorySelect - Category select element.
  * @returns {void} Result.
  */
+/**
+ * Reset Add Task Category Label.
+ * @param {HTMLElement} categorySelect - category select.
+ * @returns {void} Nothing.
+ */
 function resetAddTaskCategoryLabel(categorySelect) {
   const label = categorySelect?.querySelector('span');
   if (label) label.childNodes[0].textContent = 'Select task category ';
@@ -663,6 +895,10 @@ function resetAddTaskCategoryLabel(categorySelect) {
 /**
  * Unchecks assigned contact inputs.
  * @returns {void} Result.
+ */
+/**
+ * Uncheck Assigned Contact Inputs.
+ * @returns {void} Nothing.
  */
 function uncheckAssignedContactInputs() {
   const dropdown = document.getElementById('dropdown-contacts');
@@ -676,6 +912,10 @@ function uncheckAssignedContactInputs() {
  * Resets selected add-task contacts.
  * @returns {void} Result.
  */
+/**
+ * Reset Add Task Contact Selection.
+ * @returns {void} Nothing.
+ */
 function resetAddTaskContactSelection() {
   selectedContacts = [];
   renderSelectedAvatars();
@@ -684,6 +924,10 @@ function resetAddTaskContactSelection() {
 /**
  * Resets add-task subtasks.
  * @returns {void} Result.
+ */
+/**
+ * Reset Add Task Subtasks.
+ * @returns {void} Nothing.
  */
 function resetAddTaskSubtasks() {
   if (Array.isArray(subtasks)) subtasks.length = 0;

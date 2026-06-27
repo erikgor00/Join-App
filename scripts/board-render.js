@@ -2,6 +2,10 @@
  * Renders board.
  * @returns {void} Result.
  */
+/**
+ * Render Board.
+ * @returns {void} Nothing.
+ */
 function renderBoard() {
   initBoardSearch();
   clearTaskCards();
@@ -13,6 +17,10 @@ function renderBoard() {
 /**
  * Initializes board search.
  * @returns {void} Result.
+ */
+/**
+ * Init Board Search.
+ * @returns {void} Nothing.
  */
 function initBoardSearch() {
   const input = document.getElementById("search-task");
@@ -32,6 +40,12 @@ function initBoardSearch() {
  * @param {*} clearBtn - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Update Board Search.
+ * @param {HTMLElement} input - input.
+ * @param {any} clearBtn - clear btn.
+ * @returns {void} Nothing.
+ */
 function updateBoardSearch(input, clearBtn) {
   boardSearchTerm = input.value.trim();
   clearTaskCards();
@@ -46,6 +60,12 @@ function updateBoardSearch(input, clearBtn) {
  * @param {HTMLElement} input - Input element.
  * @param {*} clearBtn - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Clear Board Search.
+ * @param {HTMLElement} input - input.
+ * @param {any} clearBtn - clear btn.
+ * @returns {void} Nothing.
  */
 function clearBoardSearch(input, clearBtn) {
   boardSearchTerm = "";
@@ -62,6 +82,10 @@ function clearBoardSearch(input, clearBtn) {
  * Clears task cards.
  * @returns {void} Result.
  */
+/**
+ * Clear Task Cards.
+ * @returns {void} Nothing.
+ */
 function clearTaskCards() {
   const cards = document.querySelectorAll(".task-card");
   cards.forEach((card) => card.remove());
@@ -70,6 +94,10 @@ function clearTaskCards() {
 /**
  * Renders tasks into columns.
  * @returns {void} Result.
+ */
+/**
+ * Render Tasks Into Columns.
+ * @returns {void} Nothing.
  */
 function renderTasksIntoColumns() {
   const filteredTasks = getFilteredTasks();
@@ -87,6 +115,11 @@ function renderTasksIntoColumns() {
  * @param {string} status - Status value.
  * @returns {*} Result.
  */
+/**
+ * Get Column By Status.
+ * @param {string} status - status.
+ * @returns {any} Result value.
+ */
 function getColumnByStatus(status) {
   if (status === "To Do") return document.getElementById("todo-column");
   if (status === "In Progress") return document.getElementById("inprogress-column");
@@ -98,6 +131,10 @@ function getColumnByStatus(status) {
 /**
  * Returns filtered tasks.
  * @returns {*} Result.
+ */
+/**
+ * Get Filtered Tasks.
+ * @returns {any} Result value.
  */
 function getFilteredTasks() {
   const term = boardSearchTerm.toLowerCase();
@@ -115,6 +152,11 @@ function getFilteredTasks() {
  * @param {*} text - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Highlight Text.
+ * @param {string} text - text.
+ * @returns {void} Nothing.
+ */
 function highlightText(text) {
   if (!boardSearchTerm) return text;
   if (!text) return "";
@@ -128,6 +170,11 @@ function highlightText(text) {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Escape Reg Exp.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
@@ -135,6 +182,10 @@ function escapeRegExp(value) {
 /**
  * Updates no task placeholders.
  * @returns {void} Result.
+ */
+/**
+ * Update No Task Placeholders.
+ * @returns {void} Nothing.
  */
 function updateNoTaskPlaceholders() {
   const filteredTasks = getFilteredTasks();

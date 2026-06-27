@@ -4,6 +4,10 @@ let contactDetailsOverflowTimeoutId;
  * Temporarily hides horizontal overflow while contact details slide in.
  * @returns {void} Result.
  */
+/**
+ * Suppress Horizontal Overflow During Details Animation.
+ * @returns {void} Nothing.
+ */
 function suppressHorizontalOverflowDuringDetailsAnimation() {
   const detailsSection = document.querySelector('.contact-section-right');
   if (!detailsSection) return;
@@ -19,6 +23,11 @@ function suppressHorizontalOverflowDuringDetailsAnimation() {
  * Executes handle contact click logic.
  * @param {Event} event - Browser event.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Handle Contact Click.
+ * @param {Event} event - event.
+ * @returns {Promise<void>} Result value.
  */
 async function handleContactClick(event) {
   const clickedContact = event.currentTarget;
@@ -40,6 +49,11 @@ async function handleContactClick(event) {
  * @param {HTMLElement} clickedContact - Clicked contact element.
  * @returns {void} Result.
  */
+/**
+ * Select Clicked Contact.
+ * @param {Object} clickedContact - clicked contact.
+ * @returns {any} Result value.
+ */
 function selectClickedContact(clickedContact) {
   document.querySelectorAll('.contact-area, .contact-item').forEach(contact => contact.classList.remove('selected'));
   clickedContact.classList.add('selected');
@@ -50,6 +64,12 @@ function selectClickedContact(clickedContact) {
  * @param {Object} contactData - Contact data.
  * @param {string} contactId - Contact identifier.
  * @returns {void} Result.
+ */
+/**
+ * Render Contact Details.
+ * @param {Object} contactData - contact data.
+ * @param {string} contactId - contact id.
+ * @returns {void} Nothing.
  */
 function renderContactDetails(contactData, contactId) {
   const container = document.getElementById('contact-details');
@@ -62,6 +82,10 @@ function renderContactDetails(contactData, contactId) {
  * Shows contact details on mobile.
  * @returns {void} Result.
  */
+/**
+ * Show Contact Details On Mobile.
+ * @returns {void} Nothing.
+ */
 function showContactDetailsOnMobile() {
   if (window.innerWidth <= 780) document.querySelector('.wrapper').classList.add('show-contact-details');
 }
@@ -69,6 +93,10 @@ function showContactDetailsOnMobile() {
 /**
  * Adds contact click listeners.
  * @returns {void} Result.
+ */
+/**
+ * Add Contact Click Listeners.
+ * @returns {void} Nothing.
  */
 function addContactClickListeners() {
   document.querySelectorAll('.contact-item[data-id], .contact-area[data-id]').forEach(contact => {
@@ -79,6 +107,10 @@ function addContactClickListeners() {
 /**
  * Renders contact group.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Render Contact Group.
+ * @returns {Promise<void>} Result value.
  */
 async function renderContactGroup() {
   await loadContacts();
@@ -94,6 +126,12 @@ async function renderContactGroup() {
  * @param {*} contactListRef - Parameter.
  * @param {*} contactsData - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Render Contact Entries.
+ * @param {HTMLElement} contactListRef - contact list ref.
+ * @param {Array} contactsData - contacts data.
+ * @returns {void} Nothing.
  */
 function renderContactEntries(contactListRef, contactsData) {
   let currentLetter = '';
@@ -116,6 +154,10 @@ function renderContactEntries(contactListRef, contactsData) {
  * Executes refresh contact details logic.
  * @returns {void} Result.
  */
+/**
+ * Refresh Contact Details.
+ * @returns {void} Nothing.
+ */
 function refreshContactDetails() {
   const contactDetailsContainerRef = document.getElementById('contact-details');
   contactDetailsContainerRef.innerHTML = '';
@@ -128,6 +170,10 @@ function refreshContactDetails() {
  * Executes colorize contact initials logic.
  * @returns {void} Result.
  */
+/**
+ * Colorize Contact Initials.
+ * @returns {void} Nothing.
+ */
 function colorizeContactInitials() {
   const initialsElements = document.querySelectorAll('.contact-initials');
   initialsElements.forEach(el => {
@@ -139,6 +185,10 @@ function colorizeContactInitials() {
 /**
  * Returns random initials color class.
  * @returns {*} Result.
+ */
+/**
+ * Get Random Initials Color Class.
+ * @returns {any} Result value.
  */
 function getRandomInitialsColorClass() {
   const colorClasses = [

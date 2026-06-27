@@ -2,6 +2,10 @@
  * Executes navigate to board logic.
  * @returns {void} Result.
  */
+/**
+ * Navigate To Board.
+ * @returns {void} Nothing.
+ */
 function navigateToBoard() {
     window.location.href = "board.html";
 }
@@ -12,6 +16,12 @@ function navigateToBoard() {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Set Text.
+ * @param {string} id - id.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
@@ -21,6 +31,11 @@ function setText(id, value) {
  * Returns greeting by time.
  * @param {*} withComma - Parameter.
  * @returns {*} Result.
+ */
+/**
+ * Get Greeting By Time.
+ * @param {any} withComma - with comma.
+ * @returns {any} Result value.
  */
 function getGreetingByTime(withComma) {
     const hour = new Date().getHours();
@@ -35,6 +50,10 @@ function getGreetingByTime(withComma) {
  * Returns stored session.
  * @returns {*} Result.
  */
+/**
+ * Get Stored Session.
+ * @returns {any} Result value.
+ */
 function getStoredSession() {
     try {
         const raw = localStorage.getItem("user");
@@ -48,6 +67,11 @@ function getStoredSession() {
  * Fetches user name by email.
  * @param {string} email - Email address.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Fetch User Name By Email.
+ * @param {string} email - email.
+ * @returns {Promise<void>} Result value.
  */
 async function fetchUserNameByEmail(email) {
     if (!email) return "";
@@ -67,6 +91,10 @@ async function fetchUserNameByEmail(email) {
  * Renders welcome.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Render Welcome.
+ * @returns {Promise<void>} Result value.
+ */
 async function renderWelcome() {
     const session = getStoredSession();
     if (isGuestSession(session)) {
@@ -83,6 +111,11 @@ async function renderWelcome() {
  * @param {*} session - Parameter.
  * @returns {boolean} Result.
  */
+/**
+ * Is Guest Session.
+ * @param {any} session - session.
+ * @returns {boolean} Result value.
+ */
 function isGuestSession(session) {
     return !session || session.mode === "guest";
 }
@@ -90,6 +123,10 @@ function isGuestSession(session) {
 /**
  * Renders guest welcome.
  * @returns {void} Result.
+ */
+/**
+ * Render Guest Welcome.
+ * @returns {void} Nothing.
  */
 function renderGuestWelcome() {
     setText("welcome-msg", getGreetingByTime(false));
@@ -101,6 +138,11 @@ function renderGuestWelcome() {
  * @param {*} session - Parameter.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Resolve User Name.
+ * @param {any} session - session.
+ * @returns {Promise<void>} Result value.
+ */
 async function resolveUserName(session) {
     const nameFromDb = await fetchUserNameByEmail(session.email);
     return nameFromDb || session.displayName || "User";
@@ -110,6 +152,10 @@ async function resolveUserName(session) {
  * Shows the mobile welcome overlay (<900px) for 1.5s,
  * then fades it out and removes it from the layout.
  * @returns {void} Result.
+ */
+/**
+ * Show Mobile Welcome Overlay.
+ * @returns {void} Nothing.
  */
 function showMobileWelcomeOverlay() {
     const mq = window.matchMedia("(max-width: 900px)");
@@ -134,6 +180,10 @@ function showMobileWelcomeOverlay() {
  * Returns welcome overlay elements.
  * @returns {{aside: HTMLElement, welcomeBox: HTMLElement}|null} Result.
  */
+/**
+ * Get Welcome Overlay Elements.
+ * @returns {any} Result value.
+ */
 function getWelcomeOverlayElements() {
     const welcomeBox = document.getElementById("welcome-msg-box");
     if (!welcomeBox) return null;
@@ -150,6 +200,12 @@ function getWelcomeOverlayElements() {
  * @param {HTMLElement} welcomeBox - Welcome box element.
  * @returns {void} Result.
  */
+/**
+ * Reset Mobile Welcome Overlay.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
 function resetMobileWelcomeOverlay(aside, welcomeBox) {
     aside.classList.remove("is-visible");
     aside.classList.remove("mobile-welcome-overlay");
@@ -163,6 +219,13 @@ function resetMobileWelcomeOverlay(aside, welcomeBox) {
  * @param {HTMLElement} aside - Aside element.
  * @param {HTMLElement} welcomeBox - Welcome box element.
  * @returns {void} Result.
+ */
+/**
+ * Register Mobile Welcome Media Listener.
+ * @param {any} mq - mq.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
  */
 function registerMobileWelcomeMediaListener(mq, aside, welcomeBox) {
     if (!window.mobileWelcomeOverlayMqListenerAdded) {
@@ -180,6 +243,13 @@ function registerMobileWelcomeMediaListener(mq, aside, welcomeBox) {
  * @param {HTMLElement} welcomeBox - Welcome box element.
  * @returns {boolean} Result.
  */
+/**
+ * Reset Mobile Welcome Overlay For Desktop.
+ * @param {any} mq - mq.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
 function resetMobileWelcomeOverlayForDesktop(mq, aside, welcomeBox) {
     if (!mq.matches) {
         resetMobileWelcomeOverlay(aside, welcomeBox);
@@ -194,6 +264,12 @@ function resetMobileWelcomeOverlayForDesktop(mq, aside, welcomeBox) {
  * @param {HTMLElement} welcomeBox - Welcome box element.
  * @returns {void} Result.
  */
+/**
+ * Display Mobile Welcome Overlay.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
 function displayMobileWelcomeOverlay(aside, welcomeBox) {
     aside.classList.add("mobile-welcome-overlay");
     aside.style.display = "flex";
@@ -204,6 +280,11 @@ function displayMobileWelcomeOverlay(aside, welcomeBox) {
  * Animates the mobile welcome overlay in.
  * @param {HTMLElement} aside - Aside element.
  * @returns {void} Result.
+ */
+/**
+ * Animate Mobile Welcome Overlay.
+ * @param {string} aside - aside.
+ * @returns {void} Nothing.
  */
 function animateMobileWelcomeOverlay(aside) {
     aside.classList.remove("is-visible");
@@ -216,6 +297,12 @@ function animateMobileWelcomeOverlay(aside) {
  * @param {Function} cleanup - Cleanup callback.
  * @returns {void} Result.
  */
+/**
+ * Handle Welcome Overlay Transition End.
+ * @param {Event} event - event.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
+ */
 function handleWelcomeOverlayTransitionEnd(event, cleanup) {
     if (event.propertyName !== "opacity") return;
     cleanup();
@@ -227,6 +314,13 @@ function handleWelcomeOverlayTransitionEnd(event, cleanup) {
  * @param {HTMLElement} welcomeBox - Welcome box element.
  * @param {Function} onTransitionEnd - Transition handler.
  * @returns {void} Result.
+ */
+/**
+ * Cleanup Welcome Overlay.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @param {any} onTransitionEnd - on transition end.
+ * @returns {void} Nothing.
  */
 function cleanupWelcomeOverlay(aside, welcomeBox, onTransitionEnd) {
     if (aside.classList.contains("is-visible")) return;
@@ -242,6 +336,12 @@ function cleanupWelcomeOverlay(aside, welcomeBox, onTransitionEnd) {
  * @param {Function} cleanup - Cleanup callback.
  * @returns {void} Result.
  */
+/**
+ * Schedule Welcome Overlay Hide.
+ * @param {string} aside - aside.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
+ */
 function scheduleWelcomeOverlayHide(aside, cleanup) {
     setTimeout(() => aside.classList.remove("is-visible"), 1500);
     setTimeout(cleanup, 2300);
@@ -250,6 +350,10 @@ function scheduleWelcomeOverlayHide(aside, cleanup) {
 /**
  * Fetches tasks.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Fetch Tasks.
+ * @returns {Promise<void>} Result value.
  */
 async function fetchTasks() {
     const response = await fetch(`${BASE_URL}/tasks.json`);
@@ -265,6 +369,10 @@ async function fetchTasks() {
  * Updates dashboard.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Update Dashboard.
+ * @returns {Promise<void>} Result value.
+ */
 async function updateDashboard() {
     try {
         const tasks = await fetchTasks();
@@ -278,6 +386,11 @@ async function updateDashboard() {
  * Executes apply dashboard stats logic.
  * @param {*} tasks - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Apply Dashboard Stats.
+ * @param {Array} tasks - tasks.
+ * @returns {void} Nothing.
  */
 function applyDashboardStats(tasks) {
     const stats = getDashboardStats(tasks);
@@ -294,6 +407,11 @@ function applyDashboardStats(tasks) {
  * Returns dashboard stats.
  * @param {*} tasks - Parameter.
  * @returns {*} Result.
+ */
+/**
+ * Get Dashboard Stats.
+ * @param {Array} tasks - tasks.
+ * @returns {any} Result value.
  */
 function getDashboardStats(tasks) {
     const urgentTasks = getOpenFutureUrgentTasks(tasks);
@@ -316,6 +434,12 @@ function getDashboardStats(tasks) {
  * @param {string} status - Task status.
  * @returns {number} Result.
  */
+/**
+ * Count Tasks By Status.
+ * @param {Array} tasks - tasks.
+ * @param {string} status - status.
+ * @returns {void} Nothing.
+ */
 function countTasksByStatus(tasks, status) {
     return tasks.filter(t => t.status === status).length;
 }
@@ -325,6 +449,11 @@ function countTasksByStatus(tasks, status) {
  * @param {Array<Object>} tasks - Task list.
  * @returns {Array<Object>} Result.
  */
+/**
+ * Get Open Future Urgent Tasks.
+ * @param {Array} tasks - tasks.
+ * @returns {any} Result value.
+ */
 function getOpenFutureUrgentTasks(tasks) {
     return tasks.filter(isOpenFutureUrgentTask);
 }
@@ -333,6 +462,11 @@ function getOpenFutureUrgentTasks(tasks) {
  * Returns whether a task is urgent, open, and due in the future.
  * @param {Object} task - Task.
  * @returns {boolean} Result.
+ */
+/**
+ * Is Open Future Urgent Task.
+ * @param {Object} task - task.
+ * @returns {boolean} Result value.
  */
 function isOpenFutureUrgentTask(task) {
     if (task.priority !== "urgent" || task.status === "Done") return false;
@@ -345,6 +479,11 @@ function isOpenFutureUrgentTask(task) {
  * @param {Date} date - Date.
  * @returns {boolean} Result.
  */
+/**
+ * Is Strictly Future Date.
+ * @param {string} date - date.
+ * @returns {boolean} Result value.
+ */
 function isStrictlyFutureDate(date) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -356,6 +495,11 @@ function isStrictlyFutureDate(date) {
  * Supports the app's ISO format (YYYY-MM-DD) and a few common fallbacks.
  * @param {string} dueDate - Due date string.
  * @returns {Date|null} Result.
+ */
+/**
+ * Parse Task Due Date.
+ * @param {string} dueDate - due date.
+ * @returns {any} Result value.
  */
 function parseTaskDueDate(dueDate) {
     if (!isStringDueDate(dueDate)) return null;
@@ -373,6 +517,11 @@ function parseTaskDueDate(dueDate) {
  * @param {*} dueDate - Due date value.
  * @returns {boolean} Result.
  */
+/**
+ * Is String Due Date.
+ * @param {string} dueDate - due date.
+ * @returns {boolean} Result value.
+ */
 function isStringDueDate(dueDate) {
     return Boolean(dueDate && typeof dueDate === "string");
 }
@@ -381,6 +530,11 @@ function isStringDueDate(dueDate) {
  * Parses an ISO due date.
  * @param {string} value - Due date string.
  * @returns {Date|null} Result.
+ */
+/**
+ * Parse Iso Due Date.
+ * @param {string} value - value.
+ * @returns {any} Result value.
  */
 function parseIsoDueDate(value) {
     if (!/^\d{4}-\d{2}-\d{2}$/.exec(value)) return null;
@@ -393,6 +547,11 @@ function parseIsoDueDate(value) {
  * @param {string} value - Due date string.
  * @returns {Date|null} Result.
  */
+/**
+ * Parse German Dot Due Date.
+ * @param {string} value - value.
+ * @returns {any} Result value.
+ */
 function parseGermanDotDueDate(value) {
     if (!/^\d{2}\.\d{2}\.\d{4}$/.exec(value)) return null;
     const [day, month, year] = value.split(".").map(Number);
@@ -404,6 +563,11 @@ function parseGermanDotDueDate(value) {
  * @param {string} value - Due date string.
  * @returns {Date|null} Result.
  */
+/**
+ * Parse Slash Due Date.
+ * @param {string} value - value.
+ * @returns {any} Result value.
+ */
 function parseSlashDueDate(value) {
     if (!/^\d{2}\/\d{2}\/\d{4}$/.exec(value)) return null;
     const [day, month, year] = value.split("/").map(Number);
@@ -414,6 +578,11 @@ function parseSlashDueDate(value) {
  * Parses a fallback due date.
  * @param {string} value - Due date string.
  * @returns {Date|null} Result.
+ */
+/**
+ * Parse Fallback Due Date.
+ * @param {string} value - value.
+ * @returns {any} Result value.
  */
 function parseFallbackDueDate(value) {
     const fallback = new Date(value);
@@ -427,6 +596,13 @@ function parseFallbackDueDate(value) {
  * @param {number} day - Day.
  * @returns {Date|null} Result.
  */
+/**
+ * Create Valid Local Date.
+ * @param {any} year - year.
+ * @param {any} month - month.
+ * @param {any} day - day.
+ * @returns {boolean} Result value.
+ */
 function createValidLocalDate(year, month, day) {
     const date = new Date(year, month - 1, day);
     return getValidDateOrNull(date);
@@ -437,6 +613,11 @@ function createValidLocalDate(year, month, day) {
  * @param {Date} date - Date.
  * @returns {Date|null} Result.
  */
+/**
+ * Get Valid Date Or Null.
+ * @param {string} date - date.
+ * @returns {boolean} Result value.
+ */
 function getValidDateOrNull(date) {
     return Number.isNaN(date.getTime()) ? null : date;
 }
@@ -445,6 +626,11 @@ function getValidDateOrNull(date) {
  * Returns the earliest due date among a list of tasks.
  * @param {Array<Object>} tasks - Task list.
  * @returns {Date|null} Result.
+ */
+/**
+ * Get Earliest Due Date.
+ * @param {Array} tasks - tasks.
+ * @returns {any} Result value.
  */
 function getEarliestDueDate(tasks) {
     let earliest = null;
@@ -461,6 +647,11 @@ function getEarliestDueDate(tasks) {
  * @param {Array<Object>} tasks - Task list.
  * @returns {Date|null} Result.
  */
+/**
+ * Get Earliest Future Due Date.
+ * @param {Array} tasks - tasks.
+ * @returns {any} Result value.
+ */
 function getEarliestFutureDueDate(tasks) {
     let earliest = null;
     for (const task of tasks) {
@@ -475,6 +666,11 @@ function getEarliestFutureDueDate(tasks) {
  * Formats the dashboard due date string.
  * @param {Date|null} date - Date.
  * @returns {string} Result.
+ */
+/**
+ * Format Dashboard Due Date.
+ * @param {string} date - date.
+ * @returns {void} Nothing.
  */
 function formatDashboardDueDate(date) {
     if (!date) return "No Urgent Date";

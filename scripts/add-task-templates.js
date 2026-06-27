@@ -35,6 +35,11 @@ const LOW_ICON = `
  * Generates add task.
  * @returns {string} Result.
  */
+/**
+ * Generate Add Task.
+ * @param {Array} options - options.
+ * @returns {any} Result value.
+ */
 function generateAddTask(options = {}) {
   const config = getAddTaskTemplateConfig(options);
   return [
@@ -49,6 +54,11 @@ function generateAddTask(options = {}) {
  * @param {Object} options - Template options.
  * @returns {Object} Result.
  */
+/**
+ * Get Add Task Template Config.
+ * @param {Array} options - options.
+ * @returns {any} Result value.
+ */
 function getAddTaskTemplateConfig(options = {}) {
   const isDialog = options && options.variant === 'dialog';
   return {
@@ -60,6 +70,10 @@ function getAddTaskTemplateConfig(options = {}) {
 /**
  * Returns add-task header markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Header Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskHeaderMarkup() {
   return /*html*/ `
@@ -73,6 +87,10 @@ function getAddTaskHeaderMarkup() {
 /**
  * Returns add-task form markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Form Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskFormMarkup() {
   return /*html*/ `
@@ -90,6 +108,10 @@ function getAddTaskFormMarkup() {
  * Returns add-task left form markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Form Left Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskFormLeftMarkup() {
   return /*html*/ `
         <div class="form-left">
@@ -103,6 +125,10 @@ function getAddTaskFormLeftMarkup() {
 /**
  * Returns add-task title markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Title Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskTitleMarkup() {
   return /*html*/ `
@@ -118,6 +144,10 @@ function getAddTaskTitleMarkup() {
  * Returns add-task description markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Description Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskDescriptionMarkup() {
   return /*html*/ `
         <label>
@@ -130,6 +160,10 @@ function getAddTaskDescriptionMarkup() {
 /**
  * Returns add-task due date markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Due Date Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskDueDateMarkup() {
   return /*html*/ `
@@ -144,6 +178,10 @@ function getAddTaskDueDateMarkup() {
 /**
  * Returns add-task right form markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Form Right Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskFormRightMarkup() {
   return /*html*/ `
@@ -160,6 +198,10 @@ function getAddTaskFormRightMarkup() {
  * Returns add-task priority markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Priority Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskPriorityMarkup() {
   return /*html*/ `
         <div class="priority">
@@ -172,6 +214,10 @@ function getAddTaskPriorityMarkup() {
 /**
  * Returns add-task priority options markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Priority Options Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskPriorityOptionsMarkup() {
   return /*html*/ `
@@ -188,6 +234,10 @@ function getAddTaskPriorityOptionsMarkup() {
  * Returns add-task assigned contacts markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Assigned Contacts Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskAssignedContactsMarkup() {
   return /*html*/ `
         <div class="assigned-to-label">
@@ -202,6 +252,10 @@ function getAddTaskAssignedContactsMarkup() {
  * Returns add-task contacts select markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Contacts Select Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskContactsSelectMarkup() {
   return /*html*/ `
           <div id="select-contacts" class="custom-select" tabindex="0">
@@ -214,6 +268,10 @@ function getAddTaskContactsSelectMarkup() {
 /**
  * Returns add-task category markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Category Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskCategoryMarkup() {
   return /*html*/ `
@@ -230,6 +288,10 @@ function getAddTaskCategoryMarkup() {
  * Returns add-task category select markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Category Select Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskCategorySelectMarkup() {
   return /*html*/ `
           <div id="category-select" tabindex="0" class="custom-select">
@@ -242,6 +304,10 @@ function getAddTaskCategorySelectMarkup() {
 /**
  * Returns add-task subtasks markup.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Subtasks Markup.
+ * @returns {any} Result value.
  */
 function getAddTaskSubtasksMarkup() {
   return /*html*/ `
@@ -258,6 +324,10 @@ function getAddTaskSubtasksMarkup() {
  * Returns add-task subtask input markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Subtask Input Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskSubtaskInputMarkup() {
   return /*html*/ `
           <div class="subtasks">
@@ -271,6 +341,10 @@ function getAddTaskSubtaskInputMarkup() {
  * Returns add-task subtask buttons markup.
  * @returns {string} Result.
  */
+/**
+ * Get Add Task Subtask Buttons Markup.
+ * @returns {any} Result value.
+ */
 function getAddTaskSubtaskButtonsMarkup() {
   return /*html*/ `
               <button type="button" class="subtask-icon-btn" onclick="clearSubtaskInput()" aria-label="Clear subtask"><img src="./assets/icons/iconoir-cancel.svg" alt=""></button>
@@ -283,6 +357,11 @@ function getAddTaskSubtaskButtonsMarkup() {
  * Returns add-task footer markup.
  * @param {Object} config - Template config.
  * @returns {string} Result.
+ */
+/**
+ * Get Add Task Footer Markup.
+ * @param {Object} config - config.
+ * @returns {any} Result value.
  */
 function getAddTaskFooterMarkup(config) {
   return /*html*/ `
@@ -300,6 +379,10 @@ function getAddTaskFooterMarkup(config) {
  * Generates add category options.
  * @returns {string} Result.
  */
+/**
+ * Generate Add Category Options.
+ * @returns {any} Result value.
+ */
 function generateAddCategoryOptions() {
   const categories = ["Technical Task", "User Story"];
   return categories.map((cat) => /*html*/ `
@@ -314,6 +397,11 @@ function generateAddCategoryOptions() {
  * @param {number} i - Index.
  * @returns {string} Result.
  */
+/**
+ * Generate Subtasks.
+ * @param {number} i - i.
+ * @returns {any} Result value.
+ */
 function generateSubtasks(i) {
   return isEditingSubtask(i) ? getSubtaskEditItem(i) : getSubtaskItem(i);
 }
@@ -323,6 +411,11 @@ function generateSubtasks(i) {
  * @param {number} i - Index.
  * @returns {string} Result.
  */
+/**
+ * Is Editing Subtask.
+ * @param {number} i - i.
+ * @returns {boolean} Result value.
+ */
 function isEditingSubtask(i) {
   return window.editingSubtaskIndex === i;
 }
@@ -331,6 +424,11 @@ function isEditingSubtask(i) {
  * Returns subtask edit item.
  * @param {number} i - Index.
  * @returns {string} Result.
+ */
+/**
+ * Get Subtask Edit Item.
+ * @param {number} i - i.
+ * @returns {any} Result value.
  */
 function getSubtaskEditItem(i) {
   return /*html*/ `
@@ -346,6 +444,11 @@ function getSubtaskEditItem(i) {
  * @param {number} i - Index.
  * @returns {string} Result.
  */
+/**
+ * Get Subtask Edit Input Markup.
+ * @param {number} i - i.
+ * @returns {any} Result value.
+ */
 function getSubtaskEditInputMarkup(i) {
   return /*html*/ `
       <input type="text" id="subtask-edit-${i}" class="subtask-edit-input" value="${subtasks[i].title}" pattern=".*\\S.*" placeholder="Edit subtask">
@@ -356,6 +459,11 @@ function getSubtaskEditInputMarkup(i) {
  * Returns subtask edit actions markup.
  * @param {number} i - Index.
  * @returns {string} Result.
+ */
+/**
+ * Get Subtask Edit Actions Markup.
+ * @param {number} i - i.
+ * @returns {any} Result value.
  */
 function getSubtaskEditActionsMarkup(i) {
   return /*html*/ `
@@ -371,6 +479,11 @@ function getSubtaskEditActionsMarkup(i) {
  * Returns subtask item.
  * @param {number} i - Index.
  * @returns {string} Result.
+ */
+/**
+ * Get Subtask Item.
+ * @param {number} i - i.
+ * @returns {any} Result value.
  */
 function getSubtaskItem(i) {
   return /*html*/ `
@@ -390,6 +503,11 @@ function getSubtaskItem(i) {
  * @param {*} contacts - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Generate Assigned Contacts.
+ * @param {Array} contacts - contacts.
+ * @returns {any} Result value.
+ */
 function generateAssignedContacts(contacts) {
   return contacts.map((contact, i) => generateAssignedContact(contact, i)).join("");
 }
@@ -399,6 +517,12 @@ function generateAssignedContacts(contacts) {
  * @param {Object} contact - Contact.
  * @param {number} i - Index.
  * @returns {string} Result.
+ */
+/**
+ * Generate Assigned Contact.
+ * @param {Object} contact - contact.
+ * @param {number} i - i.
+ * @returns {any} Result value.
  */
 function generateAssignedContact(contact, i) {
   const view = getAssignedContactViewData(contact, i);
@@ -419,6 +543,12 @@ function generateAssignedContact(contact, i) {
  * @param {number} i - Index.
  * @returns {Object} Result.
  */
+/**
+ * Get Assigned Contact View Data.
+ * @param {Object} contact - contact.
+ * @param {number} i - i.
+ * @returns {any} Result value.
+ */
 function getAssignedContactViewData(contact, i) {
   return {
     isChecked: selectedContacts.includes(contact.name),
@@ -433,6 +563,11 @@ function getAssignedContactViewData(contact, i) {
  * @param {string} name - Contact name.
  * @returns {string} Result.
  */
+/**
+ * Get Assigned Contact Color Class.
+ * @param {string} name - name.
+ * @returns {any} Result value.
+ */
 function getAssignedContactColorClass(name) {
   return typeof getContactColorClass === 'function' ? getContactColorClass(name) : '';
 }
@@ -444,6 +579,13 @@ function getAssignedContactColorClass(name) {
  * @param {boolean} isChecked - Checked state.
  * @returns {string} Result.
  */
+/**
+ * Get Assigned Contact Checkbox Markup.
+ * @param {string} name - name.
+ * @param {HTMLElement} checkboxId - checkbox id.
+ * @param {boolean} isChecked - is checked.
+ * @returns {any} Result value.
+ */
 function getAssignedContactCheckboxMarkup(name, checkboxId, isChecked) {
   return /*html*/ `
         <input type="checkbox" id="${checkboxId}" value="${name}" class="contact-checkbox" onchange="toggleContactSelection('${name}', this)" ${isChecked ? "checked" : ""} >
@@ -453,6 +595,10 @@ function getAssignedContactCheckboxMarkup(name, checkboxId, isChecked) {
 /**
  * Generates task from form.
  * @returns {string} Result.
+ */
+/**
+ * Generate Task From Form.
+ * @returns {any} Result value.
  */
 function generateTaskFromForm() {
   const fields = getTaskFormFieldValues();
@@ -473,6 +619,10 @@ function generateTaskFromForm() {
  * Returns task form field values.
  * @returns {Object} Result.
  */
+/**
+ * Get Task Form Field Values.
+ * @returns {any} Result value.
+ */
 function getTaskFormFieldValues() {
   return {
     title: getTrimmedInputValue('title'),
@@ -488,6 +638,11 @@ function getTaskFormFieldValues() {
  * @param {string} id - Input identifier.
  * @returns {string} Result.
  */
+/**
+ * Get Trimmed Input Value.
+ * @param {string} id - id.
+ * @returns {any} Result value.
+ */
 function getTrimmedInputValue(id) {
   return document.getElementById(id).value.trim();
 }
@@ -496,6 +651,12 @@ function getTrimmedInputValue(id) {
  * Returns selected avatar markup.
  * @param {*} initials - Parameter.
  * @returns {string} Result.
+ */
+/**
+ * Get Selected Avatar Markup.
+ * @param {string} initials - initials.
+ * @param {string} colorClass - color class.
+ * @returns {any} Result value.
  */
 function getSelectedAvatarMarkup(initials, colorClass = '') {
   const cls = colorClass ? `avatar ${colorClass}` : 'avatar';
@@ -506,6 +667,11 @@ function getSelectedAvatarMarkup(initials, colorClass = '') {
  * Returns selected avatar +x markup.
  * @param {number} count - Remaining count.
  * @returns {string} Result.
+ */
+/**
+ * Get Selected Avatar More Markup.
+ * @param {number} count - count.
+ * @returns {any} Result value.
  */
 function getSelectedAvatarMoreMarkup(count) {
   return `<div class="avatar avatar-more">+${count}</div>`;
