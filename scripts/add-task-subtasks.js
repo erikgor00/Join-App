@@ -6,30 +6,84 @@
 function initAddSubtaskEnter() {
   const input = document.getElementById('subtask');
   if (!input) return;
-  if (input.dataset && input.dataset.enterHandlerAdded === 'true') return;
+  if (isSubtaskEnterHandlerRegistered(input)) return;
+  markSubtaskEnterHandlerRegistered(input);
+  input.addEventListener('input', clearSubtaskErrorOnInput);
+  input.addEventListener('keydown', (event) => handleSubtaskEnterKey(event, input));
+}
+
+/**
+ * Returns whether subtask enter handler is registered.
+ * @param {HTMLInputElement} input - Input element.
+ * @returns {boolean} Result.
+ */
+function isSubtaskEnterHandlerRegistered(input) {
+  return input.dataset && input.dataset.enterHandlerAdded === 'true';
+}
+
+/**
+ * Marks subtask enter handler as registered.
+ * @param {HTMLInputElement} input - Input element.
+ * @returns {void} Result.
+ */
+function markSubtaskEnterHandlerRegistered(input) {
   if (input.dataset) input.dataset.enterHandlerAdded = 'true';
+}
 
-  input.addEventListener('input', () => {
-    setSubtaskError('');
-  });
+/**
+ * Clears subtask error on input.
+ * @returns {void} Result.
+ */
+function clearSubtaskErrorOnInput() {
+  setSubtaskError('');
+}
 
-  input.addEventListener('keydown', (event) => {
-    if (event.isComposing) return;
-    if (event.key !== 'Enter') return;
-    if (event.shiftKey) return;
-    event.preventDefault();
-    event.stopPropagation();
+/**
+ * Handles subtask enter key.
+ * @param {KeyboardEvent} event - Keyboard event.
+ * @param {HTMLInputElement} input - Input element.
+ * @returns {void} Result.
+ */
+function handleSubtaskEnterKey(event, input) {
+  if (!isSubtaskEnterKey(event)) return;
+  event.preventDefault();
+  event.stopPropagation();
+  createSubtaskFromInput(input);
+}
 
-    const value = String(input.value || '').trim();
-    if (!value) {
-      setSubtaskError('Subtasks must not be empty.');
-      return;
-    }
-    subtasks.push({ title: value, done: false });
-    showSubtasks();
-    input.value = '';
-    setSubtaskError('');
-  });
+/**
+ * Returns whether event should create a subtask.
+ * @param {KeyboardEvent} event - Keyboard event.
+ * @returns {boolean} Result.
+ */
+function isSubtaskEnterKey(event) {
+  return !event.isComposing && event.key === 'Enter' && !event.shiftKey;
+}
+
+/**
+ * Creates a subtask from input.
+ * @param {HTMLInputElement} input - Input element.
+ * @returns {void} Result.
+ */
+function createSubtaskFromInput(input) {
+  const value = String(input.value || '').trim();
+  if (!value) {
+    setSubtaskError('Subtasks must not be empty.');
+    return;
+  }
+  pushSubtaskValue(value);
+  input.value = '';
+  setSubtaskError('');
+}
+
+/**
+ * Pushes subtask value and refreshes list.
+ * @param {string} value - Subtask title.
+ * @returns {void} Result.
+ */
+function pushSubtaskValue(value) {
+  subtasks.push({ title: value, done: false });
+  showSubtasks();
 }
 
 /**
@@ -38,24 +92,57 @@ function initAddSubtaskEnter() {
  */
 function showSubtasks() {
   let subtaskArea = document.getElementById('subtask-area');
-  
   subtaskArea.innerHTML = '';
+  renderSubtaskItems(subtaskArea);
+  updateSubtaskListVisibility(subtaskArea);
+}
+
+/**
+ * Renders subtask items.
+ * @param {HTMLElement} subtaskArea - Subtask list element.
+ * @returns {void} Result.
+ */
+function renderSubtaskItems(subtaskArea) {
   for (let i = 0; i < subtasks.length; i++) {
     subtaskArea.innerHTML += generateSubtasks(i);
   }
-  
-  // Hide only the list if empty, show if has items
+}
+
+/**
+ * Updates subtask list visibility.
+ * @param {HTMLElement} subtaskArea - Subtask list element.
+ * @returns {void} Result.
+ */
+function updateSubtaskListVisibility(subtaskArea) {
   if (subtasks.length === 0) {
-    subtaskArea.style.display = 'none';
-    subtaskArea.style.height = '0';
-    subtaskArea.style.minHeight = '0';
-    subtaskArea.style.visibility = 'hidden';
-  } else {
-    subtaskArea.style.display = '';
-    subtaskArea.style.height = '';
-    subtaskArea.style.minHeight = '';
-    subtaskArea.style.visibility = '';
+    hideEmptySubtaskList(subtaskArea);
+    return;
   }
+  showFilledSubtaskList(subtaskArea);
+}
+
+/**
+ * Hides empty subtask list.
+ * @param {HTMLElement} subtaskArea - Subtask list element.
+ * @returns {void} Result.
+ */
+function hideEmptySubtaskList(subtaskArea) {
+  subtaskArea.style.display = 'none';
+  subtaskArea.style.height = '0';
+  subtaskArea.style.minHeight = '0';
+  subtaskArea.style.visibility = 'hidden';
+}
+
+/**
+ * Shows filled subtask list.
+ * @param {HTMLElement} subtaskArea - Subtask list element.
+ * @returns {void} Result.
+ */
+function showFilledSubtaskList(subtaskArea) {
+  subtaskArea.style.display = '';
+  subtaskArea.style.height = '';
+  subtaskArea.style.minHeight = '';
+  subtaskArea.style.visibility = '';
 }
 
 /**

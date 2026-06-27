@@ -26,22 +26,44 @@ function initAddTaskBlurValidation() {
   const form = document.getElementById('add-task-form');
   if (!form || form.dataset.blurValidationInit === '1') return;
 
-  const titleInput = document.getElementById('title');
-  const dateInput = document.getElementById('date');
-  const categorySelect = document.getElementById('category-select');
+  registerTitleValidationHandlers();
+  registerDateValidationHandlers();
+  registerCategoryValidationHandlers();
+  form.dataset.blurValidationInit = '1';
+}
 
+/**
+ * Registers title validation handlers.
+ * @returns {void} Result.
+ */
+function registerTitleValidationHandlers() {
+  const titleInput = document.getElementById('title');
   titleInput?.addEventListener('blur', validateTitleField);
   titleInput?.addEventListener('input', clearTitleErrorOnValidInput);
   titleInput?.addEventListener('input', updateCreateButtonState);
+}
+
+/**
+ * Registers date validation handlers.
+ * @returns {void} Result.
+ */
+function registerDateValidationHandlers() {
+  const dateInput = document.getElementById('date');
   dateInput?.addEventListener('blur', validateDateField);
   dateInput?.addEventListener('input', clearDateErrorOnValidInput);
   dateInput?.addEventListener('input', updateCreateButtonState);
   dateInput?.addEventListener('change', clearDateErrorOnValidInput);
   dateInput?.addEventListener('change', updateCreateButtonState);
+}
+
+/**
+ * Registers category validation handlers.
+ * @returns {void} Result.
+ */
+function registerCategoryValidationHandlers() {
+  const categorySelect = document.getElementById('category-select');
   categorySelect?.addEventListener('blur', validateCategoryField);
   categorySelect?.addEventListener('change', updateCreateButtonState);
-
-  form.dataset.blurValidationInit = '1';
 }
 
 /**
@@ -308,29 +330,63 @@ function selectContacts() {
  * @returns {void} Result.
  */
 function toggleDropdown(event) {
-  if (event) {
-    event.stopPropagation();
-  }
-  const trigger = event?.currentTarget || event?.target;
-  const select = trigger?.closest?.(".custom-select");
-  const dropdown = select?.querySelector?.(".dropdown-content");
-  
-  // Close all other dropdowns first
-  const allDropdowns = document.querySelectorAll(".dropdown-content.show");
-  allDropdowns.forEach((d) => {
-    if (d !== dropdown) {
-      d.classList.remove("show");
-    }
-  });
-  
+  stopDropdownEventPropagation(event);
+  const dropdown = getTriggeredDropdown(event);
+  closeOtherDropdowns(dropdown);
   if (dropdown) {
     dropdown.classList.toggle("show");
     return;
   }
+  toggleFallbackContactsDropdown();
+}
+
+/**
+ * Stops dropdown event propagation.
+ * @param {Event} event - Browser event.
+ * @returns {void} Result.
+ */
+function stopDropdownEventPropagation(event) {
+  if (event) event.stopPropagation();
+}
+
+/**
+ * Returns dropdown triggered by event.
+ * @param {Event} event - Browser event.
+ * @returns {HTMLElement|undefined} Result.
+ */
+function getTriggeredDropdown(event) {
+  const trigger = event?.currentTarget || event?.target;
+  const select = trigger?.closest?.(".custom-select");
+  return select?.querySelector?.(".dropdown-content");
+}
+
+/**
+ * Closes dropdowns except the active one.
+ * @param {HTMLElement} dropdown - Active dropdown.
+ * @returns {void} Result.
+ */
+function closeOtherDropdowns(dropdown) {
+  const allDropdowns = document.querySelectorAll(".dropdown-content.show");
+  allDropdowns.forEach((d) => closeDropdownIfDifferent(d, dropdown));
+}
+
+/**
+ * Closes dropdown if it is not the active one.
+ * @param {HTMLElement} dropdown - Dropdown element.
+ * @param {HTMLElement} activeDropdown - Active dropdown.
+ * @returns {void} Result.
+ */
+function closeDropdownIfDifferent(dropdown, activeDropdown) {
+  if (dropdown !== activeDropdown) dropdown.classList.remove("show");
+}
+
+/**
+ * Toggles fallback contacts dropdown.
+ * @returns {void} Result.
+ */
+function toggleFallbackContactsDropdown() {
   const fallback = document.getElementById("dropdown-contacts");
-  if (fallback) {
-    fallback.classList.toggle("show");
-  }
+  if (fallback) fallback.classList.toggle("show");
 }
 
 /**
@@ -396,26 +452,41 @@ function closeAddCategoryDropdown() {
 function initAddDropdownClose() {
   if (window.addDropdownHandlerAdded) return;
   window.addDropdownHandlerAdded = true;
-  document.addEventListener(
-    "click",
-    (event) => {
-      const selectContacts = document.getElementById("select-contacts");
-      const contactsDropdown = document.getElementById("dropdown-contacts");
-      const categorySelect = document.getElementById("category-select");
-      const categoryDropdown = document.getElementById("category-dropdown");
+  document.addEventListener("click", handleAddDropdownDocumentClick, true);
+}
 
-      const target = event.target;
-      const clickedInside =
-        (selectContacts && selectContacts.contains(target)) ||
-        (contactsDropdown && contactsDropdown.contains(target)) ||
-        (categorySelect && categorySelect.contains(target)) ||
-        (categoryDropdown && categoryDropdown.contains(target));
+/**
+ * Handles document clicks for add dropdowns.
+ * @param {Event} event - Browser event.
+ * @returns {void} Result.
+ */
+function handleAddDropdownDocumentClick(event) {
+  if (isClickInsideAddDropdown(event.target)) return;
+  closeAddDropdowns();
+}
 
-      if (clickedInside) return;
-      closeAddDropdowns();
-    },
-    true
-  );
+/**
+ * Returns whether target is inside add dropdowns.
+ * @param {HTMLElement} target - Click target.
+ * @returns {boolean} Result.
+ */
+function isClickInsideAddDropdown(target) {
+  return getAddDropdownContainers().some((container) => {
+    return container && container.contains(target);
+  });
+}
+
+/**
+ * Returns add dropdown containers.
+ * @returns {Array<HTMLElement>} Result.
+ */
+function getAddDropdownContainers() {
+  return [
+    document.getElementById("select-contacts"),
+    document.getElementById("dropdown-contacts"),
+    document.getElementById("category-select"),
+    document.getElementById("category-dropdown")
+  ];
 }
 
 /**
@@ -482,7 +553,12 @@ function appendSelectedAvatar(container, name) {
  * @returns {string} Result.
  */
 function getContactColorClass(name) {
-  const classes = [
+  const key = String(name || '').trim().toLowerCase();
+  const index = getContactColorIndex(key);
+  return CONTACT_COLOR_CLASSES[index];
+}
+
+const CONTACT_COLOR_CLASSES = [
     'bg-blue',
     'bg-green',
     'bg-purple',
@@ -491,14 +567,29 @@ function getContactColorClass(name) {
     'bg-red',
     'bg-teal',
     'bg-brown'
-  ];
-  const key = String(name || '').trim().toLowerCase();
+];
+
+/**
+ * Returns contact color index.
+ * @param {string} key - Contact name key.
+ * @returns {number} Result.
+ */
+function getContactColorIndex(key) {
+  if (!key) return 0;
+  return Math.abs(getContactNameHash(key)) % CONTACT_COLOR_CLASSES.length;
+}
+
+/**
+ * Returns contact name hash.
+ * @param {string} key - Contact name key.
+ * @returns {number} Result.
+ */
+function getContactNameHash(key) {
   let hash = 0;
   for (let i = 0; i < key.length; i++) {
     hash = (hash * 31 + key.charCodeAt(i)) % 2147483647;
   }
-  const index = key ? Math.abs(hash) % classes.length : 0;
-  return classes[index];
+  return hash;
 }
 
 /**
@@ -507,45 +598,93 @@ function getContactColorClass(name) {
  */
 function clearForm() {
   const form = document.getElementById('add-task-form');
-  if (form) {
-    form.reset();
-  }
+  if (form) form.reset();
   clearValidationErrors();
-  if (typeof setSubtaskError === 'function') {
-    setSubtaskError('');
-  }
-  const titleInput = document.getElementById('title');
-  const dateInput = document.getElementById('date');
-  const categoryInput = document.getElementById('category');
-  const categorySelect = document.getElementById('category-select');
-  titleInput?.classList.remove('input-error');
-  dateInput?.classList.remove('input-error');
-  categoryInput?.classList.remove('input-error');
-  categorySelect?.classList.remove('input-error');
-
-  if (categoryInput) {
-    categoryInput.value = '';
-  }
-  if (categorySelect) {
-    const label = categorySelect.querySelector('span');
-    if (label) {
-      label.childNodes[0].textContent = 'Select task category ';
-    }
-  }
-
-  const dropdown = document.getElementById('dropdown-contacts');
-  if (dropdown) {
-    dropdown.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-      checkbox.checked = false;
-    });
-  }
-
-  selectedContacts = [];
-  renderSelectedAvatars();
-
-  if (Array.isArray(subtasks)) {
-    subtasks.length = 0;
-  }
+  clearSubtaskErrorIfAvailable();
+  clearAddTaskInputErrors();
+  resetAddTaskCategorySelection();
+  uncheckAssignedContactInputs();
+  resetAddTaskContactSelection();
+  resetAddTaskSubtasks();
   showSubtasks();
   updateCreateButtonState();
+}
+
+/**
+ * Clears subtask error if helper exists.
+ * @returns {void} Result.
+ */
+function clearSubtaskErrorIfAvailable() {
+  if (typeof setSubtaskError === 'function') setSubtaskError('');
+}
+
+/**
+ * Clears add-task input error states.
+ * @returns {void} Result.
+ */
+function clearAddTaskInputErrors() {
+  getAddTaskErrorElements().forEach((el) => el?.classList.remove('input-error'));
+}
+
+/**
+ * Returns add-task error elements.
+ * @returns {Array<HTMLElement>} Result.
+ */
+function getAddTaskErrorElements() {
+  return [
+    document.getElementById('title'),
+    document.getElementById('date'),
+    document.getElementById('category'),
+    document.getElementById('category-select')
+  ];
+}
+
+/**
+ * Resets add-task category selection.
+ * @returns {void} Result.
+ */
+function resetAddTaskCategorySelection() {
+  const categoryInput = document.getElementById('category');
+  const categorySelect = document.getElementById('category-select');
+  if (categoryInput) categoryInput.value = '';
+  resetAddTaskCategoryLabel(categorySelect);
+}
+
+/**
+ * Resets add-task category label.
+ * @param {HTMLElement} categorySelect - Category select element.
+ * @returns {void} Result.
+ */
+function resetAddTaskCategoryLabel(categorySelect) {
+  const label = categorySelect?.querySelector('span');
+  if (label) label.childNodes[0].textContent = 'Select task category ';
+}
+
+/**
+ * Unchecks assigned contact inputs.
+ * @returns {void} Result.
+ */
+function uncheckAssignedContactInputs() {
+  const dropdown = document.getElementById('dropdown-contacts');
+  if (!dropdown) return;
+  dropdown.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.checked = false;
+  });
+}
+
+/**
+ * Resets selected add-task contacts.
+ * @returns {void} Result.
+ */
+function resetAddTaskContactSelection() {
+  selectedContacts = [];
+  renderSelectedAvatars();
+}
+
+/**
+ * Resets add-task subtasks.
+ * @returns {void} Result.
+ */
+function resetAddTaskSubtasks() {
+  if (Array.isArray(subtasks)) subtasks.length = 0;
 }
