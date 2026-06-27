@@ -155,34 +155,12 @@ function showContactSubmitError(fieldId, message, allFieldIds) {
  * @returns {void} Result.
  */
 function updateAddContactSubmitState(dialog) {
-  if (!dialog) return;
-  const nameInput = dialog.querySelector('#ac-name');
-  const emailInput = dialog.querySelector('#ac-email');
-  const phoneInput = dialog.querySelector('#ac-phone');
-  const submitBtn = dialog.querySelector('[data-ac-submit]');
-  if (!submitBtn) return;
-
-  const nameCheck = validateContactNameInput(nameInput?.value ?? "");
-  if (nameInput && typeof nameInput.setCustomValidity === "function") {
-    nameInput.setCustomValidity(nameCheck.isValid ? "" : nameCheck.error);
-  }
-
-  const emailCheck = validateEmailLikeSignup(emailInput?.value ?? "");
-  if (emailInput && typeof emailInput.setCustomValidity === "function") {
-    emailInput.setCustomValidity(emailCheck.isValid ? "" : emailCheck.error);
-  }
-
-  const phoneCheck = validateContactPhoneNumber(phoneInput?.value ?? "");
-  if (phoneInput && typeof phoneInput.setCustomValidity === "function") {
-    phoneInput.setCustomValidity(phoneCheck.isValid ? "" : phoneCheck.error);
-  }
-  const isValid = (
-    nameCheck.isValid &&
-    emailCheck.isValid &&
-    phoneCheck.isValid
-  );
-  submitBtn.disabled = !isValid;
-  submitBtn.setAttribute('aria-disabled', String(!isValid));
+  updateContactSubmitState(dialog, {
+    nameId: 'ac-name',
+    emailId: 'ac-email',
+    phoneId: 'ac-phone',
+    submitSelector: '[data-ac-submit]'
+  });
 }
 
 /**
@@ -191,31 +169,171 @@ function updateAddContactSubmitState(dialog) {
  * @returns {void} Result.
  */
 function initAddContactDialogValidation(dialog) {
-  if (!dialog || dialog.dataset.acValidationInit === '1') return;
-  const fields = ADD_CONTACT_FIELD_IDS
-    .map((id) => dialog.querySelector(`#${id}`))
-    .filter(Boolean);
-
-  const handler = () => updateAddContactSubmitState(dialog);
-
-  fields.forEach((field) => {
-    field.addEventListener('focus', () => showContactFieldErrorMessage(field.id, ADD_CONTACT_FIELD_IDS));
-    field.addEventListener('input', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('change', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('blur', () => {
-      validateContactDialogFieldOnBlur(field.id);
-      handler();
-    });
+  initContactDialogValidation(dialog, {
+    fieldIds: ADD_CONTACT_FIELD_IDS,
+    initKey: 'acValidationInit',
+    formSelector: '#add-contact-form',
+    updateSubmitState: updateAddContactSubmitState
   });
+}
 
-  bindContactValidationReset(dialog, handler, '#add-contact-form', ADD_CONTACT_FIELD_IDS);
-  dialog.dataset.acValidationInit = '1';
+/**
+ * Updates contact submit state.
+ * @param {HTMLElement} dialog - Dialog element.
+ * @param {Object} config - Submit state config.
+ * @returns {void} Result.
+ */
+function updateContactSubmitState(dialog, config) {
+  if (!dialog) return;
+  const inputs = getContactSubmitInputs(dialog, config);
+  if (!inputs.submitBtn) return;
+  const checks = validateContactSubmitInputs(inputs);
+  applyContactSubmitCustomValidity(inputs, checks);
+  updateContactSubmitButton(inputs.submitBtn, areContactSubmitChecksValid(checks));
+}
+
+/**
+ * Returns contact submit inputs.
+ * @param {HTMLElement} dialog - Dialog element.
+ * @param {Object} config - Submit state config.
+ * @returns {Object} Result.
+ */
+function getContactSubmitInputs(dialog, config) {
+  return {
+    nameInput: dialog.querySelector(`#${config.nameId}`),
+    emailInput: dialog.querySelector(`#${config.emailId}`),
+    phoneInput: dialog.querySelector(`#${config.phoneId}`),
+    submitBtn: dialog.querySelector(config.submitSelector)
+  };
+}
+
+/**
+ * Validates contact submit inputs.
+ * @param {Object} inputs - Contact input elements.
+ * @returns {Object} Result.
+ */
+function validateContactSubmitInputs(inputs) {
+  return {
+    nameCheck: validateContactNameInput(inputs.nameInput?.value ?? ""),
+    emailCheck: validateEmailLikeSignup(inputs.emailInput?.value ?? ""),
+    phoneCheck: validateContactPhoneNumber(inputs.phoneInput?.value ?? "")
+  };
+}
+
+/**
+ * Applies custom validity to contact submit inputs.
+ * @param {Object} inputs - Contact input elements.
+ * @param {Object} checks - Validation checks.
+ * @returns {void} Result.
+ */
+function applyContactSubmitCustomValidity(inputs, checks) {
+  applyContactInputCustomValidity(inputs.nameInput, checks.nameCheck);
+  applyContactInputCustomValidity(inputs.emailInput, checks.emailCheck);
+  applyContactInputCustomValidity(inputs.phoneInput, checks.phoneCheck);
+}
+
+/**
+ * Applies custom validity to one contact input.
+ * @param {HTMLElement} input - Contact input.
+ * @param {Object} check - Validation check.
+ * @returns {void} Result.
+ */
+function applyContactInputCustomValidity(input, check) {
+  if (input && typeof input.setCustomValidity === "function") {
+    input.setCustomValidity(check.isValid ? "" : check.error);
+  }
+}
+
+/**
+ * Returns whether all contact submit checks are valid.
+ * @param {Object} checks - Validation checks.
+ * @returns {boolean} Result.
+ */
+function areContactSubmitChecksValid(checks) {
+  return checks.nameCheck.isValid && checks.emailCheck.isValid && checks.phoneCheck.isValid;
+}
+
+/**
+ * Updates contact submit button.
+ * @param {HTMLElement} submitBtn - Submit button.
+ * @param {boolean} isValid - Valid state.
+ * @returns {void} Result.
+ */
+function updateContactSubmitButton(submitBtn, isValid) {
+  submitBtn.disabled = !isValid;
+  submitBtn.setAttribute('aria-disabled', String(!isValid));
+}
+
+/**
+ * Initializes contact dialog validation.
+ * @param {HTMLElement} dialog - Dialog element.
+ * @param {Object} config - Validation config.
+ * @returns {void} Result.
+ */
+function initContactDialogValidation(dialog, config) {
+  if (!dialog || dialog.dataset[config.initKey] === '1') return;
+  const fields = getContactValidationFields(dialog, config.fieldIds);
+  const handler = () => config.updateSubmitState(dialog);
+  bindContactValidationFields(fields, config.fieldIds, handler);
+  bindContactValidationReset(dialog, handler, config.formSelector, config.fieldIds);
+  dialog.dataset[config.initKey] = '1';
+  handler();
+}
+
+/**
+ * Returns contact validation fields.
+ * @param {HTMLElement} dialog - Dialog element.
+ * @param {string[]} fieldIds - Field ids.
+ * @returns {Array<HTMLElement>} Result.
+ */
+function getContactValidationFields(dialog, fieldIds) {
+  return fieldIds.map((id) => dialog.querySelector(`#${id}`)).filter(Boolean);
+}
+
+/**
+ * Binds contact validation fields.
+ * @param {Array<HTMLElement>} fields - Validation fields.
+ * @param {string[]} fieldIds - Field ids.
+ * @param {Function} handler - Submit state handler.
+ * @returns {void} Result.
+ */
+function bindContactValidationFields(fields, fieldIds, handler) {
+  fields.forEach((field) => bindContactValidationField(field, fieldIds, handler));
+}
+
+/**
+ * Binds one contact validation field.
+ * @param {HTMLElement} field - Validation field.
+ * @param {string[]} fieldIds - Field ids.
+ * @param {Function} handler - Submit state handler.
+ * @returns {void} Result.
+ */
+function bindContactValidationField(field, fieldIds, handler) {
+  field.addEventListener('focus', () => showContactFieldErrorMessage(field.id, fieldIds));
+  field.addEventListener('input', () => handleContactValidationFieldInput(field, handler));
+  field.addEventListener('change', () => handleContactValidationFieldInput(field, handler));
+  field.addEventListener('blur', () => handleContactValidationFieldBlur(field, handler));
+}
+
+/**
+ * Handles contact validation field input.
+ * @param {HTMLElement} field - Validation field.
+ * @param {Function} handler - Submit state handler.
+ * @returns {void} Result.
+ */
+function handleContactValidationFieldInput(field, handler) {
+  clearContactDialogFieldErrorIfResolved(field.id);
+  handler();
+}
+
+/**
+ * Handles contact validation field blur.
+ * @param {HTMLElement} field - Validation field.
+ * @param {Function} handler - Submit state handler.
+ * @returns {void} Result.
+ */
+function handleContactValidationFieldBlur(field, handler) {
+  validateContactDialogFieldOnBlur(field.id);
   handler();
 }
 
@@ -376,34 +494,12 @@ function initContactMoreMenuAutoClose() {
  * @returns {void} Result.
  */
 function updateEditContactSubmitState(dialog) {
-  if (!dialog) return;
-  const nameInput = dialog.querySelector('#edit-name');
-  const emailInput = dialog.querySelector('#edit-email');
-  const phoneInput = dialog.querySelector('#edit-phone');
-  const submitBtn = dialog.querySelector('[data-edit-submit]');
-  if (!submitBtn) return;
-
-  const nameCheck = validateContactNameInput(nameInput?.value ?? "");
-  if (nameInput && typeof nameInput.setCustomValidity === "function") {
-    nameInput.setCustomValidity(nameCheck.isValid ? "" : nameCheck.error);
-  }
-
-  const emailCheck = validateEmailLikeSignup(emailInput?.value ?? "");
-  if (emailInput && typeof emailInput.setCustomValidity === "function") {
-    emailInput.setCustomValidity(emailCheck.isValid ? "" : emailCheck.error);
-  }
-
-  const phoneCheck = validateContactPhoneNumber(phoneInput?.value ?? "");
-  if (phoneInput && typeof phoneInput.setCustomValidity === "function") {
-    phoneInput.setCustomValidity(phoneCheck.isValid ? "" : phoneCheck.error);
-  }
-  const isValid = (
-    nameCheck.isValid &&
-    emailCheck.isValid &&
-    phoneCheck.isValid
-  );
-  submitBtn.disabled = !isValid;
-  submitBtn.setAttribute('aria-disabled', String(!isValid));
+  updateContactSubmitState(dialog, {
+    nameId: 'edit-name',
+    emailId: 'edit-email',
+    phoneId: 'edit-phone',
+    submitSelector: '[data-edit-submit]'
+  });
 }
 
 /**
@@ -412,32 +508,12 @@ function updateEditContactSubmitState(dialog) {
  * @returns {void} Result.
  */
 function initEditContactDialogValidation(dialog) {
-  if (!dialog || dialog.dataset.editValidationInit === '1') return;
-  const fields = EDIT_CONTACT_FIELD_IDS
-    .map((id) => dialog.querySelector(`#${id}`))
-    .filter(Boolean);
-
-  const handler = () => updateEditContactSubmitState(dialog);
-
-  fields.forEach((field) => {
-    field.addEventListener('focus', () => showContactFieldErrorMessage(field.id, EDIT_CONTACT_FIELD_IDS));
-    field.addEventListener('input', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('change', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('blur', () => {
-      validateContactDialogFieldOnBlur(field.id);
-      handler();
-    });
+  initContactDialogValidation(dialog, {
+    fieldIds: EDIT_CONTACT_FIELD_IDS,
+    initKey: 'editValidationInit',
+    formSelector: '#edit-contact-form',
+    updateSubmitState: updateEditContactSubmitState
   });
-
-  bindContactValidationReset(dialog, handler, '#edit-contact-form', EDIT_CONTACT_FIELD_IDS);
-  dialog.dataset.editValidationInit = '1';
-  handler();
 }
 
 /**

@@ -49,32 +49,73 @@ function getContactInitialsFromName(name) {
  */
 function validateContactNameInput(name) {
   const normalizedName = normalizeContactNameInput(name);
-  if (!normalizedName) {
-    return { isValid: false, normalizedName, initials: "", error: "Please enter a name.", reason: 'required' };
-  }
-  if (normalizedName.length > 20) {
-    return { isValid: false, normalizedName, initials: "", error: "Maximum 20 characters allowed.", reason: 'too_long' };
-  }
+  const baseError = getContactNameBaseError(normalizedName);
+  if (baseError) return baseError;
   const parts = normalizedName.split(" ").filter(Boolean);
-  if (parts.length > 3) {
-    return { isValid: false, normalizedName, initials: "", error: "Maximum 3 name parts allowed.", reason: 'too_many_parts' };
-  }
-  const partPattern = /^[\p{L}]+(?:-[\p{L}]+)*$/u;
-  for (const part of parts) {
-    if (!partPattern.test(part)) {
-      return { isValid: false, normalizedName, initials: "", error: "Please use only letters.", reason: 'invalid_chars' };
-    }
-    const lettersInPart = part.replace(/-/g, "").length;
-    if (lettersInPart < 2) {
-      return { isValid: false, normalizedName, initials: "", error: "Names have more than 1 letter.", reason: 'part_too_short' };
-    }
-  }
-  const totalLetters = normalizedName.replace(/[^\p{L}]/gu, "").length;
-  if (totalLetters < 2) {
-    return { isValid: false, normalizedName, initials: "", error: "Names have more than 1 letter.", reason: 'too_few_letters' };
-  }
+  const partsError = validateContactNameParts(normalizedName, parts);
+  if (partsError) return partsError;
   const initials = getContactInitialsFromName(normalizedName);
   return { isValid: true, normalizedName, initials, error: "" };
+}
+
+/**
+ * Returns basic contact name error.
+ * @param {string} normalizedName - Normalized name.
+ * @returns {Object|null} Result.
+ */
+function getContactNameBaseError(normalizedName) {
+  if (!normalizedName) return getInvalidContactNameResult(normalizedName, "Please enter a name.", 'required');
+  if (normalizedName.length > 20) return getInvalidContactNameResult(normalizedName, "Maximum 20 characters allowed.", 'too_long');
+  return null;
+}
+
+/**
+ * Validates contact name parts.
+ * @param {string} normalizedName - Normalized name.
+ * @param {string[]} parts - Name parts.
+ * @returns {Object|null} Result.
+ */
+function validateContactNameParts(normalizedName, parts) {
+  if (parts.length > 3) return getInvalidContactNameResult(normalizedName, "Maximum 3 name parts allowed.", 'too_many_parts');
+  const partError = getInvalidContactNamePartError(normalizedName, parts);
+  if (partError) return partError;
+  return getContactNameLetterCountError(normalizedName);
+}
+
+/**
+ * Returns invalid contact name part error.
+ * @param {string} normalizedName - Normalized name.
+ * @param {string[]} parts - Name parts.
+ * @returns {Object|null} Result.
+ */
+function getInvalidContactNamePartError(normalizedName, parts) {
+  const partPattern = /^[\p{L}]+(?:-[\p{L}]+)*$/u;
+  for (const part of parts) {
+    if (!partPattern.test(part)) return getInvalidContactNameResult(normalizedName, "Please use only letters.", 'invalid_chars');
+    if (part.replace(/-/g, "").length < 2) return getInvalidContactNameResult(normalizedName, "Names have more than 1 letter.", 'part_too_short');
+  }
+  return null;
+}
+
+/**
+ * Returns contact name letter count error.
+ * @param {string} normalizedName - Normalized name.
+ * @returns {Object|null} Result.
+ */
+function getContactNameLetterCountError(normalizedName) {
+  const totalLetters = normalizedName.replace(/[^\p{L}]/gu, "").length;
+  return totalLetters < 2 ? getInvalidContactNameResult(normalizedName, "Names have more than 1 letter.", 'too_few_letters') : null;
+}
+
+/**
+ * Returns invalid contact name result.
+ * @param {string} normalizedName - Normalized name.
+ * @param {string} error - Error text.
+ * @param {string} reason - Error reason.
+ * @returns {Object} Result.
+ */
+function getInvalidContactNameResult(normalizedName, error, reason) {
+  return { isValid: false, normalizedName, initials: "", error, reason };
 }
 
 /**
@@ -88,29 +129,46 @@ function validateContactNameInput(name) {
  */
 function validateEmailLikeSignup(email) {
   const trimmedEmail = String(email ?? "").trim();
-  if (!trimmedEmail) {
-    return { isValid: false, normalizedEmail: trimmedEmail, error: "Please enter an email address.", reason: 'required' };
-  }
+  if (!trimmedEmail) return getInvalidSignupEmailResult(trimmedEmail, "Please enter an email address.", 'required');
   const normalizedEmail = trimmedEmail.toLowerCase();
-  if (normalizedEmail.length > 20) {
-    return { isValid: false, normalizedEmail, error: "Maximum 20 characters allowed.", reason: 'too_long' };
-  }
-  const localLabel = "[A-Za-zÄÖÜäöüß0-9]+(?:(?:-+|_(?!_))[A-Za-zÄÖÜäöüß0-9]+)*";
-  const domainLabel = "[A-Za-zÄÖÜäöüß0-9]+(?:-[A-Za-zÄÖÜäöüß0-9]+)*";
-  const tldLabel = "[A-Za-zÄÖÜäöüß]{2,}";
-  const strictEmailPattern = new RegExp(
+  if (normalizedEmail.length > 20) return getInvalidSignupEmailResult(normalizedEmail, "Maximum 20 characters allowed.", 'too_long');
+  return validateNormalizedSignupEmail(normalizedEmail);
+}
+
+/**
+ * Validates normalized signup email.
+ * @param {string} normalizedEmail - Normalized email.
+ * @returns {Object} Result.
+ */
+function validateNormalizedSignupEmail(normalizedEmail) {
+  const strictEmailPattern = getStrictSignupEmailPattern();
+  if (!strictEmailPattern.test(normalizedEmail)) return getInvalidSignupEmailResult(normalizedEmail, "Please enter a valid email address.", 'pattern');
+  return { isValid: true, normalizedEmail, error: "" };
+}
+
+/**
+ * Returns strict signup email pattern.
+ * @returns {RegExp} Result.
+ */
+function getStrictSignupEmailPattern() {
+  const localLabel = "[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+(?:(?:-+|_(?!_))[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+)*";
+  const domainLabel = "[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+(?:-[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+)*";
+  const tldLabel = "[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df]{2,}";
+  return new RegExp(
     `^(?!.*\\.\\.)${localLabel}(?:\\.${localLabel})*@${domainLabel}(?:\\.${domainLabel})*\\.${tldLabel}$`,
     "u"
   );
-  if (!strictEmailPattern.test(normalizedEmail)) {
-    return {
-      isValid: false,
-      normalizedEmail,
-      error: "Please enter a valid email address.",
-      reason: 'pattern'
-    };
-  }
-  return { isValid: true, normalizedEmail, error: "" };
+}
+
+/**
+ * Returns invalid signup email result.
+ * @param {string} normalizedEmail - Normalized email.
+ * @param {string} error - Error text.
+ * @param {string} reason - Error reason.
+ * @returns {Object} Result.
+ */
+function getInvalidSignupEmailResult(normalizedEmail, error, reason) {
+  return { isValid: false, normalizedEmail, error, reason };
 }
 
 /**

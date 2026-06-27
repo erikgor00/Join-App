@@ -117,39 +117,71 @@ function initLoginBlurValidation() {
  * @returns {boolean} Result.
  */
 function validateLoginFieldOnBlur(fieldName) {
-    const emailInput = document.getElementById('login-email');
-    const passwordInput = document.getElementById('login-password');
-    if (!emailInput || !passwordInput) return false;
+  const emailInput = document.getElementById('login-email');
+  const passwordInput = document.getElementById('login-password');
+  if (!emailInput || !passwordInput) return false;
 
-    const email = emailInput.value.trim();
-    const password = passwordInput.value.trim();
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+  if (!validateLoginEmailBlurField(fieldName, emailInput, email)) return false;
+  if (!validateLoginPasswordBlurField(fieldName, passwordInput, password)) return false;
+  clearLoginErrorsWhenFormIsValid(emailInput, passwordInput, email, password);
+  return true;
+}
 
-    if (fieldName === 'email') {
-        emailInput.classList.remove('input-error');
-        if (!email) {
-            showLoginBlurError('Please fill in all fields.', emailInput);
-            return false;
-        }
-        if (!isValidEmail(email)) {
-            showLoginBlurError('Please enter a valid email address.', emailInput);
-            return false;
-        }
-    }
+/**
+ * Validates login email blur field.
+ * @param {string} fieldName - Field name.
+ * @param {HTMLElement} emailInput - Email input.
+ * @param {string} email - Email value.
+ * @returns {boolean} Result.
+ */
+function validateLoginEmailBlurField(fieldName, emailInput, email) {
+  if (fieldName !== 'email') return true;
+  emailInput.classList.remove('input-error');
+  if (!email) return showLoginBlurValidationError('Please fill in all fields.', emailInput);
+  if (!isValidEmail(email)) return showLoginBlurValidationError('Please enter a valid email address.', emailInput);
+  return true;
+}
 
-    if (fieldName === 'password') {
-        passwordInput.classList.remove('input-error');
-        if (!password) {
-            showLoginBlurError('Please fill in all fields.', passwordInput);
-            return false;
-        }
-    }
+/**
+ * Validates login password blur field.
+ * @param {string} fieldName - Field name.
+ * @param {HTMLElement} passwordInput - Password input.
+ * @param {string} password - Password value.
+ * @returns {boolean} Result.
+ */
+function validateLoginPasswordBlurField(fieldName, passwordInput, password) {
+  if (fieldName !== 'password') return true;
+  passwordInput.classList.remove('input-error');
+  if (!password) return showLoginBlurValidationError('Please fill in all fields.', passwordInput);
+  return true;
+}
 
-    if (email && password && isValidEmail(email)) {
-        removeLoginError();
-        emailInput.classList.remove('input-error');
-        passwordInput.classList.remove('input-error');
-    }
-    return true;
+/**
+ * Shows login blur validation error.
+ * @param {string} message - Error message.
+ * @param {HTMLElement} input - Input element.
+ * @returns {boolean} Result.
+ */
+function showLoginBlurValidationError(message, input) {
+  showLoginBlurError(message, input);
+  return false;
+}
+
+/**
+ * Clears login errors when form is valid.
+ * @param {HTMLElement} emailInput - Email input.
+ * @param {HTMLElement} passwordInput - Password input.
+ * @param {string} email - Email value.
+ * @param {string} password - Password value.
+ * @returns {void} Result.
+ */
+function clearLoginErrorsWhenFormIsValid(emailInput, passwordInput, email, password) {
+  if (!email || !password || !isValidEmail(email)) return;
+  removeLoginError();
+  emailInput.classList.remove('input-error');
+  passwordInput.classList.remove('input-error');
 }
 
 /**

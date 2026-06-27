@@ -303,31 +303,40 @@ function attachSignupErrorFocusHandlers() {
  * @returns {void} Result.
  */
 function updateSignupButtonState() {
-    const nameRaw = document.getElementById('register-name')?.value ?? '';
-    const emailRaw = document.getElementById('register-email')?.value ?? '';
-    const passwordValue = document.getElementById('register-password')?.value;
-    const confirmValue = document.getElementById('register-password-confirm')?.value;
-    const policyChecked = document.getElementById('accept-privacy')?.checked;
     const signupButton = document.querySelector('.btn-signup');
+    const isComplete = isSignupFormComplete(getSignupButtonStateValues());
+    if (signupButton) signupButton.disabled = !isComplete;
+}
 
-    const nameValid = validateContactNameInput(nameRaw).isValid;
-    const emailValid = validateEmailLikeSignup(emailRaw).isValid;
-    const passwordValid = Boolean(passwordValue);
-    const confirmValid = Boolean(confirmValue) && Boolean(passwordValue) && passwordValue === confirmValue;
-    const policyValid = Boolean(policyChecked);
-    const hasActiveErrors = Object.keys(signupFieldErrors || {}).length > 0;
+/**
+ * Returns signup button state values.
+ * @returns {Object} Result.
+ */
+function getSignupButtonStateValues() {
+    return {
+        nameRaw: document.getElementById('register-name')?.value ?? '',
+        emailRaw: document.getElementById('register-email')?.value ?? '',
+        passwordValue: document.getElementById('register-password')?.value,
+        confirmValue: document.getElementById('register-password-confirm')?.value,
+        policyChecked: document.getElementById('accept-privacy')?.checked
+    };
+}
 
-    const isComplete = Boolean(
-        nameValid &&
-        emailValid &&
-        passwordValid &&
-        confirmValid &&
-        policyValid &&
-        !hasActiveErrors
+/**
+ * Returns whether signup form is complete.
+ * @param {Object} values - Signup values.
+ * @returns {boolean} Result.
+ */
+function isSignupFormComplete(values) {
+    return Boolean(
+        validateContactNameInput(values.nameRaw).isValid &&
+        validateEmailLikeSignup(values.emailRaw).isValid &&
+        values.passwordValue &&
+        values.confirmValue &&
+        values.passwordValue === values.confirmValue &&
+        values.policyChecked &&
+        Object.keys(signupFieldErrors || {}).length === 0
     );
-    if (signupButton) {
-        signupButton.disabled = !isComplete;
-    }
 }
 
 /**
@@ -388,39 +397,65 @@ function bindSignupInputHandlers(input) {
  */
 function clearSignupFieldErrorIfResolved(fieldId) {
     const fields = getSignupFields();
+    const handlers = getSignupFieldResolutionHandlers(fields);
+    if (handlers[fieldId]) handlers[fieldId]();
+}
 
-    switch (fieldId) {
-        case 'register-name': {
-            const nameCheck = validateContactNameInput(fields.nameInput?.value ?? '');
-            if (nameCheck.isValid) {
-                applySignupInputBlurValidation('register-name', fields.nameInput, '');
-            }
-            break;
-        }
-        case 'register-email': {
-            const emailCheck = validateEmailLikeSignup(fields.emailInput?.value ?? '');
-            if (emailCheck.isValid) {
-                applySignupInputBlurValidation('register-email', fields.emailInput, '');
-            }
-            break;
-        }
-        case 'register-password': {
-            if (fields.passwordInput?.value) {
-                applySignupInputBlurValidation('register-password', fields.passwordInput, '');
-            }
-            break;
-        }
-        case 'register-password-confirm': {
-            const passwordValue = fields.passwordInput?.value ?? '';
-            const confirmValue = fields.confirmPasswordInput?.value ?? '';
-            const isValid = Boolean(confirmValue) && Boolean(passwordValue) && passwordValue === confirmValue;
-            if (isValid) {
-                applySignupInputBlurValidation('register-password-confirm', fields.confirmPasswordInput, '');
-            }
-            break;
-        }
-        default:
-            break;
+/**
+ * Returns signup field resolution handlers.
+ * @param {Object} fields - Signup fields.
+ * @returns {Object} Result.
+ */
+function getSignupFieldResolutionHandlers(fields) {
+    return {
+        'register-name': () => clearSignupNameErrorIfResolved(fields),
+        'register-email': () => clearSignupEmailErrorIfResolved(fields),
+        'register-password': () => clearSignupPasswordErrorIfResolved(fields),
+        'register-password-confirm': () => clearSignupConfirmErrorIfResolved(fields)
+    };
+}
+
+/**
+ * Clears signup name error if resolved.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function clearSignupNameErrorIfResolved(fields) {
+    if (validateContactNameInput(fields.nameInput?.value ?? '').isValid) {
+        applySignupInputBlurValidation('register-name', fields.nameInput, '');
+    }
+}
+
+/**
+ * Clears signup email error if resolved.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function clearSignupEmailErrorIfResolved(fields) {
+    if (validateEmailLikeSignup(fields.emailInput?.value ?? '').isValid) {
+        applySignupInputBlurValidation('register-email', fields.emailInput, '');
+    }
+}
+
+/**
+ * Clears signup password error if resolved.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function clearSignupPasswordErrorIfResolved(fields) {
+    if (fields.passwordInput?.value) applySignupInputBlurValidation('register-password', fields.passwordInput, '');
+}
+
+/**
+ * Clears signup confirm password error if resolved.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function clearSignupConfirmErrorIfResolved(fields) {
+    const passwordValue = fields.passwordInput?.value ?? '';
+    const confirmValue = fields.confirmPasswordInput?.value ?? '';
+    if (confirmValue && passwordValue && passwordValue === confirmValue) {
+        applySignupInputBlurValidation('register-password-confirm', fields.confirmPasswordInput, '');
     }
 }
 
@@ -431,53 +466,90 @@ function clearSignupFieldErrorIfResolved(fieldId) {
  */
 function validateSignupFieldOnBlur(fieldId) {
     const fields = getSignupFields();
-    switch (fieldId) {
-        case 'register-name':
-            {
-                const nameValue = fields.nameInput?.value ?? '';
-                const nameCheck = validateContactNameInput(nameValue);
-                const message = nameCheck.isValid ? '' : (nameCheck.error || 'Please enter your name.');
-                applySignupInputBlurValidation('register-name', fields.nameInput, message);
+    const handlers = getSignupBlurValidationHandlers(fields);
+    if (handlers[fieldId]) handlers[fieldId]();
+}
 
-                if (nameCheck.isValid && fields.nameInput) {
-                    fields.nameInput.value = nameCheck.normalizedName;
-                }
-            }
-            break;
-        case 'register-email': {
-            const emailValue = fields.emailInput?.value ?? '';
-            const emailCheck = validateEmailLikeSignup(emailValue);
-            const message = emailCheck.isValid ? '' : getSignupEmailErrorMessage(emailCheck);
-            applySignupInputBlurValidation('register-email', fields.emailInput, message);
+/**
+ * Returns signup blur validation handlers.
+ * @param {Object} fields - Signup fields.
+ * @returns {Object} Result.
+ */
+function getSignupBlurValidationHandlers(fields) {
+    return {
+        'register-name': () => validateSignupNameOnBlur(fields),
+        'register-email': () => validateSignupEmailOnBlur(fields),
+        'register-password': () => validateSignupPasswordOnBlur(fields),
+        'register-password-confirm': () => validateSignupConfirmOnBlur(fields),
+        'accept-privacy': () => validateSignupPolicyOnBlur(fields)
+    };
+}
 
-            if (emailCheck.isValid && fields.emailInput) {
-                fields.emailInput.value = emailCheck.normalizedEmail;
-            }
-            break;
-        }
-        case 'register-password':
-            applySignupInputBlurValidation('register-password', fields.passwordInput, fields.passwordInput?.value ? '' : 'Please enter a password.');
-            break;
-        case 'register-password-confirm': {
-            const confirmValue = fields.confirmPasswordInput?.value ?? '';
-            const passwordValue = fields.passwordInput?.value ?? '';
-            let message = '';
-            if (!confirmValue) {
-                message = 'Please confirm your password.';
-            } else if (passwordValue && passwordValue !== confirmValue) {
-                message = 'Passwords do not match.';
-            }
-            applySignupInputBlurValidation('register-password-confirm', fields.confirmPasswordInput, message);
-            break;
-        }
-        case 'accept-privacy': {
-            const message = fields.policyCheckbox?.checked ? '' : 'Please accept the privacy policy.';
-            applySignupPolicyBlurValidation(message);
-            break;
-        }
-        default:
-            break;
-    }
+/**
+ * Validates signup name on blur.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function validateSignupNameOnBlur(fields) {
+    const nameCheck = validateContactNameInput(fields.nameInput?.value ?? '');
+    const message = nameCheck.isValid ? '' : (nameCheck.error || 'Please enter your name.');
+    applySignupInputBlurValidation('register-name', fields.nameInput, message);
+    if (nameCheck.isValid && fields.nameInput) fields.nameInput.value = nameCheck.normalizedName;
+}
+
+/**
+ * Validates signup email on blur.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function validateSignupEmailOnBlur(fields) {
+    const emailCheck = validateEmailLikeSignup(fields.emailInput?.value ?? '');
+    const message = emailCheck.isValid ? '' : getSignupEmailErrorMessage(emailCheck);
+    applySignupInputBlurValidation('register-email', fields.emailInput, message);
+    if (emailCheck.isValid && fields.emailInput) fields.emailInput.value = emailCheck.normalizedEmail;
+}
+
+/**
+ * Validates signup password on blur.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function validateSignupPasswordOnBlur(fields) {
+    const message = fields.passwordInput?.value ? '' : 'Please enter a password.';
+    applySignupInputBlurValidation('register-password', fields.passwordInput, message);
+}
+
+/**
+ * Validates signup confirm password on blur.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function validateSignupConfirmOnBlur(fields) {
+    const message = getSignupConfirmPasswordBlurMessage(fields);
+    applySignupInputBlurValidation('register-password-confirm', fields.confirmPasswordInput, message);
+}
+
+/**
+ * Returns signup confirm password blur message.
+ * @param {Object} fields - Signup fields.
+ * @returns {string} Result.
+ */
+function getSignupConfirmPasswordBlurMessage(fields) {
+    const confirmValue = fields.confirmPasswordInput?.value ?? '';
+    const passwordValue = fields.passwordInput?.value ?? '';
+    if (!confirmValue) return 'Please confirm your password.';
+    if (passwordValue && passwordValue !== confirmValue) return 'Passwords do not match.';
+    return '';
+}
+
+/**
+ * Validates signup policy on blur.
+ * @param {Object} fields - Signup fields.
+ * @returns {void} Result.
+ */
+function validateSignupPolicyOnBlur(fields) {
+    const message = fields.policyCheckbox?.checked ? '' : 'Please accept the privacy policy.';
+    applySignupPolicyBlurValidation(message);
 }
 
 /**

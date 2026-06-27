@@ -7,32 +7,7 @@ async function addContact(event) {
   event.preventDefault();
   const contact = generateObjFromContact();
 
-  const nameCheck = validateContactNameInput(contact.name);
-  if (!nameCheck.isValid) {
-    if (typeof showContactSubmitError === 'function') {
-      showContactSubmitError('ac-name', nameCheck.error, ['ac-name', 'ac-email', 'ac-phone']);
-    }
-    return;
-  }
-  contact.name = nameCheck.normalizedName;
-
-  const emailCheck = validateEmailLikeSignup(contact.email);
-  if (!emailCheck.isValid) {
-    if (typeof showContactSubmitError === 'function') {
-      showContactSubmitError('ac-email', emailCheck.error, ['ac-name', 'ac-email', 'ac-phone']);
-    }
-    return;
-  }
-  contact.email = emailCheck.normalizedEmail;
-
-  const phoneCheck = validateContactPhoneNumber(contact.phone);
-  if (!phoneCheck.isValid) {
-    if (typeof showContactSubmitError === 'function') {
-      showContactSubmitError('ac-phone', phoneCheck.error, ['ac-name', 'ac-email', 'ac-phone']);
-    }
-    return;
-  }
-  contact.phone = phoneCheck.normalizedPhone;
+  if (!validateAndNormalizeAddContact(contact)) return;
 
   if (!isContactComplete(contact)) {
     alert("Bitte alle Felder ausfüllen!");
@@ -40,12 +15,103 @@ async function addContact(event) {
   }
   const saved = await saveContact(contact);
   if (!saved) return;
+  await handleAddContactSaved();
+}
+
+/**
+ * Validates and normalizes add contact data.
+ * @param {Object} contact - Contact object.
+ * @returns {boolean} Result.
+ */
+function validateAndNormalizeAddContact(contact) {
+  return validateAndAssignContactName(contact, ['ac-name', 'ac-email', 'ac-phone'], 'ac-name')
+    && validateAndAssignContactEmail(contact, ['ac-name', 'ac-email', 'ac-phone'], 'ac-email')
+    && validateAndAssignContactPhone(contact, ['ac-name', 'ac-email', 'ac-phone'], 'ac-phone');
+}
+
+/**
+ * Validates and assigns contact name.
+ * @param {Object} contact - Contact object.
+ * @param {string[]} fieldIds - Field ids.
+ * @param {string} errorFieldId - Error field id.
+ * @returns {boolean} Result.
+ */
+function validateAndAssignContactName(contact, fieldIds, errorFieldId) {
+  const check = validateContactNameInput(contact.name);
+  if (!check.isValid) return showContactSubmitValidationError(errorFieldId, check.error, fieldIds);
+  contact.name = check.normalizedName;
+  return true;
+}
+
+/**
+ * Validates and assigns contact email.
+ * @param {Object} contact - Contact object.
+ * @param {string[]} fieldIds - Field ids.
+ * @param {string} errorFieldId - Error field id.
+ * @returns {boolean} Result.
+ */
+function validateAndAssignContactEmail(contact, fieldIds, errorFieldId) {
+  const check = validateEmailLikeSignup(contact.email);
+  if (!check.isValid) return showContactSubmitValidationError(errorFieldId, check.error, fieldIds);
+  contact.email = check.normalizedEmail;
+  return true;
+}
+
+/**
+ * Validates and assigns contact phone.
+ * @param {Object} contact - Contact object.
+ * @param {string[]} fieldIds - Field ids.
+ * @param {string} errorFieldId - Error field id.
+ * @returns {boolean} Result.
+ */
+function validateAndAssignContactPhone(contact, fieldIds, errorFieldId) {
+  const check = validateContactPhoneNumber(contact.phone);
+  if (!check.isValid) return showContactSubmitValidationError(errorFieldId, check.error, fieldIds);
+  contact.phone = check.normalizedPhone;
+  return true;
+}
+
+/**
+ * Shows contact submit validation error.
+ * @param {string} fieldId - Field id.
+ * @param {string} error - Error text.
+ * @param {string[]} fieldIds - Field ids.
+ * @returns {boolean} Result.
+ */
+function showContactSubmitValidationError(fieldId, error, fieldIds) {
+  if (typeof showContactSubmitError === 'function') {
+    showContactSubmitError(fieldId, error, fieldIds);
+  }
+  return false;
+}
+
+/**
+ * Handles successful add contact save.
+ * @returns {Promise<void>} Result.
+ */
+async function handleAddContactSaved() {
   await renderContactGroup();
+  closeAddContactDialogAfterSave();
+  resetAddContactForm();
+  setTimeout(() => showContactsToast('Contact successfully created'), 0);
+}
+
+/**
+ * Closes add contact dialog after save.
+ * @returns {void} Result.
+ */
+function closeAddContactDialogAfterSave() {
   const dialog = document.getElementById("add-contact-dialog");
   if (dialog) dialog.close();
+}
+
+/**
+ * Resets add contact form.
+ * @returns {void} Result.
+ */
+function resetAddContactForm() {
   const form = document.getElementById('add-contact-form');
   if (form) form.reset();
-  setTimeout(() => showContactsToast('Contact successfully created'), 0);
 }
 
 /**
@@ -136,53 +202,63 @@ async function deleteContact(contactId) {
  */
 async function updateContact(event, contactId) {
   event.preventDefault();
-
-  const rawName = document.getElementById('edit-name').value;
-  const nameCheck = validateContactNameInput(rawName);
-  if (!nameCheck.isValid) {
-    if (typeof showContactSubmitError === 'function') {
-      showContactSubmitError('edit-name', nameCheck.error, ['edit-name', 'edit-email', 'edit-phone']);
-    }
-    return;
-  }
-
-  const updatedContact = {
-    name: nameCheck.normalizedName,
-    email: document.getElementById('edit-email').value,
-    phone: document.getElementById('edit-phone').value
-  };
-
-  const emailCheck = validateEmailLikeSignup(updatedContact.email);
-  if (!emailCheck.isValid) {
-    if (typeof showContactSubmitError === 'function') {
-      showContactSubmitError('edit-email', emailCheck.error, ['edit-name', 'edit-email', 'edit-phone']);
-    }
-    return;
-  }
-  updatedContact.email = emailCheck.normalizedEmail;
-
-  const phoneCheck = validateContactPhoneNumber(updatedContact.phone);
-  if (!phoneCheck.isValid) {
-    if (typeof showContactSubmitError === 'function') {
-      showContactSubmitError('edit-phone', phoneCheck.error, ['edit-name', 'edit-email', 'edit-phone']);
-    }
-    return;
-  }
-  updatedContact.phone = phoneCheck.normalizedPhone;
+  const updatedContact = generateObjFromEditContact();
+  if (!validateAndNormalizeEditContact(updatedContact)) return;
   try {
-    const response = await fetch(`${BASE_URL}/contacts/${contactId}.json`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedContact),
-    });
+    const response = await sendContactUpdate(contactId, updatedContact);
     if (!response.ok) {
       console.error("Fehler beim Aktualisieren des Kontakts.");
       return;
     }
-    await renderContactGroup();
-    closeEditContactDialog();
-    refreshContactDetails();
+    await handleContactUpdateSuccess();
   } catch (error) {
     console.error("Fehler beim Aktualisieren des Kontakts:", error);
   }
+}
+
+/**
+ * Generates object from edit contact form.
+ * @returns {Object} Result.
+ */
+function generateObjFromEditContact() {
+  return {
+    name: document.getElementById('edit-name').value,
+    email: document.getElementById('edit-email').value,
+    phone: document.getElementById('edit-phone').value
+  };
+}
+
+/**
+ * Validates and normalizes edit contact data.
+ * @param {Object} contact - Contact object.
+ * @returns {boolean} Result.
+ */
+function validateAndNormalizeEditContact(contact) {
+  return validateAndAssignContactName(contact, ['edit-name', 'edit-email', 'edit-phone'], 'edit-name')
+    && validateAndAssignContactEmail(contact, ['edit-name', 'edit-email', 'edit-phone'], 'edit-email')
+    && validateAndAssignContactPhone(contact, ['edit-name', 'edit-email', 'edit-phone'], 'edit-phone');
+}
+
+/**
+ * Sends contact update.
+ * @param {string} contactId - Contact identifier.
+ * @param {Object} updatedContact - Updated contact.
+ * @returns {Promise<Response>} Result.
+ */
+function sendContactUpdate(contactId, updatedContact) {
+  return fetch(`${BASE_URL}/contacts/${contactId}.json`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedContact),
+  });
+}
+
+/**
+ * Handles successful contact update.
+ * @returns {Promise<void>} Result.
+ */
+async function handleContactUpdateSuccess() {
+  await renderContactGroup();
+  closeEditContactDialog();
+  refreshContactDetails();
 }

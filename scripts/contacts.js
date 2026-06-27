@@ -22,20 +22,47 @@ function suppressHorizontalOverflowDuringDetailsAnimation() {
  */
 async function handleContactClick(event) {
   const clickedContact = event.currentTarget;
-  document.querySelectorAll('.contact-area, .contact-item').forEach(contact => contact.classList.remove('selected'));
-  clickedContact.classList.add('selected');
+  selectClickedContact(clickedContact);
   const contactId = clickedContact.dataset.id;
   const contactData = await fetchContactDetails(contactId);
   if (!contactData) {
     console.error("Kontakt konnte nicht geladen werden.");
     return;
   }
+  renderContactDetails(contactData, contactId);
+  suppressHorizontalOverflowDuringDetailsAnimation();
+  initContactMoreMenuAutoClose();
+  showContactDetailsOnMobile();
+}
+
+/**
+ * Selects clicked contact.
+ * @param {HTMLElement} clickedContact - Clicked contact element.
+ * @returns {void} Result.
+ */
+function selectClickedContact(clickedContact) {
+  document.querySelectorAll('.contact-area, .contact-item').forEach(contact => contact.classList.remove('selected'));
+  clickedContact.classList.add('selected');
+}
+
+/**
+ * Renders contact details.
+ * @param {Object} contactData - Contact data.
+ * @param {string} contactId - Contact identifier.
+ * @returns {void} Result.
+ */
+function renderContactDetails(contactData, contactId) {
   const container = document.getElementById('contact-details');
   const initials = getContactInitialsFromName(contactData.name);
   const phone = contactData.phone || '';
   container.innerHTML = getContactDetailsTemplate(initials, contactData.name, contactData.email, phone, contactId);
-  suppressHorizontalOverflowDuringDetailsAnimation();
-  initContactMoreMenuAutoClose();
+}
+
+/**
+ * Shows contact details on mobile.
+ * @returns {void} Result.
+ */
+function showContactDetailsOnMobile() {
   if (window.innerWidth <= 780) document.querySelector('.wrapper').classList.add('show-contact-details');
 }
 
