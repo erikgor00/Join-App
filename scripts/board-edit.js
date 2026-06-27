@@ -6,18 +6,42 @@
 async function openEditTaskModal(id) {
   const task = tasks.find(t => t.id === id);
   if (!task) return;
+  initializeEditTaskState(task);
+  const modalContent = getTaskModalContent();
+  if (!modalContent) return;
+  modalContent.innerHTML = generateEditTaskTemplate(task);
+  await loadContacts();
+  initializeEditTaskForm();
+}
+
+/**
+ * Initializes edit task state.
+ * @param {Object} task - Task object.
+ * @returns {void} Result.
+ */
+function initializeEditTaskState(task) {
   activeTask = task;
   editSubtasks = Array.isArray(task.subtasks) ? task.subtasks.map(st => ({ ...st })) : [];
   selectedContacts = Array.isArray(task.contacts) ? [...task.contacts] : [];
   window.editingEditSubtaskIndex = null;
+}
+
+/**
+ * Returns task modal content.
+ * @returns {HTMLElement|null} Result.
+ */
+function getTaskModalContent() {
   const modal = document.getElementById("task-modal");
-  if (!modal) return;
-  const modalContent = modal.querySelector(".modal-content");
-  if (!modalContent) return;
-  modalContent.innerHTML = generateEditTaskTemplate(task);
+  return modal ? modal.querySelector(".modal-content") : null;
+}
+
+/**
+ * Initializes edit task form.
+ * @returns {void} Result.
+ */
+function initializeEditTaskForm() {
   applyTodayMinDateForEdit();
   initEditFormBlurValidation();
-  await loadContacts();
   renderEditAssignedContacts();
   renderEditSubtasks();
   initEditDropdownClose();
@@ -31,25 +55,46 @@ async function openEditTaskModal(id) {
 function initEditFormBlurValidation() {
   const form = document.getElementById('edit-task-form');
   if (!form || form.dataset.blurValidationInit === '1') return;
+  registerEditTitleValidationHandler();
+  registerEditDateValidationHandlers();
+  registerEditCategoryValidationHandler();
+  form.dataset.blurValidationInit = '1';
+}
 
+/**
+ * Registers edit title validation handler.
+ * @returns {void} Result.
+ */
+function registerEditTitleValidationHandler() {
   const titleInput = document.getElementById('edit-title');
-  const dateInput = document.getElementById('edit-date');
-  const categorySelect = document.getElementById('edit-category-select');
-
   titleInput?.addEventListener('blur', () => {
     validateEditRequiredInput(titleInput, 'edit-title-error');
   });
+}
+
+/**
+ * Registers edit date validation handlers.
+ * @returns {void} Result.
+ */
+function registerEditDateValidationHandlers() {
+  const dateInput = document.getElementById('edit-date');
   dateInput?.addEventListener('blur', () => {
     validateEditDateField();
   });
   dateInput?.addEventListener('input', clearEditDateErrorOnValidInput);
   dateInput?.addEventListener('change', clearEditDateErrorOnValidInput);
+}
+
+/**
+ * Registers edit category validation handler.
+ * @returns {void} Result.
+ */
+function registerEditCategoryValidationHandler() {
+  const categorySelect = document.getElementById('edit-category-select');
   categorySelect?.addEventListener('blur', () => {
     const categoryInput = document.getElementById('edit-category');
     validateEditRequiredInput(categoryInput, 'edit-category-error', categorySelect);
   });
-
-  form.dataset.blurValidationInit = '1';
 }
 
 /**
@@ -60,21 +105,48 @@ function initEditFormBlurValidation() {
 function initEditSubtaskEnter() {
   const input = document.getElementById('edit-subtask-input');
   if (!input) return;
-  if (input.dataset && input.dataset.enterHandlerAdded === 'true') return;
+  if (isEditSubtaskEnterHandlerRegistered(input)) return;
+  markEditSubtaskEnterHandlerRegistered(input);
+  input.addEventListener('input', clearEditSubtaskErrorOnInput);
+  input.addEventListener('keydown', handleEditSubtaskEnterKey);
+}
+
+/**
+ * Returns whether edit-subtask enter handler is registered.
+ * @param {HTMLInputElement} input - Input element.
+ * @returns {boolean} Result.
+ */
+function isEditSubtaskEnterHandlerRegistered(input) {
+  return input.dataset && input.dataset.enterHandlerAdded === 'true';
+}
+
+/**
+ * Marks edit-subtask enter handler as registered.
+ * @param {HTMLInputElement} input - Input element.
+ * @returns {void} Result.
+ */
+function markEditSubtaskEnterHandlerRegistered(input) {
   if (input.dataset) input.dataset.enterHandlerAdded = 'true';
+}
 
-  input.addEventListener('input', () => {
-    setEditSubtaskError('');
-  });
+/**
+ * Clears edit subtask error on input.
+ * @returns {void} Result.
+ */
+function clearEditSubtaskErrorOnInput() {
+  setEditSubtaskError('');
+}
 
-  input.addEventListener('keydown', (event) => {
-    if (event.isComposing) return;
-    if (event.key !== 'Enter') return;
-    if (event.shiftKey) return;
-    event.preventDefault();
-    event.stopPropagation();
-    addEditSubtask();
-  });
+/**
+ * Handles edit-subtask enter key.
+ * @param {KeyboardEvent} event - Keyboard event.
+ * @returns {void} Result.
+ */
+function handleEditSubtaskEnterKey(event) {
+  if (event.isComposing || event.key !== 'Enter' || event.shiftKey) return;
+  event.preventDefault();
+  event.stopPropagation();
+  addEditSubtask();
 }
 
 /**
@@ -118,14 +190,42 @@ function setEditCategory(value) {
   const input = modal.querySelector("#edit-category");
   const select = modal.querySelector("#edit-category-select");
   if (!input || !select) return;
+  updateEditCategoryInput(input, select, value);
+  closeEditCategoryDropdown(modal);
+}
+
+/**
+ * Updates edit category input and label.
+ * @param {HTMLElement} input - Category input.
+ * @param {HTMLElement} select - Category select.
+ * @param {string} value - Category value.
+ * @returns {void} Result.
+ */
+function updateEditCategoryInput(input, select, value) {
   input.value = value;
   input.classList.remove('input-error');
   select.classList.remove('input-error');
   setEditErrorText('edit-category-error', '');
+  updateEditCategoryLabel(select, value);
+}
+
+/**
+ * Updates edit category label.
+ * @param {HTMLElement} select - Category select.
+ * @param {string} value - Category value.
+ * @returns {void} Result.
+ */
+function updateEditCategoryLabel(select, value) {
   const label = select.querySelector("span");
-  if (label) {
-    label.childNodes[0].textContent = value + " ";
-  }
+  if (label) label.childNodes[0].textContent = value + " ";
+}
+
+/**
+ * Closes edit category dropdown.
+ * @param {HTMLElement} modal - Modal element.
+ * @returns {void} Result.
+ */
+function closeEditCategoryDropdown(modal) {
   const dropdown = modal.querySelector("#edit-category-dropdown");
   if (dropdown) dropdown.classList.remove("show");
 }
@@ -259,38 +359,87 @@ function scrollEditFormTo(target) {
  */
 function validateEditForm() {
   clearEditValidationErrors();
-  const titleInput = document.getElementById('edit-title');
-  const dateInput = document.getElementById('edit-date');
-  const categoryInput = document.getElementById('edit-category');
-  const categorySelect = document.getElementById('edit-category-select');
+  const fields = getEditValidationFields();
+  const invalid = getEditValidationFailures(fields);
+  if (invalid.length > 0) return handleInvalidEditForm(invalid[0]);
 
+  return true;
+}
+
+/**
+ * Returns edit validation fields.
+ * @returns {Object} Result.
+ */
+function getEditValidationFields() {
+  return {
+    titleInput: document.getElementById('edit-title'),
+    dateInput: document.getElementById('edit-date'),
+    categoryInput: document.getElementById('edit-category'),
+    categorySelect: document.getElementById('edit-category-select')
+  };
+}
+
+/**
+ * Returns edit validation failures.
+ * @param {Object} fields - Validation fields.
+ * @returns {Array<Object>} Result.
+ */
+function getEditValidationFailures(fields) {
   const invalid = [];
-
-  if (!validateEditRequiredInput(titleInput, 'edit-title-error')) {
-    invalid.push({ errorId: 'edit-title-error', focusEl: titleInput });
+  if (!validateEditRequiredInput(fields.titleInput, 'edit-title-error')) {
+    invalid.push({ errorId: 'edit-title-error', focusEl: fields.titleInput });
   }
+  addEditDateFailure(invalid, fields.dateInput);
+  addEditCategoryFailure(invalid, fields.categoryInput, fields.categorySelect);
+  return invalid;
+}
 
-  if (!validateEditDateField()) {
-    invalid.push({ errorId: 'edit-date-error', focusEl: dateInput });
-  }
+/**
+ * Adds edit date failure if invalid.
+ * @param {Array<Object>} invalid - Invalid fields.
+ * @param {HTMLElement} dateInput - Date input.
+ * @returns {void} Result.
+ */
+function addEditDateFailure(invalid, dateInput) {
+  if (!validateEditDateField()) invalid.push({ errorId: 'edit-date-error', focusEl: dateInput });
+}
 
+/**
+ * Adds edit category failure if invalid.
+ * @param {Array<Object>} invalid - Invalid fields.
+ * @param {HTMLElement} categoryInput - Category input.
+ * @param {HTMLElement} categorySelect - Category select.
+ * @returns {void} Result.
+ */
+function addEditCategoryFailure(invalid, categoryInput, categorySelect) {
   if (!validateEditRequiredInput(categoryInput, 'edit-category-error', categorySelect)) {
     invalid.push({ errorId: 'edit-category-error', focusEl: categorySelect });
   }
+}
 
-  if (invalid.length > 0) {
-    const first = invalid[0];
-    const errorEl = document.getElementById(first.errorId);
-    scrollEditFormTo(errorEl || first.focusEl);
-    try {
-      first.focusEl?.focus?.();
-    } catch (e) {
-      // ignore focus errors
-    }
-    return false;
+/**
+ * Handles invalid edit form.
+ * @param {Object} first - First invalid field.
+ * @returns {boolean} Result.
+ */
+function handleInvalidEditForm(first) {
+  const errorEl = document.getElementById(first.errorId);
+  scrollEditFormTo(errorEl || first.focusEl);
+  focusEditInvalidField(first.focusEl);
+  return false;
+}
+
+/**
+ * Focuses invalid edit field.
+ * @param {HTMLElement} focusEl - Element to focus.
+ * @returns {void} Result.
+ */
+function focusEditInvalidField(focusEl) {
+  try {
+    focusEl?.focus?.();
+  } catch (e) {
+    // ignore focus errors
   }
-
-  return true;
 }
 
 /**
@@ -300,30 +449,59 @@ function validateEditForm() {
 function initEditDropdownClose() {
   if (window.editDropdownHandlerAdded) return;
   window.editDropdownHandlerAdded = true;
-  document.addEventListener(
-    "click",
-    (event) => {
-      const modal = document.getElementById("task-modal");
-      if (!modal) return;
-      const selectContacts = modal.querySelector("#select-contacts");
-      const contactsDropdown = modal.querySelector("#dropdown-contacts");
-      const categorySelect = modal.querySelector("#edit-category-select");
-      const categoryDropdown = modal.querySelector("#edit-category-dropdown");
+  document.addEventListener("click", handleEditDropdownDocumentClick, true);
+}
 
-      const target = event.target;
-      const clickedInside =
-        (selectContacts && selectContacts.contains(target)) ||
-        (contactsDropdown && contactsDropdown.contains(target)) ||
-        (categorySelect && categorySelect.contains(target)) ||
-        (categoryDropdown && categoryDropdown.contains(target));
+/**
+ * Handles document clicks for edit dropdowns.
+ * @param {Event} event - Browser event.
+ * @returns {void} Result.
+ */
+function handleEditDropdownDocumentClick(event) {
+  const modal = document.getElementById("task-modal");
+  if (!modal) return;
+  const elements = getEditDropdownElements(modal);
+  if (isClickInsideEditDropdown(event.target, elements)) return;
+  closeEditDropdownElements(elements);
+}
 
-      if (clickedInside) return;
+/**
+ * Returns edit dropdown elements.
+ * @param {HTMLElement} modal - Modal element.
+ * @returns {Object} Result.
+ */
+function getEditDropdownElements(modal) {
+  return {
+    selectContacts: modal.querySelector("#select-contacts"),
+    contactsDropdown: modal.querySelector("#dropdown-contacts"),
+    categorySelect: modal.querySelector("#edit-category-select"),
+    categoryDropdown: modal.querySelector("#edit-category-dropdown")
+  };
+}
 
-      if (contactsDropdown) contactsDropdown.classList.remove("show");
-      if (categoryDropdown) categoryDropdown.classList.remove("show");
-    },
-    true
-  );
+/**
+ * Returns whether target is inside edit dropdowns.
+ * @param {HTMLElement} target - Click target.
+ * @param {Object} elements - Dropdown elements.
+ * @returns {boolean} Result.
+ */
+function isClickInsideEditDropdown(target, elements) {
+  return [
+    elements.selectContacts,
+    elements.contactsDropdown,
+    elements.categorySelect,
+    elements.categoryDropdown
+  ].some((element) => element && element.contains(target));
+}
+
+/**
+ * Closes edit dropdown elements.
+ * @param {Object} elements - Dropdown elements.
+ * @returns {void} Result.
+ */
+function closeEditDropdownElements(elements) {
+  if (elements.contactsDropdown) elements.contactsDropdown.classList.remove("show");
+  if (elements.categoryDropdown) elements.categoryDropdown.classList.remove("show");
 }
 
 /**

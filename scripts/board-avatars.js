@@ -18,18 +18,56 @@ function renderAvatar(task) {
   let container = document.getElementById(`avatars-${task.id}`);
   if (!container) return;
   container.innerHTML = "";
-  let contacts = Array.isArray(task.contacts) ? task.contacts : [];
+  const contacts = getTaskAvatarContacts(task);
   const maxVisible = 3;
   const visible = contacts.slice(0, maxVisible);
+  renderVisibleTaskAvatars(container, visible);
+  renderRemainingTaskAvatar(container, contacts.length, maxVisible);
+}
+
+/**
+ * Returns task avatar contacts.
+ * @param {Object} task - Task object.
+ * @returns {Array<string>} Result.
+ */
+function getTaskAvatarContacts(task) {
+  return Array.isArray(task.contacts) ? task.contacts : [];
+}
+
+/**
+ * Renders visible task avatars.
+ * @param {HTMLElement} container - Avatar container.
+ * @param {Array<string>} visible - Visible contacts.
+ * @returns {void} Result.
+ */
+function renderVisibleTaskAvatars(container, visible) {
   for (let i = 0; i < visible.length; i++) {
-    const name = visible[i];
-    if (!name) continue;
-    const initials = getContactInitialsFromName(name);
-    container.innerHTML += getAvatarMarkup(initials, getRandomColor());
+    appendTaskAvatar(container, visible[i]);
   }
-  if (contacts.length > maxVisible) {
-    container.innerHTML += getAvatarMarkup(`+${contacts.length - maxVisible}`, "#2a3647", true);
-  }
+}
+
+/**
+ * Appends task avatar.
+ * @param {HTMLElement} container - Avatar container.
+ * @param {string} name - Contact name.
+ * @returns {void} Result.
+ */
+function appendTaskAvatar(container, name) {
+  if (!name) return;
+  const initials = getContactInitialsFromName(name);
+  container.innerHTML += getAvatarMarkup(initials, getRandomColor());
+}
+
+/**
+ * Renders remaining task avatar count.
+ * @param {HTMLElement} container - Avatar container.
+ * @param {number} total - Total contacts.
+ * @param {number} maxVisible - Max visible count.
+ * @returns {void} Result.
+ */
+function renderRemainingTaskAvatar(container, total, maxVisible) {
+  if (total <= maxVisible) return;
+  container.innerHTML += getAvatarMarkup(`+${total - maxVisible}`, "#2a3647", true);
 }
 
 /**
