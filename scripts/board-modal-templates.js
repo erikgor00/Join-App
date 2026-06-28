@@ -3,6 +3,11 @@
  * @param {Object} task - Task object.
  * @returns {string} Result.
  */
+/**
+ * Get Task Modal Template.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
+ */
 function getTaskModalTemplate(task) {
   return /*html*/ `
     <div class="modal-content">
@@ -65,6 +70,11 @@ function getTaskModalTemplate(task) {
  * @param {Object} task - Task object.
  * @returns {string} Result.
  */
+/**
+ * Generate Modal Assigned Contacts.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
+ */
 function generateModalAssignedContacts(task) {
   if (!task.contacts || task.contacts.length === 0) {
     return "—";
@@ -88,6 +98,11 @@ function generateModalAssignedContacts(task) {
  * @param {Object} task - Task object.
  * @returns {string} Result.
  */
+/**
+ * Generate Modal Subtasks.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
+ */
 function generateModalSubtasks(task) {
   if (!task.subtasks || task.subtasks.length === 0) {
     return "<span>No subtasks</span>";
@@ -106,6 +121,11 @@ function generateModalSubtasks(task) {
  * Generates edit task template.
  * @param {Object} task - Task object.
  * @returns {string} Result.
+ */
+/**
+ * Generate Edit Task Template.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
  */
 function generateEditTaskTemplate(task) {
   return /*html*/ `
@@ -139,7 +159,7 @@ function generateEditTaskTemplate(task) {
         <div class="edit-assigned">
           <span>Assigned to</span>
           <div id="select-contacts" tabindex="0" class="custom-select">
-            <span onclick="toggleDropdown(event)">Select contacts
+            <span onclick="toggleDropdown(event)">Select contacts to assign
               <img src="./assets/icons/arrow-drop-down.svg" alt="" class="dropdown-arrow">
             </span>
             <div id="dropdown-contacts" class="dropdown-content" onclick="event.stopPropagation()"></div>
@@ -195,6 +215,11 @@ function generateEditTaskTemplate(task) {
  * @param {*} current - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Generate Edit Category Options.
+ * @param {any} current - current.
+ * @returns {any} Result value.
+ */
 function generateEditCategoryOptions(current) {
   const categories = ["Technical Task", "User Story"];
   return categories.map((cat) => /*html*/ `
@@ -209,6 +234,12 @@ function generateEditCategoryOptions(current) {
  * @param {Object} subtask - Subtask object.
  * @param {number} index - Index.
  * @returns {string} Result.
+ */
+/**
+ * Get Edit Subtask Item Markup.
+ * @param {Object} subtask - subtask.
+ * @param {number} index - index.
+ * @returns {any} Result value.
  */
 function getEditSubtaskItemMarkup(subtask, index) {
   return /*html*/ `
@@ -228,6 +259,12 @@ function getEditSubtaskItemMarkup(subtask, index) {
  * @param {Object} subtask - Subtask object.
  * @param {number} index - Index.
  * @returns {string} Result.
+ */
+/**
+ * Get Edit Subtask Edit Markup.
+ * @param {Object} subtask - subtask.
+ * @param {number} index - index.
+ * @returns {any} Result value.
  */
 function getEditSubtaskEditMarkup(subtask, index) {
   return /*html*/ `

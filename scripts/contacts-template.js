@@ -6,6 +6,14 @@
  * @param {string} email - Email address.
  * @returns {string} Result.
  */
+/**
+ * Get H T M L Contact Group.
+ * @param {any} letter - letter.
+ * @param {string} initials - initials.
+ * @param {string} contactName - contact name.
+ * @param {string} email - email.
+ * @returns {any} Result value.
+ */
 function getHTMLContactGroup(letter, initials, contactName, email) {
     return `
         <div class="contact-card">
@@ -26,6 +34,10 @@ function getHTMLContactGroup(letter, initials, contactName, email) {
 /**
  * Returns dialog add contact.
  * @returns {string} Result.
+ */
+/**
+ * Get Dialog Add Contact.
+ * @returns {any} Result value.
  */
 function getDialogAddContact() {
     return `
@@ -92,6 +104,11 @@ function getDialogAddContact() {
  * @param {*} firstLetter - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Get Header Letter.
+ * @param {any} firstLetter - first letter.
+ * @returns {any} Result value.
+ */
 function getHeaderLetter(firstLetter) {
     return `
     <h3 class="contact-group-letter">${firstLetter}</h3>
@@ -104,6 +121,13 @@ function getHeaderLetter(firstLetter) {
  * @param {*} contactDataMail - Parameter.
  * @param {*} contactNameInitials - Parameter.
  * @returns {string} Result.
+ */
+/**
+ * Get Contact Item.
+ * @param {string} contactDataName - contact data name.
+ * @param {Object} contactDataMail - contact data mail.
+ * @param {string} contactNameInitials - contact name initials.
+ * @returns {any} Result value.
  */
 function getContactItem(contactDataName, contactDataMail, contactNameInitials) {
     return `
@@ -124,6 +148,13 @@ function getContactItem(contactDataName, contactDataMail, contactNameInitials) {
  * @param {*} content - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Get Contact Item Wrapper.
+ * @param {string} contactId - contact id.
+ * @param {string} contactDataPhone - contact data phone.
+ * @param {HTMLElement} content - content.
+ * @returns {any} Result value.
+ */
 function getContactItemWrapper(contactId, contactDataPhone, content) {
     return `
         <div class="contact-item" data-id="${contactId}" data-phone="${contactDataPhone}">
@@ -139,6 +170,15 @@ function getContactItemWrapper(contactId, contactDataPhone, content) {
  * @param {string} phone - Phone number.
  * @param {string} id - Identifier.
  * @returns {string} Result.
+ */
+/**
+ * Get Contact Details Template.
+ * @param {string} initials - initials.
+ * @param {string} name - name.
+ * @param {string} email - email.
+ * @param {string} phone - phone.
+ * @param {string} id - id.
+ * @returns {any} Result value.
  */
 function getContactDetailsTemplate(initials, name, email, phone, id) {
     const phoneSection = phone ? `
@@ -230,6 +270,15 @@ function getContactDetailsTemplate(initials, name, email, phone, id) {
  * @param {*} initials - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Get Edit Contact Dialog.
+ * @param {string} id - id.
+ * @param {string} name - name.
+ * @param {string} email - email.
+ * @param {string} phone - phone.
+ * @param {string} initials - initials.
+ * @returns {any} Result value.
+ */
 function getEditContactDialog(id, name, email, phone, initials) {
     return `
     <dialog id="edit-contact-dialog" class="ac-dialog">
@@ -294,6 +343,11 @@ function getEditContactDialog(id, name, email, phone, initials) {
  * Returns contacts toast template.
  * @param {string} message - Message text.
  * @returns {string} Result.
+ */
+/**
+ * Get Contacts Toast Template.
+ * @param {string} message - message.
+ * @returns {any} Result value.
  */
 function getContactsToastTemplate(message) {
     return /*html*/ `

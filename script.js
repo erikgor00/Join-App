@@ -14,6 +14,11 @@ let subtasks = [];
  * @param {string} name - Raw name.
  * @returns {string} Normalized name.
  */
+/**
+ * Normalize Contact Name Input.
+ * @param {string} name - name.
+ * @returns {void} Nothing.
+ */
 function normalizeContactNameInput(name) {
   return String(name ?? "").trim().replace(/\s+/g, " ");
 }
@@ -23,6 +28,11 @@ function normalizeContactNameInput(name) {
  * Works even if the name is not fully valid (best-effort).
  * @param {string} name - Name.
  * @returns {string} Initials.
+ */
+/**
+ * Get Contact Initials From Name.
+ * @param {string} name - name.
+ * @returns {any} Result value.
  */
 function getContactInitialsFromName(name) {
   const normalizedName = normalizeContactNameInput(name);
@@ -47,34 +57,109 @@ function getContactInitialsFromName(name) {
  * @param {string} name - Name input.
  * @returns {{ isValid: boolean, normalizedName: string, initials: string, error: string, reason?: 'required'|'too_long'|'too_many_parts'|'invalid_chars'|'part_too_short'|'too_few_letters' }} Result.
  */
+/**
+ * Validate Contact Name Input.
+ * @param {string} name - name.
+ * @returns {boolean} Result value.
+ */
 function validateContactNameInput(name) {
   const normalizedName = normalizeContactNameInput(name);
-  if (!normalizedName) {
-    return { isValid: false, normalizedName, initials: "", error: "Please enter a name.", reason: 'required' };
-  }
-  if (normalizedName.length > 20) {
-    return { isValid: false, normalizedName, initials: "", error: "Maximum 20 characters allowed.", reason: 'too_long' };
-  }
+  const baseError = getContactNameBaseError(normalizedName);
+  if (baseError) return baseError;
   const parts = normalizedName.split(" ").filter(Boolean);
-  if (parts.length > 3) {
-    return { isValid: false, normalizedName, initials: "", error: "Maximum 3 name parts allowed.", reason: 'too_many_parts' };
-  }
-  const partPattern = /^[\p{L}]+(?:-[\p{L}]+)*$/u;
-  for (const part of parts) {
-    if (!partPattern.test(part)) {
-      return { isValid: false, normalizedName, initials: "", error: "Please use only letters.", reason: 'invalid_chars' };
-    }
-    const lettersInPart = part.replace(/-/g, "").length;
-    if (lettersInPart < 2) {
-      return { isValid: false, normalizedName, initials: "", error: "Names have more than 1 letter.", reason: 'part_too_short' };
-    }
-  }
-  const totalLetters = normalizedName.replace(/[^\p{L}]/gu, "").length;
-  if (totalLetters < 2) {
-    return { isValid: false, normalizedName, initials: "", error: "Names have more than 1 letter.", reason: 'too_few_letters' };
-  }
+  const partsError = validateContactNameParts(normalizedName, parts);
+  if (partsError) return partsError;
   const initials = getContactInitialsFromName(normalizedName);
   return { isValid: true, normalizedName, initials, error: "" };
+}
+
+/**
+ * Returns basic contact name error.
+ * @param {string} normalizedName - Normalized name.
+ * @returns {Object|null} Result.
+ */
+/**
+ * Get Contact Name Base Error.
+ * @param {string} normalizedName - normalized name.
+ * @returns {any} Result value.
+ */
+function getContactNameBaseError(normalizedName) {
+  if (!normalizedName) return getInvalidContactNameResult(normalizedName, "Please enter a name.", 'required');
+  if (normalizedName.length > 20) return getInvalidContactNameResult(normalizedName, "Maximum 20 characters allowed.", 'too_long');
+  return null;
+}
+
+/**
+ * Validates contact name parts.
+ * @param {string} normalizedName - Normalized name.
+ * @param {string[]} parts - Name parts.
+ * @returns {Object|null} Result.
+ */
+/**
+ * Validate Contact Name Parts.
+ * @param {string} normalizedName - normalized name.
+ * @param {any} parts - parts.
+ * @returns {boolean} Result value.
+ */
+function validateContactNameParts(normalizedName, parts) {
+  if (parts.length > 3) return getInvalidContactNameResult(normalizedName, "Maximum 3 name parts allowed.", 'too_many_parts');
+  const partError = getInvalidContactNamePartError(normalizedName, parts);
+  if (partError) return partError;
+  return getContactNameLetterCountError(normalizedName);
+}
+
+/**
+ * Returns invalid contact name part error.
+ * @param {string} normalizedName - Normalized name.
+ * @param {string[]} parts - Name parts.
+ * @returns {Object|null} Result.
+ */
+/**
+ * Get Invalid Contact Name Part Error.
+ * @param {string} normalizedName - normalized name.
+ * @param {any} parts - parts.
+ * @returns {boolean} Result value.
+ */
+function getInvalidContactNamePartError(normalizedName, parts) {
+  const partPattern = /^[\p{L}]+(?:-[\p{L}]+)*$/u;
+  for (const part of parts) {
+    if (!partPattern.test(part)) return getInvalidContactNameResult(normalizedName, "Please use only letters.", 'invalid_chars');
+    if (part.replace(/-/g, "").length < 2) return getInvalidContactNameResult(normalizedName, "Names have more than 1 letter.", 'part_too_short');
+  }
+  return null;
+}
+
+/**
+ * Returns contact name letter count error.
+ * @param {string} normalizedName - Normalized name.
+ * @returns {Object|null} Result.
+ */
+/**
+ * Get Contact Name Letter Count Error.
+ * @param {string} normalizedName - normalized name.
+ * @returns {any} Result value.
+ */
+function getContactNameLetterCountError(normalizedName) {
+  const totalLetters = normalizedName.replace(/[^\p{L}]/gu, "").length;
+  return totalLetters < 2 ? getInvalidContactNameResult(normalizedName, "Names have more than 1 letter.", 'too_few_letters') : null;
+}
+
+/**
+ * Returns invalid contact name result.
+ * @param {string} normalizedName - Normalized name.
+ * @param {string} error - Error text.
+ * @param {string} reason - Error reason.
+ * @returns {Object} Result.
+ */
+/**
+ * Get Invalid Contact Name Result.
+ * @param {string} normalizedName - normalized name.
+ * @param {string} error - error.
+ * @param {string} reason - reason.
+ * @returns {boolean} Result value.
+ */
+function getInvalidContactNameResult(normalizedName, error, reason) {
+  return { isValid: false, normalizedName, initials: "", error, reason };
 }
 
 /**
@@ -86,31 +171,69 @@ function validateContactNameInput(name) {
  * @param {string} email - Email input.
  * @returns {{ isValid: boolean, normalizedEmail: string, error: string, reason?: 'required'|'too_long'|'pattern' }} Result.
  */
+/**
+ * Validate Email Like Signup.
+ * @param {string} email - email.
+ * @returns {boolean} Result value.
+ */
 function validateEmailLikeSignup(email) {
   const trimmedEmail = String(email ?? "").trim();
-  if (!trimmedEmail) {
-    return { isValid: false, normalizedEmail: trimmedEmail, error: "Please enter an email address.", reason: 'required' };
-  }
+  if (!trimmedEmail) return getInvalidSignupEmailResult(trimmedEmail, "Please enter an email address.", 'required');
   const normalizedEmail = trimmedEmail.toLowerCase();
-  if (normalizedEmail.length > 20) {
-    return { isValid: false, normalizedEmail, error: "Maximum 20 characters allowed.", reason: 'too_long' };
-  }
-  const localLabel = "[A-Za-zÄÖÜäöüß0-9]+(?:(?:-+|_(?!_))[A-Za-zÄÖÜäöüß0-9]+)*";
-  const domainLabel = "[A-Za-zÄÖÜäöüß0-9]+(?:-[A-Za-zÄÖÜäöüß0-9]+)*";
-  const tldLabel = "[A-Za-zÄÖÜäöüß]{2,}";
-  const strictEmailPattern = new RegExp(
+  if (normalizedEmail.length > 20) return getInvalidSignupEmailResult(normalizedEmail, "Maximum 20 characters allowed.", 'too_long');
+  return validateNormalizedSignupEmail(normalizedEmail);
+}
+
+/**
+ * Validates normalized signup email.
+ * @param {string} normalizedEmail - Normalized email.
+ * @returns {Object} Result.
+ */
+/**
+ * Validate Normalized Signup Email.
+ * @param {string} normalizedEmail - normalized email.
+ * @returns {boolean} Result value.
+ */
+function validateNormalizedSignupEmail(normalizedEmail) {
+  const strictEmailPattern = getStrictSignupEmailPattern();
+  if (!strictEmailPattern.test(normalizedEmail)) return getInvalidSignupEmailResult(normalizedEmail, "Please enter a valid email address.", 'pattern');
+  return { isValid: true, normalizedEmail, error: "" };
+}
+
+/**
+ * Returns strict signup email pattern.
+ * @returns {RegExp} Result.
+ */
+/**
+ * Get Strict Signup Email Pattern.
+ * @returns {any} Result value.
+ */
+function getStrictSignupEmailPattern() {
+  const localLabel = "[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+(?:(?:-+|_(?!_))[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+)*";
+  const domainLabel = "[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+(?:-[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df0-9]+)*";
+  const tldLabel = "[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df]{2,}";
+  return new RegExp(
     `^(?!.*\\.\\.)${localLabel}(?:\\.${localLabel})*@${domainLabel}(?:\\.${domainLabel})*\\.${tldLabel}$`,
     "u"
   );
-  if (!strictEmailPattern.test(normalizedEmail)) {
-    return {
-      isValid: false,
-      normalizedEmail,
-      error: "Please enter a valid email address.",
-      reason: 'pattern'
-    };
-  }
-  return { isValid: true, normalizedEmail, error: "" };
+}
+
+/**
+ * Returns invalid signup email result.
+ * @param {string} normalizedEmail - Normalized email.
+ * @param {string} error - Error text.
+ * @param {string} reason - Error reason.
+ * @returns {Object} Result.
+ */
+/**
+ * Get Invalid Signup Email Result.
+ * @param {string} normalizedEmail - normalized email.
+ * @param {string} error - error.
+ * @param {string} reason - reason.
+ * @returns {boolean} Result value.
+ */
+function getInvalidSignupEmailResult(normalizedEmail, error, reason) {
+  return { isValid: false, normalizedEmail, error, reason };
 }
 
 /**
@@ -118,6 +241,11 @@ function validateEmailLikeSignup(email) {
  * Rule: digits only (type=number) and not empty.
  * @param {string|number} phone - Phone input.
  * @returns {{ isValid: boolean, normalizedPhone: string, error: string }} Result.
+ */
+/**
+ * Validate Contact Phone Number.
+ * @param {string} phone - phone.
+ * @returns {boolean} Result value.
  */
 function validateContactPhoneNumber(phone) {
   const normalizedPhone = String(phone ?? "").trim();
@@ -137,6 +265,10 @@ function validateContactPhoneNumber(phone) {
  * Loads contacts.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Load Contacts.
+ * @returns {Promise<void>} Result value.
+ */
 async function loadContacts() {
   try {
     const data = await fetchContactsData();
@@ -150,6 +282,10 @@ async function loadContacts() {
  * Fetches contacts data.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Fetch Contacts Data.
+ * @returns {Promise<void>} Result value.
+ */
 async function fetchContactsData() {
   const response = await fetch(`${BASE_URL}/contacts.json`);
   return await response.json();
@@ -160,6 +296,11 @@ async function fetchContactsData() {
  * @param {*} data - Parameter.
  * @returns {void} Result.
  */
+/**
+ * Map Contacts Data.
+ * @param {any} data - data.
+ * @returns {any} Result value.
+ */
 function mapContactsData(data) {
   return Object.entries(data).map(([key, value]) => ({ id: key, ...value }));
 }
@@ -167,6 +308,10 @@ function mapContactsData(data) {
 /**
  * Executes protect this page logic.
  * @returns {void} Result.
+ */
+/**
+ * Protect This Page.
+ * @returns {void} Nothing.
  */
 function protectThisPage() {
   const currentPage = window.location.pathname;
@@ -182,6 +327,11 @@ function protectThisPage() {
  * Checks whether public page.
  * @param {*} pathname - Parameter.
  * @returns {boolean} Result.
+ */
+/**
+ * Is Public Page.
+ * @param {string} pathname - pathname.
+ * @returns {boolean} Result value.
  */
 function isPublicPage(pathname) {
   const normalizedPath = String(pathname || "").replace(/\\/g, "/");
@@ -205,219 +355,10 @@ protectThisPage();
  * @param {{ iconSrc?: string, iconAlt?: string }} [options] - Optional options.
  * @returns {void} Result.
  */
-function showMessage(message, type = "success", options = {}) {
-  const box = getOrCreateMessageBox();
-  setMessageBoxContent(box, message, options);
-  setMessageBoxType(box, type);
-  setMessageBoxBaseStyles(box);
-  setMessageBoxLayoutStyles(box);
-  setMessageBoxColors(box, type);
-  scheduleMessageHide(box);
-}
-
 /**
- * Returns or create message box.
- * @returns {*} Result.
+ * Show Message.
+ * @param {string} message - message.
+ * @param {string} type - type.
+ * @param {Array} options - options.
+ * @returns {void} Nothing.
  */
-function getOrCreateMessageBox() {
-  let box = document.getElementById("msg-box");
-  if (!box) {
-    box = document.createElement("div");
-    box.id="msg-box";
-    box.setAttribute("role", "status");
-    box.setAttribute("aria-live", "polite");
-    document.body.appendChild(box);
-  }
-  return box;
-}
-
-/**
- * Sets message box content.
- * @param {*} box - Parameter.
- * @param {string} message - Message text.
- * @param {{ iconSrc?: string, iconAlt?: string }} [options] - Optional options.
- * @returns {void} Result.
- */
-function setMessageBoxContent(box, message, options = {}) {
-  box.innerHTML = "";
-  const textEl = document.createElement("span");
-  textEl.textContent = message;
-  box.appendChild(textEl);
-
-  if (options && options.iconSrc) {
-    const iconEl = document.createElement("img");
-    iconEl.src = options.iconSrc;
-    iconEl.alt = options.iconAlt || "";
-    iconEl.style.width = "24px";
-    iconEl.style.height = "24px";
-    iconEl.style.flex = "0 0 auto";
-    box.appendChild(iconEl);
-  }
-}
-
-/**
- * Sets message box type.
- * @param {*} box - Parameter.
- * @param {string} type - Message type.
- * @returns {void} Result.
- */
-function setMessageBoxType(box, type) {
-  box.className = `msgBox ${type}`;
-}
-
-/**
- * Sets message box base styles.
- * @param {*} box - Parameter.
- * @returns {void} Result.
- */
-function setMessageBoxBaseStyles(box) {
-  box.style.position = "fixed";
-  box.style.left = "50%";
-  box.style.top = "50%";
-  box.style.transform = "translate(-50%, -50%)";
-  box.style.zIndex = "9999";
-}
-
-/**
- * Sets message box layout styles.
- * @param {*} box - Parameter.
- * @returns {void} Result.
- */
-function setMessageBoxLayoutStyles(box) {
-  box.style.display = "flex";
-  box.style.alignItems = "center";
-  box.style.justifyContent = "center";
-  box.style.gap = "10px";
-  box.style.minWidth = "280px";
-  box.style.maxWidth = "min(520px, calc(100vw - 32px))";
-  box.style.padding = "18px 22px";
-  box.style.borderRadius = "18px";
-  box.style.color = "#fff";
-  box.style.fontSize = "18px";
-  box.style.fontWeight = "400";
-  box.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.22)";
-  box.style.pointerEvents = "none";
-}
-
-/**
- * Sets message box colors.
- * @param {*} box - Parameter.
- * @param {string} type - Message type.
- * @returns {void} Result.
- */
-function setMessageBoxColors(box, type) {
-  if (type === "error") {
-    box.style.background = "var(--urgent, #ff3d00)";
-    return;
-  }
-  box.style.background = "var(--sidebar-bg, #2a3647)";
-}
-
-/**
- * Executes schedule message hide logic.
- * @param {*} box - Parameter.
- * @returns {void} Result.
- */
-function scheduleMessageHide(box) {
-  window.clearTimeout(box._hideTimeout);
-  box._hideTimeout = window.setTimeout(() => {
-    box.style.display = "none";
-  }, 1500);
-}
-
-/**
- * Toggles profile menu.
- * @param {Event} event - Browser event.
- * @returns {void} Result.
- */
-function toggleProfileMenu(event) {
-  event.stopPropagation();
-  const menu = document.getElementById('profile-menu');
-  if (menu) {
-    menu.classList.toggle('active');
-  }
-}
-
-document.addEventListener('click', (event) => {
-  const menu = document.getElementById('profile-menu');
-  const profileContainer = document.querySelector('.user-profile-container');
-  if (menu && profileContainer && !profileContainer.contains(event.target)) {
-    menu.classList.remove('active');
-  }
-});
-
-/**
- * Executes logout logic.
- * @param {Event} event - Browser event.
- * @returns {void} Result.
- */
-function logout(event) {
-  if (event) {
-    event.preventDefault();
-    event.stopPropagation();
-  }
-  clearUserSession();
-  safeFirebaseLogout();
-  redirectToLogin();
-}
-
-/**
- * Clears user session.
- * @returns {void} Result.
- */
-function clearUserSession() {
-  localStorage.removeItem("user");
-}
-
-/**
- * Executes safe firebase logout logic.
- * @returns {void} Result.
- */
-function safeFirebaseLogout() {
-  try {
-    if (typeof window.firebaseLogout === "function") {
-      window.firebaseLogout();
-    }
-  } catch (e) {
-    console.warn("Firebase logout failed (not critical):", e);
-  }
-}
-
-/**
- * Executes redirect to login logic.
- * @returns {void} Result.
- */
-function redirectToLogin() {
-  window.location.replace(getPagePath("index.html"));
-}
-
-/**
- * Executes navigate to help logic.
- * @returns {void} Result.
- */
-function navigateToHelp() {
-  window.location.href = getPagePath("help.html");
-}
-
-/**
- * Builds a page path that works from root pages and /public pages.
- * @param {string} fileName - Target HTML file.
- * @returns {string} Context-safe relative path.
- */
-function getPagePath(fileName) {
-  const normalizedPath = String(window.location.pathname || "").replace(/\\/g, "/");
-  const inPublicFolder = normalizedPath.includes("/public/");
-  return `${inPublicFolder ? "../" : "./"}${fileName}`;
-}
-
-window.addEventListener("pageshow", (event) => {
-  const currentPage = window.location.pathname;
-  if (!event.persisted || isPublicPage(currentPage)) {
-    return;
-  }
-  if (!localStorage.getItem("user")) {
-    window.location.replace(getPagePath("index.html"));
-  }
-});
-window.addEventListener("beforeunload", () => {
-});

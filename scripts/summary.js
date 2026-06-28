@@ -2,6 +2,10 @@
  * Executes navigate to board logic.
  * @returns {void} Result.
  */
+/**
+ * Navigate To Board.
+ * @returns {void} Nothing.
+ */
 function navigateToBoard() {
     window.location.href = "board.html";
 }
@@ -12,6 +16,12 @@ function navigateToBoard() {
  * @param {string} value - Value.
  * @returns {void} Result.
  */
+/**
+ * Set Text.
+ * @param {string} id - id.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
+ */
 function setText(id, value) {
     const el = document.getElementById(id);
     if (el) el.textContent = value;
@@ -21,6 +31,11 @@ function setText(id, value) {
  * Returns greeting by time.
  * @param {*} withComma - Parameter.
  * @returns {*} Result.
+ */
+/**
+ * Get Greeting By Time.
+ * @param {any} withComma - with comma.
+ * @returns {any} Result value.
  */
 function getGreetingByTime(withComma) {
     const hour = new Date().getHours();
@@ -35,6 +50,10 @@ function getGreetingByTime(withComma) {
  * Returns stored session.
  * @returns {*} Result.
  */
+/**
+ * Get Stored Session.
+ * @returns {any} Result value.
+ */
 function getStoredSession() {
     try {
         const raw = localStorage.getItem("user");
@@ -48,6 +67,11 @@ function getStoredSession() {
  * Fetches user name by email.
  * @param {string} email - Email address.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Fetch User Name By Email.
+ * @param {string} email - email.
+ * @returns {Promise<void>} Result value.
  */
 async function fetchUserNameByEmail(email) {
     if (!email) return "";
@@ -67,6 +91,10 @@ async function fetchUserNameByEmail(email) {
  * Renders welcome.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Render Welcome.
+ * @returns {Promise<void>} Result value.
+ */
 async function renderWelcome() {
     const session = getStoredSession();
     if (isGuestSession(session)) {
@@ -83,6 +111,11 @@ async function renderWelcome() {
  * @param {*} session - Parameter.
  * @returns {boolean} Result.
  */
+/**
+ * Is Guest Session.
+ * @param {any} session - session.
+ * @returns {boolean} Result value.
+ */
 function isGuestSession(session) {
     return !session || session.mode === "guest";
 }
@@ -90,6 +123,10 @@ function isGuestSession(session) {
 /**
  * Renders guest welcome.
  * @returns {void} Result.
+ */
+/**
+ * Render Guest Welcome.
+ * @returns {void} Nothing.
  */
 function renderGuestWelcome() {
     setText("welcome-msg", getGreetingByTime(false));
@@ -101,6 +138,11 @@ function renderGuestWelcome() {
  * @param {*} session - Parameter.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Resolve User Name.
+ * @param {any} session - session.
+ * @returns {Promise<void>} Result value.
+ */
 async function resolveUserName(session) {
     const nameFromDb = await fetchUserNameByEmail(session.email);
     return nameFromDb || session.displayName || "User";
@@ -111,230 +153,192 @@ async function resolveUserName(session) {
  * then fades it out and removes it from the layout.
  * @returns {void} Result.
  */
+/**
+ * Show Mobile Welcome Overlay.
+ * @returns {void} Nothing.
+ */
 function showMobileWelcomeOverlay() {
     const mq = window.matchMedia("(max-width: 900px)");
+    const elements = getWelcomeOverlayElements();
+    if (!elements) return;
 
+    const { aside, welcomeBox } = elements;
+    registerMobileWelcomeMediaListener(mq, aside, welcomeBox);
+    if (resetMobileWelcomeOverlayForDesktop(mq, aside, welcomeBox)) return;
+
+    displayMobileWelcomeOverlay(aside, welcomeBox);
+    animateMobileWelcomeOverlay(aside);
+
+    let onTransitionEnd;
+    const cleanup = () => cleanupWelcomeOverlay(aside, welcomeBox, onTransitionEnd);
+    onTransitionEnd = (event) => handleWelcomeOverlayTransitionEnd(event, cleanup);
+    aside.addEventListener("transitionend", onTransitionEnd);
+    scheduleWelcomeOverlayHide(aside, cleanup);
+}
+
+/**
+ * Returns welcome overlay elements.
+ * @returns {{aside: HTMLElement, welcomeBox: HTMLElement}|null} Result.
+ */
+/**
+ * Get Welcome Overlay Elements.
+ * @returns {any} Result value.
+ */
+function getWelcomeOverlayElements() {
     const welcomeBox = document.getElementById("welcome-msg-box");
-    if (!welcomeBox) return;
+    if (!welcomeBox) return null;
 
     const aside = welcomeBox.closest("aside");
-    if (!aside) return;
+    if (!aside) return null;
 
-    const resetToDefault = () => {
-        aside.classList.remove("is-visible");
-        aside.classList.remove("mobile-welcome-overlay");
-        aside.style.display = "";
-        welcomeBox.style.display = "";
-    };
+    return { aside, welcomeBox };
+}
 
+/**
+ * Resets mobile welcome overlay state.
+ * @param {HTMLElement} aside - Aside element.
+ * @param {HTMLElement} welcomeBox - Welcome box element.
+ * @returns {void} Result.
+ */
+/**
+ * Reset Mobile Welcome Overlay.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
+function resetMobileWelcomeOverlay(aside, welcomeBox) {
+    aside.classList.remove("is-visible");
+    aside.classList.remove("mobile-welcome-overlay");
+    aside.style.display = "";
+    welcomeBox.style.display = "";
+}
+
+/**
+ * Registers the mobile media query listener once.
+ * @param {MediaQueryList} mq - Media query list.
+ * @param {HTMLElement} aside - Aside element.
+ * @param {HTMLElement} welcomeBox - Welcome box element.
+ * @returns {void} Result.
+ */
+/**
+ * Register Mobile Welcome Media Listener.
+ * @param {any} mq - mq.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
+function registerMobileWelcomeMediaListener(mq, aside, welcomeBox) {
     if (!window.mobileWelcomeOverlayMqListenerAdded) {
         window.mobileWelcomeOverlayMqListenerAdded = true;
         mq.addEventListener("change", (event) => {
-            if (!event.matches) resetToDefault();
+            if (!event.matches) resetMobileWelcomeOverlay(aside, welcomeBox);
         });
     }
-
-    if (!mq.matches) {
-        resetToDefault();
-        return;
-    }
-
-    aside.classList.add("mobile-welcome-overlay");
-    aside.style.display = "flex";
-
-    welcomeBox.style.display = "flex";
-
-    aside.classList.remove("is-visible");
-    requestAnimationFrame(() => aside.classList.add("is-visible"));
-
-    const hide = () => {
-        aside.classList.remove("is-visible");
-    };
-
-    const cleanup = () => {
-        if (aside.classList.contains("is-visible")) return;
-        aside.style.display = "none";
-        welcomeBox.style.display = "";
-        aside.classList.remove("mobile-welcome-overlay");
-        aside.removeEventListener("transitionend", onTransitionEnd);
-    };
-
-    const onTransitionEnd = (event) => {
-        if (event.propertyName !== "opacity") return;
-        cleanup();
-    };
-
-    aside.addEventListener("transitionend", onTransitionEnd);
-
-    setTimeout(hide, 1500);
-    setTimeout(cleanup, 2300);
 }
 
 /**
- * Fetches tasks.
- * @returns {Promise<*>} Result.
- */
-async function fetchTasks() {
-    const response = await fetch(`${BASE_URL}/tasks.json`);
-    if (!response.ok) {
-        throw new Error(`HTTP-Fehler: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return Object.values(data || {});
-}
-
-/**
- * Updates dashboard.
- * @returns {Promise<*>} Result.
- */
-async function updateDashboard() {
-    try {
-        const tasks = await fetchTasks();
-        applyDashboardStats(tasks);
-    } catch (error) {
-        console.error("Fehler beim Abrufen der Dashboard-Daten:", error);
-    }
-}
-
-/**
- * Executes apply dashboard stats logic.
- * @param {*} tasks - Parameter.
- * @returns {void} Result.
- */
-function applyDashboardStats(tasks) {
-    const stats = getDashboardStats(tasks);
-    setText("total-to-do", stats.todoCount);
-    setText("total-done", stats.doneCount);
-    setText("total-tasks-progress", stats.inProgressCount);
-    setText("total-awaiting-feedback", stats.awaitingFeedbackCount);
-    setText("total-urgent", stats.urgentCount);
-    setText("total-tasks-board", stats.totalTasks);
-    setText("due-date", formatDashboardDueDate(stats.earliestUrgentDueDate));
-}
-
-/**
- * Returns dashboard stats.
- * @param {*} tasks - Parameter.
- * @returns {*} Result.
- */
-function getDashboardStats(tasks) {
-    const urgentTasks = tasks.filter(t => {
-        if (t.priority !== "urgent" || t.status === "Done") return false;
-        const due = parseTaskDueDate(t.dueDate);
-        return Boolean(due && isStrictlyFutureDate(due));
-    });
-    const earliestUrgentDueDate = getEarliestFutureDueDate(urgentTasks);
-
-    return {
-        todoCount: tasks.filter(t => t.status === "To Do").length,
-        doneCount: tasks.filter(t => t.status === "Done").length,
-        inProgressCount: tasks.filter(t => t.status === "In Progress").length,
-        awaitingFeedbackCount: tasks.filter(t => t.status === "Await Feedback").length,
-        urgentCount: urgentTasks.length,
-        earliestUrgentDueDate,
-        totalTasks: tasks.length
-    };
-}
-
-/**
- * Returns whether a date is strictly in the future (after today).
- * @param {Date} date - Date.
+ * Resets overlay for desktop view if needed.
+ * @param {MediaQueryList} mq - Media query list.
+ * @param {HTMLElement} aside - Aside element.
+ * @param {HTMLElement} welcomeBox - Welcome box element.
  * @returns {boolean} Result.
  */
-function isStrictlyFutureDate(date) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    return date.getTime() > today.getTime();
+/**
+ * Reset Mobile Welcome Overlay For Desktop.
+ * @param {any} mq - mq.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
+function resetMobileWelcomeOverlayForDesktop(mq, aside, welcomeBox) {
+    if (!mq.matches) {
+        resetMobileWelcomeOverlay(aside, welcomeBox);
+        return true;
+    }
+    return false;
 }
 
 /**
- * Parses a task due date string into a Date without timezone shifting.
- * Supports the app's ISO format (YYYY-MM-DD) and a few common fallbacks.
- * @param {string} dueDate - Due date string.
- * @returns {Date|null} Result.
+ * Displays the mobile welcome overlay.
+ * @param {HTMLElement} aside - Aside element.
+ * @param {HTMLElement} welcomeBox - Welcome box element.
+ * @returns {void} Result.
  */
-function parseTaskDueDate(dueDate) {
-    if (!dueDate || typeof dueDate !== "string") return null;
-    const value = dueDate.trim();
-    if (!value) return null;
-
-    const isoMatch = /^\d{4}-\d{2}-\d{2}$/.exec(value);
-    if (isoMatch) {
-        const [year, month, day] = value.split("-").map(Number);
-        const date = new Date(year, month - 1, day);
-        return Number.isNaN(date.getTime()) ? null : date;
-    }
-
-    const deDotMatch = /^\d{2}\.\d{2}\.\d{4}$/.exec(value);
-    if (deDotMatch) {
-        const [day, month, year] = value.split(".").map(Number);
-        const date = new Date(year, month - 1, day);
-        return Number.isNaN(date.getTime()) ? null : date;
-    }
-
-    const slashMatch = /^\d{2}\/\d{2}\/\d{4}$/.exec(value);
-    if (slashMatch) {
-        const [day, month, year] = value.split("/").map(Number);
-        const date = new Date(year, month - 1, day);
-        return Number.isNaN(date.getTime()) ? null : date;
-    }
-
-    const fallback = new Date(value);
-    return Number.isNaN(fallback.getTime()) ? null : fallback;
+/**
+ * Display Mobile Welcome Overlay.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @returns {void} Nothing.
+ */
+function displayMobileWelcomeOverlay(aside, welcomeBox) {
+    aside.classList.add("mobile-welcome-overlay");
+    aside.style.display = "flex";
+    welcomeBox.style.display = "flex";
 }
 
 /**
- * Returns the earliest due date among a list of tasks.
- * @param {Array<Object>} tasks - Task list.
- * @returns {Date|null} Result.
+ * Animates the mobile welcome overlay in.
+ * @param {HTMLElement} aside - Aside element.
+ * @returns {void} Result.
  */
-function getEarliestDueDate(tasks) {
-    let earliest = null;
-    for (const task of tasks) {
-        const date = parseTaskDueDate(task.dueDate);
-        if (!date) continue;
-        if (!earliest || date.getTime() < earliest.getTime()) earliest = date;
-    }
-    return earliest;
+/**
+ * Animate Mobile Welcome Overlay.
+ * @param {string} aside - aside.
+ * @returns {void} Nothing.
+ */
+function animateMobileWelcomeOverlay(aside) {
+    aside.classList.remove("is-visible");
+    requestAnimationFrame(() => aside.classList.add("is-visible"));
 }
 
 /**
- * Returns the earliest due date that is strictly in the future.
- * @param {Array<Object>} tasks - Task list.
- * @returns {Date|null} Result.
+ * Handles the welcome overlay transition end.
+ * @param {TransitionEvent} event - Transition event.
+ * @param {Function} cleanup - Cleanup callback.
+ * @returns {void} Result.
  */
-function getEarliestFutureDueDate(tasks) {
-    let earliest = null;
-    for (const task of tasks) {
-        const date = parseTaskDueDate(task.dueDate);
-        if (!date || !isStrictlyFutureDate(date)) continue;
-        if (!earliest || date.getTime() < earliest.getTime()) earliest = date;
-    }
-    return earliest;
+/**
+ * Handle Welcome Overlay Transition End.
+ * @param {Event} event - event.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
+ */
+function handleWelcomeOverlayTransitionEnd(event, cleanup) {
+    if (event.propertyName !== "opacity") return;
+    cleanup();
 }
 
 /**
- * Formats the dashboard due date string.
- * @param {Date|null} date - Date.
- * @returns {string} Result.
+ * Cleans up the mobile welcome overlay.
+ * @param {HTMLElement} aside - Aside element.
+ * @param {HTMLElement} welcomeBox - Welcome box element.
+ * @param {Function} onTransitionEnd - Transition handler.
+ * @returns {void} Result.
  */
-function formatDashboardDueDate(date) {
-    if (!date) return "No Urgent Date";
-    return new Intl.DateTimeFormat("en-US", {
-        month: "long",
-        day: "2-digit",
-        year: "numeric"
-    }).format(date);
+/**
+ * Cleanup Welcome Overlay.
+ * @param {string} aside - aside.
+ * @param {HTMLElement} welcomeBox - welcome box.
+ * @param {any} onTransitionEnd - on transition end.
+ * @returns {void} Nothing.
+ */
+function cleanupWelcomeOverlay(aside, welcomeBox, onTransitionEnd) {
+    if (aside.classList.contains("is-visible")) return;
+    aside.style.display = "none";
+    welcomeBox.style.display = "";
+    aside.classList.remove("mobile-welcome-overlay");
+    aside.removeEventListener("transitionend", onTransitionEnd);
 }
 
-document.addEventListener("DOMContentLoaded", async () => {
-    await renderWelcome();
-    showMobileWelcomeOverlay();
-    await updateDashboard();
-});
-
-document.addEventListener("click", (e) => {
-    const card = e.target.closest(".kpi-card, .deadline-card, .task-summary-card");
-    if (card) navigateToBoard();
-});
+/**
+ * Schedules the welcome overlay hide and cleanup.
+ * @param {HTMLElement} aside - Aside element.
+ * @param {Function} cleanup - Cleanup callback.
+ * @returns {void} Result.
+ */
+/**
+ * Schedule Welcome Overlay Hide.
+ * @param {string} aside - aside.
+ * @param {any} cleanup - cleanup.
+ * @returns {void} Nothing.
+ */

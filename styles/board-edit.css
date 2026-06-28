@@ -115,16 +115,22 @@
     font-size: 16px;
 }
 
+.edit-assigned .dropdown-content {
+    max-height: clamp(140px, 30vh, 240px);
+    border-radius: 12px;
+    padding: 4px;
+}
+
 .edit-assigned:has(.dropdown-content.show) {
-    padding-bottom: 160px;
+    padding-bottom: 0;
 }
 
 .edit-label:has(.dropdown-content.show) {
-    padding-bottom: 100px;
+    padding-bottom: 0;
 }
 
-.edit-assigned .custom-select span,
-.edit-label .custom-select span,
+.edit-assigned .custom-select > span,
+.edit-label .custom-select > span,
 .edit-assigned .dropdown-content,
 .edit-assigned .dropdown-name,
 .edit-label .dropdown-content,
@@ -132,8 +138,8 @@
     font-size: 16px;
 }
 
-.edit-assigned .custom-select span,
-.edit-label .custom-select span {
+.edit-assigned .custom-select > span,
+.edit-label .custom-select > span {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -151,6 +157,8 @@
     gap: 8px;
     align-items: center;
     flex-wrap: wrap;
+    min-height: 44px;
+    padding-top: 4px;
 }
 
 .edit-avatar-container .avatar {
@@ -191,6 +199,123 @@
     width: 32px;
     height: 32px;
     font-size: 16px;
+}
+
+.edit-assigned .dropdown-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0 16px;
+    min-height: 56px;
+    border-radius: 12px;
+    background: transparent;
+    border: none;
+    margin-bottom: 0;
+    cursor: pointer;
+    user-select: none;
+}
+
+.edit-assigned .dropdown-item + .dropdown-item {
+    margin-top: 4px;
+}
+
+.edit-assigned .dropdown-item:hover {
+    background-color: #f6f7f9;
+}
+
+.edit-assigned .contact-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.edit-assigned .dropdown-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.edit-assigned .dropdown-name {
+    flex: 1 1 auto;
+    display: block;
+    min-width: 0;
+    text-align: left;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.edit-assigned .contact-checkbox {
+    margin-left: auto;
+    width: 16px;
+    height: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid #2a3647;
+    border-radius: 5px;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.edit-assigned .contact-checkbox:checked {
+    background: transparent;
+    border-color: #fff;
+}
+
+.edit-assigned .contact-checkbox:checked::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background: #2a3647;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.edit-assigned .contact-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(40deg);
+    left: 70%;
+    top: 24%;
+}
+
+.edit-assigned .dropdown-item:has(.contact-checkbox:checked) {
+    background-color: #2a3647;
+}
+
+.edit-assigned .dropdown-item:has(.contact-checkbox:checked) .dropdown-name,
+.edit-assigned .dropdown-item:has(.contact-checkbox:checked) .dropdown-avatar {
+    color: #fff;
+}
+
+.edit-assigned .dropdown-item:has(.contact-checkbox:checked) .dropdown-avatar {
+    border: 2px solid #fff;
+}
+
+.edit-assigned .dropdown-item:has(.contact-checkbox:checked) .contact-checkbox {
+    border-color: #fff;
 }
 
 .edit-actions {

@@ -167,11 +167,16 @@
     .board-columns {
         grid-template-columns: 1fr;
         min-width: 0;
+        gap: 16px;
+        overflow-x: hidden;
     }
 
     .board-column {
         width: 100%;
         min-width: 0;
+        max-width: none;
+        padding: 12px;
+        min-height: auto;
     }
 
     .task-wrapper {
@@ -183,8 +188,10 @@
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
+        padding-bottom: 4px;
     }
 
     .task-wrapper::-webkit-scrollbar {
@@ -192,11 +199,15 @@
     }
 
     .task-wrapper .task-card {
-        min-width: 230px;
-        max-width: 260px;
-        flex-shrink: 0;
+        flex: 0 0 clamp(220px, 85%, 280px);
+        min-width: 0;
+        max-width: none;
         scroll-snap-align: start;
         margin-bottom: 0;
+    }
+
+    .task-wrapper .task-card .task-move-mobile-btn {
+        display: inline-flex;
     }
 
     .task-wrapper .no-tasks {
@@ -240,218 +251,6 @@
     }
 
     .board-column {
-        max-width: 288px;
-    }
-}
-
-@media (max-width: 500px) {
-    .board-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
-    }
-
-    .board-actions {
-        width: 100%;
-        flex-wrap: wrap;
-    }
-
-    .board-search {
-        width: 100%;
-    }
-
-    .board-search input {
-        flex: 1;
-        min-width: 120px;
-    }
-
-    .add-task-btn {
-        width: 100%;
-    }
-
-    .add-task-dialog .note {
-        display: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .board-search {
-        padding: 6px 10px;
-    }
-
-    .add-task-btn {
-        padding: 10px 14px;
-    }
-
-    .task-card {
-        padding: 12px;
-    }
-
-    .modal-content {
-        width: 92%;
-        padding: 16px 18px;
-    }
-
-    .modal-content .edit-task-form {
-        gap: 16px;
-    }
-
-    .modal-content .edit-task-form h1 {
-        font-size: 20px;
-    }
-
-    .modal-content .edit-input,
-    .modal-content .edit-textarea {
-        font-size: 16px;
-        padding: 7px;
-    }
-
-    .modal-content .edit-task-form .priority-options label {
-        min-width: 78px;
-        padding: 5px 8px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 420px) {
-    .modal-content {
-        width: 96%;
-        padding: 12px 14px;
-    }
-
-    .modal-content .edit-task-form,
-    .modal-content .edit-form-scroll {
-        width: 100%;
-    }
-
-    .modal-content .edit-task-form label,
-    .modal-content .edit-input,
-    .modal-content .edit-textarea,
-    .modal-content .edit-assigned,
-    .modal-content .edit-assigned .custom-select,
-    .modal-content #editCategorySelect,
-    .modal-content .edit-subtasks,
-    .modal-content .edit-subtasks .subtasks,
-    .modal-content .edit-subtasks .subtasks input {
-        width: 100% !important;
-        max-width: 100% !important;
-    }
-
-    .modal-content .edit-actions {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .modal-content .edit-actions button {
-        padding: 7px 10px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 400px) {
-    .modal-content {
-        width: 94vw;
-        max-width: 94vw;
-    }
-
-    .modal-content .edit-task-form label,
-    .modal-content .edit-input,
-    .modal-content .edit-textarea,
-    .modal-content .edit-task-form select,
-    .modal-content .custom-select,
-    .modal-content #editCategorySelect,
-    .modal-content #edit-category-select,
-    .modal-content .edit-task-form .priority-options,
-    .modal-content .edit-subtasks,
-    .modal-content .edit-subtasks .subtasks,
-    .modal-content .edit-subtasks .subtasks input,
-    .modal-content #editSubtaskArea {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box;
-    }
-
-    .modal-content .edit-task-form .priority-options {
-        flex-wrap: wrap;
-        gap: 6px;
-    }
-
-    .modal-content .edit-task-form .priority-options label {
-        min-width: 30%;
-        flex: 1 1 30%;
-        padding: 4px 6px;
-        font-size: 16px;
-    }
-
-    .modal-content .edit-actions {
-        justify-content: flex-end;
-    }
-}
-
-@media (max-width: 360px) {
-    .modal-content .edit-task-form {
-        gap: 14px;
-    }
-
-    .modal-content .edit-task-form h1 {
-        font-size: 18px;
-    }
-
-    .modal-content .edit-actions button {
-        padding: 7px 10px;
-        font-size: 16px;
-    }
-
-    .board-search input {
-        font-size: 16px;
-    }
-
-    .board-header h1 {
-        font-size: 36px;
-    }
-
-    .add-task-dialog .priority-options label {
-        min-width: 70px;
-        gap: 4px;
-    }
-
-    .add-task-dialog .priority-options label svg {
-        width: 16px;
-        height: 12px;
-    }
-}
-
-@media (max-width: 335px) {
-    .add-task-dialog .priority-options label {
-        padding: 4px 8px;
-        font-size: 16px;
-    }
-
-    .add-task-dialog .priority-options label svg {
-        width: 12px;
-        height: 8px;
-    }
-    .modal-title h2 {
-        font-size: 32px;
-    }
-}
-
-@media (max-width: 320px) {
-    .modal-content .edit-task-form .priority-options label {
-        min-width: 70px;
-        padding: 4px 6px;
-        font-size: 16px;
-    }
-
-    .modal-content .edit-task-form .priority-options label svg {
-        width: 14px;
-        height: 10px;
-    }
-
-    .modal-content .edit-assigned .custom-select {
-        width: 100%;
+        max-width: none;
     }
 }

@@ -3,6 +3,11 @@
  * @param {string} value - Value.
  * @returns {boolean} Result.
  */
+/**
+ * Is Non Empty String.
+ * @param {string} value - value.
+ * @returns {boolean} Result value.
+ */
 function isNonEmptyString(value) {
   return typeof value === 'string' && value.trim().length > 0;
 }
@@ -17,6 +22,11 @@ const EDIT_CONTACT_FIELD_IDS = ['edit-name', 'edit-email', 'edit-phone'];
  * @param {string} fieldId - Input id.
  * @returns {string} Span id.
  */
+/**
+ * Get Contact Error Span Id.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {any} Result value.
+ */
 function getContactErrorSpanId(fieldId) {
   return `${fieldId}-error`;
 }
@@ -26,6 +36,12 @@ function getContactErrorSpanId(fieldId) {
  * @param {string} spanId - Span id.
  * @param {string} value - Text.
  * @returns {void} Result.
+ */
+/**
+ * Set Contact Error Text.
+ * @param {string} spanId - span id.
+ * @param {string} value - value.
+ * @returns {void} Nothing.
  */
 function setContactErrorText(spanId, value) {
   const el = document.getElementById(spanId);
@@ -38,6 +54,13 @@ function setContactErrorText(spanId, value) {
  * @param {HTMLElement|null} input - Input element.
  * @param {string} message - Error message (empty to clear).
  * @returns {void} Result.
+ */
+/**
+ * Apply Contact Inline Validation.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {HTMLElement} input - input.
+ * @param {string} message - message.
+ * @returns {boolean} Result value.
  */
 function applyContactInlineValidation(fieldId, input, message) {
   const spanId = getContactErrorSpanId(fieldId);
@@ -62,6 +85,11 @@ function applyContactInlineValidation(fieldId, input, message) {
  * @param {string[]} fieldIds - Field ids.
  * @returns {void} Result.
  */
+/**
+ * Clear All Contact Inline Errors.
+ * @param {HTMLElement} fieldIds - field ids.
+ * @returns {void} Nothing.
+ */
 function clearAllContactInlineErrors(fieldIds) {
   (fieldIds || []).forEach((id) => {
     const input = document.getElementById(id);
@@ -74,6 +102,12 @@ function clearAllContactInlineErrors(fieldIds) {
  * @param {string} fieldId - Field id.
  * @param {string[]} fieldIds - All field ids of the dialog.
  * @returns {void} Result.
+ */
+/**
+ * Show Contact Field Error Message.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {HTMLElement} fieldIds - field ids.
+ * @returns {void} Nothing.
  */
 function showContactFieldErrorMessage(fieldId, fieldIds) {
   (fieldIds || []).forEach((id) => setContactErrorText(getContactErrorSpanId(id), ''));
@@ -88,6 +122,12 @@ function showContactFieldErrorMessage(fieldId, fieldIds) {
  * @param {string} fieldId - Field id.
  * @param {string} value - Raw value.
  * @returns {{ isValid: boolean, normalizedValue?: string, error: string }} Result.
+ */
+/**
+ * Validate Contact Dialog Field.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {string} value - value.
+ * @returns {boolean} Result value.
  */
 function validateContactDialogField(fieldId, value) {
   if (fieldId === 'ac-name' || fieldId === 'edit-name') {
@@ -110,6 +150,11 @@ function validateContactDialogField(fieldId, value) {
  * @param {string} fieldId - Field id.
  * @returns {void} Result.
  */
+/**
+ * Validate Contact Dialog Field On Blur.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {boolean} Result value.
+ */
 function validateContactDialogFieldOnBlur(fieldId) {
   const input = document.getElementById(fieldId);
   if (!input) return;
@@ -124,6 +169,11 @@ function validateContactDialogFieldOnBlur(fieldId) {
  * Clears an existing error once the field becomes valid again.
  * @param {string} fieldId - Field id.
  * @returns {void} Result.
+ */
+/**
+ * Clear Contact Dialog Field Error If Resolved.
+ * @param {HTMLElement} fieldId - field id.
+ * @returns {void} Nothing.
  */
 function clearContactDialogFieldErrorIfResolved(fieldId) {
   if (!contactDialogFieldErrors[fieldId]) return;
@@ -142,6 +192,13 @@ function clearContactDialogFieldErrorIfResolved(fieldId) {
  * @param {string[]} allFieldIds - Dialog field ids.
  * @returns {void} Result.
  */
+/**
+ * Show Contact Submit Error.
+ * @param {HTMLElement} fieldId - field id.
+ * @param {string} message - message.
+ * @param {HTMLElement} allFieldIds - all field ids.
+ * @returns {void} Nothing.
+ */
 function showContactSubmitError(fieldId, message, allFieldIds) {
   clearAllContactInlineErrors(allFieldIds);
   const input = document.getElementById(fieldId);
@@ -154,35 +211,18 @@ function showContactSubmitError(fieldId, message, allFieldIds) {
  * @param {HTMLElement} dialog - Dialog element.
  * @returns {void} Result.
  */
+/**
+ * Update Add Contact Submit State.
+ * @param {HTMLElement} dialog - dialog.
+ * @returns {void} Nothing.
+ */
 function updateAddContactSubmitState(dialog) {
-  if (!dialog) return;
-  const nameInput = dialog.querySelector('#ac-name');
-  const emailInput = dialog.querySelector('#ac-email');
-  const phoneInput = dialog.querySelector('#ac-phone');
-  const submitBtn = dialog.querySelector('[data-ac-submit]');
-  if (!submitBtn) return;
-
-  const nameCheck = validateContactNameInput(nameInput?.value ?? "");
-  if (nameInput && typeof nameInput.setCustomValidity === "function") {
-    nameInput.setCustomValidity(nameCheck.isValid ? "" : nameCheck.error);
-  }
-
-  const emailCheck = validateEmailLikeSignup(emailInput?.value ?? "");
-  if (emailInput && typeof emailInput.setCustomValidity === "function") {
-    emailInput.setCustomValidity(emailCheck.isValid ? "" : emailCheck.error);
-  }
-
-  const phoneCheck = validateContactPhoneNumber(phoneInput?.value ?? "");
-  if (phoneInput && typeof phoneInput.setCustomValidity === "function") {
-    phoneInput.setCustomValidity(phoneCheck.isValid ? "" : phoneCheck.error);
-  }
-  const isValid = (
-    nameCheck.isValid &&
-    emailCheck.isValid &&
-    phoneCheck.isValid
-  );
-  submitBtn.disabled = !isValid;
-  submitBtn.setAttribute('aria-disabled', String(!isValid));
+  updateContactSubmitState(dialog, {
+    nameId: 'ac-name',
+    emailId: 'ac-email',
+    phoneId: 'ac-phone',
+    submitSelector: '[data-ac-submit]'
+  });
 }
 
 /**
@@ -190,328 +230,156 @@ function updateAddContactSubmitState(dialog) {
  * @param {HTMLElement} dialog - Dialog element.
  * @returns {void} Result.
  */
+/**
+ * Init Add Contact Dialog Validation.
+ * @param {HTMLElement} dialog - dialog.
+ * @returns {boolean} Result value.
+ */
 function initAddContactDialogValidation(dialog) {
-  if (!dialog || dialog.dataset.acValidationInit === '1') return;
-  const fields = ADD_CONTACT_FIELD_IDS
-    .map((id) => dialog.querySelector(`#${id}`))
-    .filter(Boolean);
-
-  const handler = () => updateAddContactSubmitState(dialog);
-
-  fields.forEach((field) => {
-    field.addEventListener('focus', () => showContactFieldErrorMessage(field.id, ADD_CONTACT_FIELD_IDS));
-    field.addEventListener('input', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('change', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('blur', () => {
-      validateContactDialogFieldOnBlur(field.id);
-      handler();
-    });
+  initContactDialogValidation(dialog, {
+    fieldIds: ADD_CONTACT_FIELD_IDS,
+    initKey: 'acValidationInit',
+    formSelector: '#add-contact-form',
+    updateSubmitState: updateAddContactSubmitState
   });
-
-  bindContactValidationReset(dialog, handler, '#add-contact-form', ADD_CONTACT_FIELD_IDS);
-  dialog.dataset.acValidationInit = '1';
-  handler();
 }
 
 /**
- * Executes bind contact validation fields logic.
- * @param {*} fields - Parameter.
- * @param {*} handler - Parameter.
- * @returns {void} Result.
- */
-/**
- * Executes bind contact validation reset logic.
+ * Updates contact submit state.
  * @param {HTMLElement} dialog - Dialog element.
- * @param {*} handler - Parameter.
- * @param {*} formSelector - Parameter.
- * @param {string[]} fieldIds - Dialog field ids.
+ * @param {Object} config - Submit state config.
  * @returns {void} Result.
  */
-function bindContactValidationReset(dialog, handler, formSelector, fieldIds) {
-  const form = dialog.querySelector(formSelector);
-  if (!form) return;
-  form.addEventListener('reset', () => {
-    contactDialogFieldErrors = {};
-    clearAllContactInlineErrors(fieldIds);
-    setTimeout(handler, 0);
-  });
-}
-
 /**
- * Opens add contact dialog.
- * @returns {void} Result.
+ * Update Contact Submit State.
+ * @param {HTMLElement} dialog - dialog.
+ * @param {Object} config - config.
+ * @returns {void} Nothing.
  */
-function openAddContactDialog() {
-  let dialog = ensureAddContactDialog();
-  dialog.classList.remove('closing');
-  dialog.showModal();
-  contactDialogFieldErrors = {};
-  clearAllContactInlineErrors(ADD_CONTACT_FIELD_IDS);
-  initAddContactDialogValidation(dialog);
-  updateAddContactSubmitState(dialog);
-  if (typeof openAddContact === "function") {
-    openAddContact();
-  }
-}
-
-/**
- * Executes ensure add contact dialog logic.
- * @returns {void} Result.
- */
-function ensureAddContactDialog() {
-  let dialog = document.getElementById("add-contact-dialog");
-  if (!dialog) {
-    document.body.insertAdjacentHTML("beforeend", getDialogAddContact());
-    dialog = document.getElementById("add-contact-dialog");
-    bindAddContactDialogEvents(dialog);
-  }
-  return dialog;
-}
-
-/**
- * Executes bind add contact dialog events logic.
- * @param {HTMLElement} dialog - Dialog element.
- * @returns {void} Result.
- */
-function bindAddContactDialogEvents(dialog) {
-  const closeBtn = dialog.querySelector(".ac-close");
-  closeBtn.addEventListener("click", () => closeAddContactDialogWithAnimation());
-  dialog.addEventListener("click", (e) => {
-    if (e.target === dialog) {
-      closeAddContactDialogWithAnimation();
-    }
-  });
-  const dialogContent = dialog.querySelector(".ac-dialog-content");
-  if (dialogContent) {
-    dialogContent.addEventListener("click", (e) => e.stopPropagation());
-  }
-}
-
-// NEU: Schließt Add Contact Dialog mit Animation
-/**
- * Closes add contact dialog with animation.
- * @returns {void} Result.
- */
-function closeAddContactDialogWithAnimation() {
-  const dialog = document.getElementById("add-contact-dialog");
-  if (dialog) {
-    dialog.classList.add('closing');
-    setTimeout(() => {
-      dialog.close();
-    }, 300);
-  }
-}
-
-/**
- * Shows contacts toast.
- * @param {string} message - Message text.
- * @param {*} durationMs - Parameter.
- * @returns {void} Result.
- */
-function showContactsToast(message, durationMs = 2200) {
-  const old = document.getElementById('contacts-toast');
-  if (old) old.remove();
-  document.body.insertAdjacentHTML('beforeend', getContactsToastTemplate(message));
-  const toast = document.getElementById('contacts-toast');
-  if (!toast) return;
-  requestAnimationFrame(() => toast.classList.add('contacts-toast-visible'));
-  window.setTimeout(() => {
-    toast.classList.remove('contacts-toast-visible');
-    window.setTimeout(() => toast.remove(), 220);
-  }, durationMs);
-}
-
-/**
- * Toggles contact more menu.
- * @param {Event} event - Browser event.
- * @returns {void} Result.
- */
-function toggleContactMoreMenu(event) {
-  if (event) {
-    event.stopPropagation();
-  }
-  const menu = document.getElementById('contact-more-menu');
-  if (!menu) return;
-  menu.classList.toggle('is-open');
-  initContactMoreMenuAutoClose();
-}
-
-/**
- * Closes contact more menu.
- * @returns {void} Result.
- */
-function closeContactMoreMenu() {
-  const menu = document.getElementById('contact-more-menu');
-  if (menu) {
-    menu.classList.remove('is-open');
-  }
-}
-
-/**
- * Initializes contact more menu auto close.
- * @returns {void} Result.
- */
-function initContactMoreMenuAutoClose() {
-  if (document.body.dataset.contactMoreInit === '1') return;
-  document.addEventListener('click', (event) => {
-    const menu = document.getElementById('contact-more-menu');
-    const button = document.querySelector('.contact-more-btn');
-    if (!menu || !button) return;
-    if (menu.classList.contains('is-open') && !menu.contains(event.target) && !button.contains(event.target)) {
-      menu.classList.remove('is-open');
-    }
-  });
-  document.body.dataset.contactMoreInit = '1';
-}
-
-/**
- * Updates edit contact submit state.
- * @param {HTMLElement} dialog - Dialog element.
- * @returns {void} Result.
- */
-function updateEditContactSubmitState(dialog) {
+function updateContactSubmitState(dialog, config) {
   if (!dialog) return;
-  const nameInput = dialog.querySelector('#edit-name');
-  const emailInput = dialog.querySelector('#edit-email');
-  const phoneInput = dialog.querySelector('#edit-phone');
-  const submitBtn = dialog.querySelector('[data-edit-submit]');
-  if (!submitBtn) return;
+  const inputs = getContactSubmitInputs(dialog, config);
+  if (!inputs.submitBtn) return;
+  const checks = validateContactSubmitInputs(inputs);
+  applyContactSubmitCustomValidity(inputs, checks);
+  updateContactSubmitButton(inputs.submitBtn, areContactSubmitChecksValid(checks));
+}
 
-  const nameCheck = validateContactNameInput(nameInput?.value ?? "");
-  if (nameInput && typeof nameInput.setCustomValidity === "function") {
-    nameInput.setCustomValidity(nameCheck.isValid ? "" : nameCheck.error);
-  }
+/**
+ * Returns contact submit inputs.
+ * @param {HTMLElement} dialog - Dialog element.
+ * @param {Object} config - Submit state config.
+ * @returns {Object} Result.
+ */
+/**
+ * Get Contact Submit Inputs.
+ * @param {HTMLElement} dialog - dialog.
+ * @param {Object} config - config.
+ * @returns {any} Result value.
+ */
+function getContactSubmitInputs(dialog, config) {
+  return {
+    nameInput: dialog.querySelector(`#${config.nameId}`),
+    emailInput: dialog.querySelector(`#${config.emailId}`),
+    phoneInput: dialog.querySelector(`#${config.phoneId}`),
+    submitBtn: dialog.querySelector(config.submitSelector)
+  };
+}
 
-  const emailCheck = validateEmailLikeSignup(emailInput?.value ?? "");
-  if (emailInput && typeof emailInput.setCustomValidity === "function") {
-    emailInput.setCustomValidity(emailCheck.isValid ? "" : emailCheck.error);
-  }
+/**
+ * Validates contact submit inputs.
+ * @param {Object} inputs - Contact input elements.
+ * @returns {Object} Result.
+ */
+/**
+ * Validate Contact Submit Inputs.
+ * @param {HTMLElement} inputs - inputs.
+ * @returns {boolean} Result value.
+ */
+function validateContactSubmitInputs(inputs) {
+  return {
+    nameCheck: validateContactNameInput(inputs.nameInput?.value ?? ""),
+    emailCheck: validateEmailLikeSignup(inputs.emailInput?.value ?? ""),
+    phoneCheck: validateContactPhoneNumber(inputs.phoneInput?.value ?? "")
+  };
+}
 
-  const phoneCheck = validateContactPhoneNumber(phoneInput?.value ?? "");
-  if (phoneInput && typeof phoneInput.setCustomValidity === "function") {
-    phoneInput.setCustomValidity(phoneCheck.isValid ? "" : phoneCheck.error);
+/**
+ * Applies custom validity to contact submit inputs.
+ * @param {Object} inputs - Contact input elements.
+ * @param {Object} checks - Validation checks.
+ * @returns {void} Result.
+ */
+/**
+ * Apply Contact Submit Custom Validity.
+ * @param {HTMLElement} inputs - inputs.
+ * @param {any} checks - checks.
+ * @returns {boolean} Result value.
+ */
+function applyContactSubmitCustomValidity(inputs, checks) {
+  applyContactInputCustomValidity(inputs.nameInput, checks.nameCheck);
+  applyContactInputCustomValidity(inputs.emailInput, checks.emailCheck);
+  applyContactInputCustomValidity(inputs.phoneInput, checks.phoneCheck);
+}
+
+/**
+ * Applies custom validity to one contact input.
+ * @param {HTMLElement} input - Contact input.
+ * @param {Object} check - Validation check.
+ * @returns {void} Result.
+ */
+/**
+ * Apply Contact Input Custom Validity.
+ * @param {HTMLElement} input - input.
+ * @param {any} check - check.
+ * @returns {boolean} Result value.
+ */
+function applyContactInputCustomValidity(input, check) {
+  if (input && typeof input.setCustomValidity === "function") {
+    input.setCustomValidity(check.isValid ? "" : check.error);
   }
-  const isValid = (
-    nameCheck.isValid &&
-    emailCheck.isValid &&
-    phoneCheck.isValid
-  );
+}
+
+/**
+ * Returns whether all contact submit checks are valid.
+ * @param {Object} checks - Validation checks.
+ * @returns {boolean} Result.
+ */
+/**
+ * Are Contact Submit Checks Valid.
+ * @param {any} checks - checks.
+ * @returns {boolean} Result value.
+ */
+function areContactSubmitChecksValid(checks) {
+  return checks.nameCheck.isValid && checks.emailCheck.isValid && checks.phoneCheck.isValid;
+}
+
+/**
+ * Updates contact submit button.
+ * @param {HTMLElement} submitBtn - Submit button.
+ * @param {boolean} isValid - Valid state.
+ * @returns {void} Result.
+ */
+/**
+ * Update Contact Submit Button.
+ * @param {any} submitBtn - submit btn.
+ * @param {string} isValid - is valid.
+ * @returns {void} Nothing.
+ */
+function updateContactSubmitButton(submitBtn, isValid) {
   submitBtn.disabled = !isValid;
   submitBtn.setAttribute('aria-disabled', String(!isValid));
 }
 
 /**
- * Initializes edit contact dialog validation.
+ * Initializes contact dialog validation.
  * @param {HTMLElement} dialog - Dialog element.
+ * @param {Object} config - Validation config.
  * @returns {void} Result.
  */
-function initEditContactDialogValidation(dialog) {
-  if (!dialog || dialog.dataset.editValidationInit === '1') return;
-  const fields = EDIT_CONTACT_FIELD_IDS
-    .map((id) => dialog.querySelector(`#${id}`))
-    .filter(Boolean);
-
-  const handler = () => updateEditContactSubmitState(dialog);
-
-  fields.forEach((field) => {
-    field.addEventListener('focus', () => showContactFieldErrorMessage(field.id, EDIT_CONTACT_FIELD_IDS));
-    field.addEventListener('input', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('change', () => {
-      clearContactDialogFieldErrorIfResolved(field.id);
-      handler();
-    });
-    field.addEventListener('blur', () => {
-      validateContactDialogFieldOnBlur(field.id);
-      handler();
-    });
-  });
-
-  bindContactValidationReset(dialog, handler, '#edit-contact-form', EDIT_CONTACT_FIELD_IDS);
-  dialog.dataset.editValidationInit = '1';
-  handler();
-}
-
 /**
- * Opens edit contact dialog.
- * @param {string} id - Identifier.
- * @param {string} name - Name.
- * @param {string} email - Email address.
- * @param {string} phone - Phone number.
- * @param {*} initials - Parameter.
- * @returns {void} Result.
+ * Init Contact Dialog Validation.
+ * @param {HTMLElement} dialog - dialog.
+ * @param {Object} config - config.
+ * @returns {boolean} Result value.
  */
-function openEditContactDialog(id, name, email, phone, initials) {
-  const container = document.getElementById('edit-contact-dialog-container');
-  if (!container) return;
-  container.innerHTML = getEditContactDialog(id, name, email, phone, initials);
-  const dialog = document.getElementById('edit-contact-dialog');
-  if (!dialog) return;
-  contactDialogFieldErrors = {};
-  bindEditContactDialogEvents(dialog);
-  showEditContactDialog(dialog);
-  initEditContactDialogValidation(dialog);
-  updateEditContactSubmitState(dialog);
-}
-
-/**
- * Executes bind edit contact dialog events logic.
- * @param {HTMLElement} dialog - Dialog element.
- * @returns {void} Result.
- */
-function bindEditContactDialogEvents(dialog) {
-  dialog.addEventListener('click', (e) => handleEditDialogBackdropClick(e, dialog));
-  const dialogContent = dialog.querySelector('.ac-dialog-content');
-  if (dialogContent) {
-    dialogContent.addEventListener('click', (e) => e.stopPropagation());
-  }
-}
-
-/**
- * Executes handle edit dialog backdrop click logic.
- * @param {Event} event - Browser event.
- * @param {HTMLElement} dialog - Dialog element.
- * @returns {void} Result.
- */
-function handleEditDialogBackdropClick(event, dialog) {
-  if (event.target === dialog) {
-    closeEditContactDialog();
-  }
-}
-
-/**
- * Shows edit contact dialog.
- * @param {HTMLElement} dialog - Dialog element.
- * @returns {void} Result.
- */
-function showEditContactDialog(dialog) {
-  dialog.classList.remove('closing');
-  if (typeof dialog.showModal === 'function') {
-    dialog.showModal();
-  } else {
-    dialog.setAttribute('open', '');
-  }
-}
-
-/**
- * Closes edit contact dialog.
- * @returns {void} Result.
- */
-function closeEditContactDialog() {
-  const dialog = document.getElementById('edit-contact-dialog');
-  if (dialog) {
-    dialog.classList.add('closing');
-    setTimeout(() => {
-      dialog.close();
-      dialog.remove();
-    }, 300);
-  }
-}

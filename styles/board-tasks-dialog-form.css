@@ -1,0 +1,301 @@
+
+.add-task-dialog-bg {
+    background-color: rgba(0, 0, 0, 0.2);
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    inset: 0;
+    z-index: 110;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 60px;
+}
+
+.add-task-dialog-bg.d-none {
+    display: none;
+}
+
+body.add-task-dialog-open {
+    overflow: hidden;
+}
+
+.add-task-dialog {
+    background-color: white;
+    width: 1050px;
+    height: 700px;
+    border: 1px solid white;
+    border-radius: 16px;
+    padding: 36px;
+    margin-top: 0;
+    overflow: hidden;
+    position: relative;
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.15s ease-out;
+    will-change: transform, opacity;
+}
+
+.add-task-dialog.is-open {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.add-task-dialog .custom-select {
+    border: 1px solid #ccc;
+    padding: 0 10px;
+    border-radius: 8px;
+    position: relative;
+    width: 100%;
+    background: white;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.add-task-dialog .dropdown-content {
+    max-height: clamp(140px, 30vh, 240px);
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.add-task-dialog .dropdown-item {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 0 16px;
+    min-height: 56px;
+}
+
+.add-task-dialog .dropdown-item + .dropdown-item {
+    margin-top: 4px;
+}
+
+.add-task-dialog .contact-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.add-task-dialog .dropdown-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.add-task-dialog .dropdown-name {
+    flex: 1 1 auto;
+    display: block;
+    min-width: 0;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.add-task-dialog .dropdown-item .contact-checkbox {
+    margin-left: auto;
+}
+
+.add-task-dialog .contact-checkbox {
+    width: 16px;
+    height: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    border: 2px solid #2a3647;
+    border-radius: 5px;
+    background: transparent;
+    position: relative;
+    cursor: pointer;
+}
+
+.add-task-dialog .contact-checkbox:checked {
+    background: transparent;
+    border-color: #fff;
+}
+
+.add-task-dialog .contact-checkbox:checked::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background: #2a3647;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+
+.add-task-dialog .contact-checkbox:checked::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: translate(-50%, -50%) rotate(40deg);
+    left: 70%;
+    top: 24%;
+}
+
+.add-task-dialog .dropdown-item:has(.contact-checkbox:checked) .contact-checkbox {
+    border-color: #fff;
+}
+
+.add-task-dialog .dropdown-item:has(input:checked) input {
+    border-color: #fff;
+}
+
+.add-task-dialog .custom-select > span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.add-task-dialog .dropdown-arrow {
+    width: 8px;
+    height: 8px;
+    margin-left: auto;
+}
+
+.add-task-dialog .task-form {
+    display: flex;
+    gap: 40px;
+}
+
+.add-task-dialog .form-left,
+.add-task-dialog .form-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.add-task-dialog .form-separator {
+    width: 1px;
+    background-color: #d1d5db;
+    align-self: flex-start;
+    height: 336px;
+    flex: 0 0 1px;
+}
+
+.add-task-dialog label,
+.add-task-dialog .assigned-to-label,
+.add-task-dialog .category {
+    width: 100%;
+    margin-top: 8px;
+}
+
+.add-task-dialog label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.add-task-dialog input,
+.add-task-dialog textarea,
+.add-task-dialog select {
+    padding: 4px;
+    border: 1px solid var(--border, #d1d5db);
+    border-radius: 6px;
+}
+
+.add-task-dialog input:focus,
+.add-task-dialog textarea:focus,
+.add-task-dialog select:focus,
+.add-task-dialog .custom-select:focus,
+.add-task-dialog .custom-select:focus-within {
+    outline: none;
+    border-color: #29ABE2;
+    border: 1px solid #29ABE2;
+    box-shadow: none;
+}
+
+.add-task-dialog textarea {
+    resize: vertical;
+    min-height: 120px;
+    font: message-box;
+}
+
+.add-task-dialog .priority-options label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 4px;
+}
+
+.add-task-dialog .priority-options label svg {
+    width: 20px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.add-task-dialog .custom-select {
+    width: 100%;
+    min-height: 34px;
+}
+
+.add-task-dialog .error-message {
+    display: none;
+    min-height: 0;
+    color: #8d0000;
+    font-size: 16px;
+}
+
+.add-task-dialog .error-message:not(:empty) {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+    overflow: hidden;
+}
+
+.add-task-dialog #title-error {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+}
+
+.add-task-dialog #title-error:not(:empty) {
+    visibility: visible;
+}
+
+.add-task-dialog #date-error {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+}
+
+.add-task-dialog #date-error:empty {
+    visibility: hidden;
+}
+
+.add-task-dialog #date-error:not(:empty) {
+    visibility: visible;
+}
+
+.add-task-dialog #category-error {
+    display: block;
+    height: 24px;
+    line-height: 24px;
+}
+
+.add-task-dialog #category-error:not(:empty) {
+    visibility: visible;
+}
+

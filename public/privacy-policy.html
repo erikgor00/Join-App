@@ -9,9 +9,12 @@
   <link rel="stylesheet" href="../styles/privacy-policy.css">
   <link rel="stylesheet" href="../styles/sidebar.css">
   <link rel="stylesheet" href="../styles/header.css">
+  <link rel="stylesheet" href="legal-navigation.css">
   <link rel="icon" type="image/png" href="../assets/img/join-logo-white.svg">
 
   <script src="../script.js" defer></script>
+  <script src="../script-ui.js" defer></script>
+  <script src="../script-session.js" defer></script>
   <script src="../scripts/sidebar.js" defer></script>
 
   <title>Privacy Policy</title>
@@ -31,17 +34,20 @@
     </ul>
 
     <footer class="sidebar-footer">
-      <div class="footer-link-container highlighted" id="privacy-policy-div">
+      <div class="footer-link-container highlighted" id="privacy-policy-div" onclick="window.location.href='privacy-policy.html'">
         <a href="privacy-policy.html" class="sidebar-footer-link-hover-effect">Privacy Policy</a>
       </div>
-      <div class="footer-link-container" id="legal-notice-div">
+      <div class="footer-link-container" id="legal-notice-div" onclick="window.location.href='legal-notice.html'">
         <a href="legal-notice.html" class="sidebar-footer-link-hover-effect">Legal notice</a>
       </div>
     </footer>
   </nav>
   <main>
     <header>
-      <div class="content-limit content-limit--no-padding content-limit--left">
+      <div class="content-limit content-limit--row content-limit--no-padding content-limit--left">
+        <a href="../index.html">
+          <img class="header-logo" src="../assets/img/join-logo.svg" alt="Join Logo">
+        </a>
         <div class="center">
           <p class="app-tagline">Kanban Project Management Tool</p>
         </div>
@@ -50,7 +56,11 @@
 
     <div class="wrapper">
       <div class="content-limit content-limit--no-padding content-limit--left">
-        <h1>Privacy Policy</h1>
+        <div class="responsive-page-header">
+          <h1>Privacy Policy</h1>
+          <img src="../assets/img/arrow-left-line.svg" class="responsive-back-btn" alt="Back"
+            onclick="history.back(); return false;">
+        </div>
         <p>
           We take the protection of your personal data very seriously. This Privacy Policy explains how we collect,
           use and protect your information when using the Join Kanban Project Management Tool.

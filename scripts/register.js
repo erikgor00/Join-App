@@ -2,6 +2,10 @@
  * Adds user.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Add User.
+ * @returns {Promise<void>} Result value.
+ */
 async function addUser() {
     const values = getSignupValues();
     if (!isPasswordMatch(values)) { showPasswordMismatch(values.confirmPassword); return; }
@@ -20,6 +24,10 @@ async function addUser() {
  * Returns signup values.
  * @returns {*} Result.
  */
+/**
+ * Get Signup Values.
+ * @returns {any} Result value.
+ */
 function getSignupValues() {
     return {
         name: document.getElementById('register-name'),
@@ -34,6 +42,11 @@ function getSignupValues() {
  * @param {*} values - Parameter.
  * @returns {boolean} Result.
  */
+/**
+ * Is Password Match.
+ * @param {string} values - values.
+ * @returns {boolean} Result value.
+ */
 function isPasswordMatch(values) {
     return values.password.value === values.confirmPassword.value;
 }
@@ -42,6 +55,11 @@ function isPasswordMatch(values) {
  * Shows password mismatch.
  * @param {*} confirmPassword - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Show Password Mismatch.
+ * @param {any} confirmPassword - confirm password.
+ * @returns {void} Nothing.
  */
 function showPasswordMismatch(confirmPassword) {
     if (typeof showMessage === 'function') {
@@ -57,6 +75,11 @@ function showPasswordMismatch(confirmPassword) {
  * @param {*} values - Parameter.
  * @returns {*} Result.
  */
+/**
+ * Build New User.
+ * @param {string} values - values.
+ * @returns {any} Result value.
+ */
 function buildNewUser(values) {
     return {
         name: values.name.value.trim(),
@@ -70,6 +93,11 @@ function buildNewUser(values) {
  * @param {*} newUser - Parameter.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Save New User.
+ * @param {Object} newUser - new user.
+ * @returns {Promise<void>} Result value.
+ */
 async function saveNewUser(newUser) {
     await postData("users", newUser);
 }
@@ -78,6 +106,11 @@ async function saveNewUser(newUser) {
  * Saves new contact.
  * @param {*} newUser - Parameter.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Save New Contact.
+ * @param {Object} newUser - new user.
+ * @returns {Promise<void>} Result value.
  */
 async function saveNewContact(newUser) {
     const newContact = {
@@ -92,6 +125,10 @@ async function saveNewContact(newUser) {
  * Shows registration failed.
  * @returns {void} Result.
  */
+/**
+ * Show Registration Failed.
+ * @returns {void} Nothing.
+ */
 function showRegistrationFailed() {
     if (typeof showMessage === 'function') {
         showMessage('Registration failed. Please try again.', 'error');
@@ -105,6 +142,12 @@ function showRegistrationFailed() {
  * @param {string} path - API path.
  * @param {Object} user - User payload.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Post Data.
+ * @param {string} path - path.
+ * @param {Object} user - user.
+ * @returns {Promise<void>} Result value.
  */
 async function postData(path = "", user = {}) {
     let response = await fetch(`${BASE_URL}/${path}.json`, {
@@ -125,6 +168,10 @@ async function postData(path = "", user = {}) {
 /**
  * Executes navigate to login logic.
  * @returns {void} Result.
+ */
+/**
+ * Navigate To Login.
+ * @returns {void} Nothing.
  */
 function navigateToLogin() {
      window.location.href = "index.html";

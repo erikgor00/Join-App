@@ -133,10 +133,7 @@ ul img {
     }
 
     .logo-sidebar {
-        display: block;
-        width: 56px;
-        margin: 0 0 0 16px;
-        align-self: center;
+        display: none;
     }
 
     .sidebar ul {
@@ -177,6 +174,10 @@ ul img {
 
     .sidebar-footer a {
         width: auto;
+    }
+
+    .header-logo {
+        width: 36px !important;
     }
 }
 

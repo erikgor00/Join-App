@@ -2,6 +2,10 @@
  * Loads tasks.
  * @returns {Promise<*>} Result.
  */
+/**
+ * Load Tasks.
+ * @returns {Promise<void>} Result value.
+ */
 async function loadTasks() {
   try {
     const response = await fetch(`${BASE_URL}/tasks.json`);
@@ -17,6 +21,11 @@ async function loadTasks() {
  * Updates task.
  * @param {Object} task - Task object.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Update Task.
+ * @param {Object} task - task.
+ * @returns {Promise<void>} Result value.
  */
 async function updateTask(task) {
   try {
@@ -34,6 +43,10 @@ async function updateTask(task) {
 /**
  * Deletes task.
  * @returns {Promise<*>} Result.
+ */
+/**
+ * Delete Task.
+ * @returns {Promise<void>} Result value.
  */
 async function deleteTask() {
   if (!activeTask) return;

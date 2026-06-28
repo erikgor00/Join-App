@@ -7,6 +7,11 @@ const firebaseConfig = {
   appId: "DEIN_APP_ID"
 };
 
+/**
+ * Is Placeholder Firebase Config.
+ * @param {Object} config - config.
+ * @returns {boolean} Result value.
+ */
 function isPlaceholderFirebaseConfig(config) {
   if (!config || typeof config !== "object") return true;
   return Object.values(config).some((value) =>
@@ -14,7 +19,16 @@ function isPlaceholderFirebaseConfig(config) {
   );
 }
 
+/**
+ * Expose Firebase Logout.
+ * @param {any} auth - auth.
+ * @returns {void} Nothing.
+ */
 function exposeFirebaseLogout(auth) {
+  /**
+   * Firebase Logout.
+   * @returns {void} Nothing.
+   */
   function firebaseLogout() {
     if (auth && typeof auth.signOut === "function") {
       auth.signOut().catch((error) => {
@@ -25,6 +39,10 @@ function exposeFirebaseLogout(auth) {
   window.firebaseLogout = firebaseLogout;
 }
 
+/**
+ * Init Firebase If Available.
+ * @returns {void} Nothing.
+ */
 function initFirebaseIfAvailable() {
   if (typeof firebase === "undefined") return false;
   if (isPlaceholderFirebaseConfig(firebaseConfig)) return false;
@@ -35,6 +53,11 @@ function initFirebaseIfAvailable() {
   return true;
 }
 
+/**
+ * Load Script.
+ * @param {string} src - src.
+ * @returns {void} Nothing.
+ */
 function loadScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
@@ -46,6 +69,10 @@ function loadScript(src) {
   });
 }
 
+/**
+ * Ensure Firebase Sdk And Init.
+ * @returns {Promise<void>} Result value.
+ */
 async function ensureFirebaseSdkAndInit() {
   if (isPlaceholderFirebaseConfig(firebaseConfig)) {
     return;
@@ -70,6 +97,10 @@ ensureFirebaseSdkAndInit();
  * Updates user profile.
  * @returns {void} Result.
  */
+/**
+ * Update User Profile.
+ * @returns {void} Nothing.
+ */
 function updateUserProfile() {
   const userData = getStoredUser();
   const profile = document.getElementById("user-profile");
@@ -83,6 +114,10 @@ function updateUserProfile() {
  * Returns stored user.
  * @returns {*} Result.
  */
+/**
+ * Get Stored User.
+ * @returns {any} Result value.
+ */
 function getStoredUser() {
   return JSON.parse(localStorage.getItem("user") || "null");
 }
@@ -92,6 +127,12 @@ function getStoredUser() {
  * @param {*} profile - Parameter.
  * @param {*} userData - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Apply User Profile.
+ * @param {string} profile - profile.
+ * @param {Object} userData - user data.
+ * @returns {void} Nothing.
  */
 function applyUserProfile(profile, userData) {
   if (userData.mode === "guest") {
@@ -111,6 +152,11 @@ function applyUserProfile(profile, userData) {
  * @param {*} userData - Parameter.
  * @returns {*} Result.
  */
+/**
+ * Get User Initials.
+ * @param {Object} userData - user data.
+ * @returns {any} Result value.
+ */
 function getUserInitials(userData) {
   const name = (userData.displayName || userData.name || "").trim();
   if (!name) return "";
@@ -122,6 +168,12 @@ function getUserInitials(userData) {
  * @param {*} profile - Parameter.
  * @param {*} userData - Parameter.
  * @returns {void} Result.
+ */
+/**
+ * Apply Email Initial.
+ * @param {string} profile - profile.
+ * @param {Object} userData - user data.
+ * @returns {void} Nothing.
  */
 function applyEmailInitial(profile, userData) {
   if (userData.email) {

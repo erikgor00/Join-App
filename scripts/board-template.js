@@ -3,12 +3,33 @@
  * @param {Object} task - Task object.
  * @returns {string} Result.
  */
+/**
+ * Create Task Card.
+ * @param {Object} task - task.
+ * @returns {any} Result value.
+ */
 function createTaskCard(task) {
   return /*html*/ `
     <div class="task-card"
       draggable="true"
-      ondragstart="startDrag(${task.id})"
+      ondragstart="startDrag(event, ${task.id}, this)"
+      ondragend="endDrag(this)"
       onclick="openModal(${task.id})">
+      <button class="task-move-mobile-btn" type="button" aria-label="Move task" onclick="toggleTaskMoveMenu(event)">
+        <svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <rect x="0.75" y="25.25" width="24.5" height="22.5" rx="5.25" transform="rotate(-90 0.75 25.25)" stroke="#2A3647" stroke-width="1.5"/>
+          <mask id="mask-task-move-${task.id}" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="2" y="3" width="20" height="20">
+            <rect x="2" y="23" width="20" height="20" transform="rotate(-90 2 23)" fill="#D9D9D9"/>
+          </mask>
+          <g mask="url(#mask-task-move-${task.id})">
+            <path d="M15.3333 18.1457L16.8958 16.5832C17.0486 16.4304 17.2396 16.354 17.4688 16.354C17.6979 16.354 17.8958 16.4304 18.0625 16.5832C18.2292 16.7498 18.3125 16.9478 18.3125 17.1769C18.3125 17.4061 18.2292 17.604 18.0625 17.7707L15.0833 20.7498C15 20.8332 14.9097 20.8922 14.8125 20.9269C14.7153 20.9616 14.6111 20.979 14.5 20.979C14.3889 20.979 14.2847 20.9616 14.1875 20.9269C14.0903 20.8922 14 20.8332 13.9167 20.7498L10.9167 17.7498C10.75 17.5832 10.6701 17.3887 10.6771 17.1665C10.684 16.9443 10.7708 16.7498 10.9375 16.5832C11.1042 16.4304 11.2986 16.3505 11.5208 16.3436C11.7431 16.3366 11.9375 16.4165 12.1042 16.5832L13.6667 18.1457V12.9998C13.6667 12.7637 13.7465 12.5658 13.9062 12.4061C14.066 12.2464 14.2639 12.1665 14.5 12.1665C14.7361 12.1665 14.934 12.2464 15.0938 12.4061C15.2535 12.5658 15.3333 12.7637 15.3333 12.9998V18.1457ZM10.3333 7.854V12.9998C10.3333 13.2359 10.2535 13.4339 10.0938 13.5936C9.93403 13.7533 9.73611 13.8332 9.5 13.8332C9.26389 13.8332 9.06597 13.7533 8.90625 13.5936C8.74653 13.4339 8.66667 13.2359 8.66667 12.9998V7.854L7.10417 9.4165C6.95139 9.56928 6.76042 9.64567 6.53125 9.64567C6.30208 9.64567 6.10417 9.56928 5.9375 9.4165C5.77083 9.24984 5.6875 9.05192 5.6875 8.82275C5.6875 8.59359 5.77083 8.39567 5.9375 8.229L8.91667 5.24984C9 5.1665 9.09028 5.10748 9.1875 5.07275C9.28472 5.03803 9.38889 5.02067 9.5 5.02067C9.61111 5.02067 9.71528 5.03803 9.8125 5.07275C9.90972 5.10748 10 5.1665 10.0833 5.24984L13.0833 8.24984C13.25 8.4165 13.3299 8.61095 13.3229 8.83317C13.316 9.05539 13.2292 9.24984 13.0625 9.4165C12.8958 9.56928 12.7014 9.64914 12.4792 9.65609C12.2569 9.66303 12.0625 9.58317 11.8958 9.4165L10.3333 7.854Z" fill="#2A3647"/>
+          </g>
+        </svg>
+      </button>
+      <div class="task-move-mobile-menu" onclick="event.stopPropagation()">
+        <div class="task-move-mobile-menu-title">Move to</div>
+        ${buildMoveMenuOptionsHTML(task)}
+      </div>
       <h2 class="task-category" style="background-color: ${task.category === "User Story" ? "#0038FF" : "#1FD7C1"}">${task.category}</h2>
       <h3>${highlightText(task.title)}</h3>
       <span>${highlightText(task.description)}</span>
@@ -27,6 +48,11 @@ function createTaskCard(task) {
  * @param {*} priority - Parameter.
  * @returns {string} Result.
  */
+/**
+ * Get Priority Icon.
+ * @param {any} priority - priority.
+ * @returns {any} Result value.
+ */
 function getPriorityIcon(priority) {
   if (priority === "urgent") return '<img src="./assets/img/category-urgent.svg">';
   if (priority === "medium") return '<img src="./assets/icons/medium-orange.svg">';
@@ -36,6 +62,11 @@ function getPriorityIcon(priority) {
  * Renders subtask progress.
  * @param {Object} task - Task object.
  * @returns {string} Result.
+ */
+/**
+ * Render Subtask Progress.
+ * @param {Object} task - task.
+ * @returns {void} Nothing.
  */
 function renderSubtaskProgress(task) {
   if (!task.subtasks || task.subtasks.length === 0) {
@@ -56,6 +87,13 @@ function renderSubtaskProgress(task) {
  * @param {*} initials - Parameter.
  * @param {*} color - Parameter.
  * @returns {string} Result.
+ */
+/**
+ * Get Avatar Markup.
+ * @param {string} initials - initials.
+ * @param {string} color - color.
+ * @param {boolean} isMore - is more.
+ * @returns {any} Result value.
  */
 function getAvatarMarkup(initials, color, isMore = false) {
   const extraClass = isMore ? ' avatar-more' : '';
